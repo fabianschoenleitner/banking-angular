@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
     this.server.request('GET', '/accounts').subscribe((accounts: any) => {
       if (accounts) {
         this.accounts = accounts;
+        // this.testvar = accounts[0].iban;
       }
     });
   }
