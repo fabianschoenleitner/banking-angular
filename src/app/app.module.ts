@@ -13,6 +13,10 @@ import {AuthService} from './services/auth-service';
 import { UserComponent } from './user/user.component';
 import { TransferOrdersComponent } from './transfer-orders/transfer-orders.component';
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +25,7 @@ import { TransferOrdersComponent } from './transfer-orders/transfer-orders.compo
     TransactionComponent,
     TableListComponent,
     UserComponent,
-    TransferOrdersComponent
+    TransferOrdersComponent,
   ],
   imports: [
     BrowserModule,

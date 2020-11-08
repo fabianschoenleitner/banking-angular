@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ServerService} from '../services/server-service';
+import {AccountModel} from '../account/account.model';
 
 @Component({
   selector: 'app-user',
@@ -7,16 +8,14 @@ import {ServerService} from '../services/server-service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  name: string;
-  verfugernr: string;
+  accounts: AccountModel[];
 
   constructor(private server: ServerService) { }
 
-  ngOnInit() {
-    this.server.request('GET', '/profile').subscribe((accounts: any) => {
+  async ngOnInit() {
+    this.server.request('GET', '/accounts').subscribe((accounts: any) => {
       if (accounts) {
-        this.name = accounts.name;
-        this.verfugernr = accounts.verfugernr;
+        this.accounts = accounts;
       }
     });
   }
