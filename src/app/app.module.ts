@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableListComponent } from './table-list/table-list.component';
 import {AuthService} from './services/auth-service';
 import { UserComponent } from './user/user.component';
+import { TransferOrdersComponent } from './transfer-orders/transfer-orders.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UserComponent } from './user/user.component';
     NavbarComponent,
     TransactionComponent,
     TableListComponent,
-    UserComponent
+    UserComponent,
+    TransferOrdersComponent
   ],
   imports: [
     BrowserModule,
