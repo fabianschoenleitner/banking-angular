@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, Vi
 import {ServerService} from '../services/server-service';
 import {ChartAccountHistoryComponent} from '../chart-account-history/chart-account-history.component';
 import {WidgetComponent} from '../widget/widget.component';
+import {AccountModel} from '../account/account.model';
 
 @Component({
   selector: 'app-user',
@@ -9,19 +10,18 @@ import {WidgetComponent} from '../widget/widget.component';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  name: string;
-  verfugernr: string;
+  accounts: AccountModel[];
 
   @ViewChild('parent', {read : ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
 
   constructor(private server: ServerService, private resolver: ComponentFactoryResolver) { }
 
-  ngOnInit() {
-    this.server.request('GET', '/profile').subscribe((accounts: any) => {
+  async ngOnInit() {
+    this.server.request('GET', '/accounts').subscribe((accounts: any) => {
       if (accounts) {
-        this.name = accounts.name;
-        this.verfugernr = accounts.verfugernr;
+        this.accounts = accounts;
+        // this.testvar = accounts[0].iban;
       }
     });
   }

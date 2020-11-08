@@ -25,9 +25,9 @@ export class AuthService {
   }
 
   login(user) {
-    if (user.verfugernr !== '' && user.password !== '' ) {
+    if (user.username !== '' && user.password !== '' ) {
       return this.server.request('POST', '/login', {
-        verfugernr: user.verfugernr,
+        username: user.username,
         password: user.password
       }).subscribe((response: any) => {
         if (response.auth === true && response.token !== undefined) {

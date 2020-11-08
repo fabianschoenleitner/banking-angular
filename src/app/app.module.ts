@@ -12,6 +12,7 @@ import { TableListComponent } from './table-list/table-list.component';
 import {AuthService} from './services/auth-service';
 import { UserComponent } from './user/user.component';
 import { TransferOrdersComponent } from './transfer-orders/transfer-orders.component';
+
 import { ChartAccountHistoryComponent } from './chart-account-history/chart-account-history.component';
 import { WidgetComponent } from './widget/widget.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
