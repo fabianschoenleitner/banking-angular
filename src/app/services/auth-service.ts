@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import {ServerService} from './server-service';
 
-
 @Injectable()
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
