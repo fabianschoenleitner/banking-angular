@@ -11,6 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableListComponent } from './table-list/table-list.component';
 import {AuthService} from './services/auth-service';
 import { UserComponent } from './user/user.component';
+import { ChartAccountHistoryComponent } from './chart-account-history/chart-account-history.component';
+import { WidgetComponent } from './widget/widget.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +26,9 @@ import { UserComponent } from './user/user.component';
     NavbarComponent,
     TransactionComponent,
     TableListComponent,
-    UserComponent
+    UserComponent,
+    ChartAccountHistoryComponent,
+    WidgetComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +36,11 @@ import { UserComponent } from './user/user.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
