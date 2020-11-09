@@ -1,5 +1,7 @@
 import {TransactionModel} from '../transaction/transaction-model';
 
+// TODO: Für models immer interfaces benutzen und keine Klassen
+
 export class AccountModel {
   public iban: string;
   public balance: number;

@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
-    if (window.screen.width === 360) { // 768px portrait
+    if (window.screen.width === 360) { // 768px portrait // TODO: Bitte nicht so, Entweder Bootstrap responsive klassen benutzen, und wenns nicht anders geht den breakpoint observer
       this.mobile = true;
     }
   }

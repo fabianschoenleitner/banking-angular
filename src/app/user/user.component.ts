@@ -28,6 +28,6 @@ export class UserComponent implements OnInit {
 
   addComponent() {
     let childComponent = this.resolver.resolveComponentFactory(WidgetComponent);
-    this.componentRef = this.target.createComponent(childComponent);
+    this.componentRef = this.target.createComponent(childComponent); // TODO: lieber mit ngFor das ganze
   }
 }

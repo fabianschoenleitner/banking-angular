@@ -11,7 +11,7 @@ import {AuthService} from '../services/auth-service';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  public loginInvalid: boolean;
+  public loginInvalid: boolean; // TODO: unnötige variable
   private formSubmitAttempt: boolean;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {

@@ -13,6 +13,8 @@ export class ServerService {
 
   constructor(private http: HttpClient) {}
 
+  // TODO: ganzer service lässt sich sparen mit dem HTTP Interceptor
+
   setLoggedIn(loggedIn: boolean, token?: string) {
     this.loggedIn = loggedIn;
     this.token = token;

@@ -6,7 +6,7 @@ import {ServerService} from './server-service';
 @Injectable()
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private token: string;
+  private token: string; // TODO: braucht man nicht speichern, hat man ja im localstorage
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   login(user) {
-    if (user.username !== '' && user.password !== '' ) {
+    if (user.username !== '' && user.password !== '' ) { // TODO: ünnötig, da required validatoren
       return this.server.request('POST', '/login', {
         username: user.username,
         password: user.password
@@ -38,7 +38,7 @@ export class AuthService {
             token: this.token,
           };
           localStorage.setItem('user', JSON.stringify(userData));
-          this.router.navigateByUrl('/user');
+          this.router.navigateByUrl('/user'); // TODO: navigates immer awaiten
         }
       });
     }
@@ -49,6 +49,6 @@ export class AuthService {
     delete this.token;
     this.loggedIn.next(false);
     localStorage.clear();
-    this.router.navigate(['/']);
+    this.router.navigate(['/']); // TODO: navigates immer awaiten
   }
 }

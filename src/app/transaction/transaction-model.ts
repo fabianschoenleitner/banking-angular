@@ -1,3 +1,4 @@
+// TODO: interfaces statt klassen
 export class TransactionModel {
   public timestamp: Date;
   public amount: number;
