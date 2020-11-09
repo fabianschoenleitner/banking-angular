@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-md-2.7" *ngIf="authService.isLoggedIn | async as isLoggedIn">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-md-2.7"
+     *ngIf="authService.isLoggedIn | async as isLoggedIn"
+     (clickOutside)="onClickedOutside($event)">
   <a class="navbar-brand" routerLink="/user">LOGOBANK</a>
   <button class="navbar-toggler"
           type="button"
@@ -14,7 +16,7 @@
 
   <div class="collapse navbar-collapse" id="navbarText" [class.collapse]="collapsed">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0  mx-md-auto order-1 order-md-2">
-      <li class="nav-item active" ngbDropdown [routerLinkActive]="['active']">
+      <li class="nav-item" ngbDropdown [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="/user">Startseite</a>
       </li>
       <li class="nav-item" ngbDropdown [routerLinkActive]="['active']">
@@ -26,13 +28,9 @@
       <li class="nav-item" ngbDropdown [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="/login">Profil</a>
       </li>
-
-      <div *ngIf="mobile">
-        <li class="nav-item d-none" ngbDropdown>
-          <a class="nav-link" routerLink="/login">Logout</a>
-        </li>
-      </div>
-
+      <li class="nav-item" ngbDropdown *ngIf="mobile">
+        <button type="button" class="btn btn-light" (click)="onLogout()">Logout</button>
+      </li>
     </ul>
   </div>
 

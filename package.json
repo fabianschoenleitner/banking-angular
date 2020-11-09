@@ -28,6 +28,7 @@
     "bootstrap": "^4.5.0",
     "canvasjs": "^1.8.3",
     "jquery": "^3.5.1",
+    "ng-click-outside": "^7.0.1",
     "ngx-bootstrap": "^6.1.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",
