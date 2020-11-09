@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit {
-  selected: "No widget";
+  selected: "No widget"; // TODO: syntaxfehler
 
   constructor() { }
 
