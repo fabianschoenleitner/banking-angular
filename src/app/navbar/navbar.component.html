@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-md-2.7"
-     *ngIf="authService.isLoggedIn | async as isLoggedIn"
+     *ngIf="authService.isLoggedIn() | async as isLoggedIn"
      (clickOutside)="onClickedOutside($event)">
   <a class="navbar-brand" routerLink="/user">LOGOBANK</a>
   <button class="navbar-toggler"
