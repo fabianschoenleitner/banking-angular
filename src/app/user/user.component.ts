@@ -1,5 +1,4 @@
 import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-
 import {WidgetComponent} from '../widget/widget.component';
 import {Account, Transaction} from '../api/Api';
 import {HttpClient} from '@angular/common/http';
@@ -12,10 +11,8 @@ const baseUrl = 'http://localhost:10101';
 })
 export class UserComponent implements OnInit {
   accounts: Account[] = [];
-
   @ViewChild('parent', {read: ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
-
 
   constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) { }
 

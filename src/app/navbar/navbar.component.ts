@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth-service';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-navbar',
@@ -18,17 +18,14 @@ export class NavbarComponent implements OnInit {
     });
   }
   // TODO: How to close toggle-menu on click outside of nav. Setting collapsed = true doesn't help.
-  onClickedOutside(e: Event) {
+  onClickedOutside(e: Event): void {
     if (!this.collapsed) {
       console.log('Clicked outside:', e);
       this.collapsed = true;
     }
   }
 
-  async onLogout() {
+  async onLogout(): Promise<void> {
     await this.authService.logout();
   }
-
-
-
 }
