@@ -51,7 +51,7 @@ import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
     {
       provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true
     }
-    ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

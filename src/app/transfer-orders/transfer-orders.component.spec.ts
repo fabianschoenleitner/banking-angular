@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TransferOrdersComponent } from './transfer-orders.component';
+import {TransferOrdersComponent} from './transfer-orders.component';
 
 describe('TransferOrdersComponent', () => {
   let component: TransferOrdersComponent;
@@ -8,9 +8,9 @@ describe('TransferOrdersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TransferOrdersComponent ]
+      declarations: [TransferOrdersComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

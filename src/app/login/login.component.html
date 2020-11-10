@@ -5,11 +5,12 @@
         <h2 class="text-center py-2">Anmelden</h2>
       </div>
       <div class="col-lg-8">
-        <h5 class="text-center p-2 font-weight-normal">Mit nur einem Login nutzen Sie alle Services der Logo-Bank.  Die Anmeldung im Kundenportal wird über eine abgesicherte SSL Verbindung angewickelt.</h5>
+        <h5 class="text-center p-2 font-weight-normal">Mit nur einem Login nutzen Sie alle Services der Logo-Bank. Die
+          Anmeldung im Kundenportal wird über eine abgesicherte SSL Verbindung angewickelt.</h5>
       </div>
     </div>
     <div class="row justify-content-center">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="col-xl-5" >
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="col-xl-5">
         <div class="form-group">
           <label for="username"></label>
           <input formControlName="username"
@@ -28,7 +29,8 @@
                  id="password"
                  placeholder="PIN"
                  required>
-          <small id="loginHelp" class="form-text text-muted">Geben Sie Ihre Anmeldedaten niemals an Dritte wieter.</small>
+          <small id="loginHelp" class="form-text text-muted">Geben Sie Ihre Anmeldedaten niemals an Dritte
+            wieter.</small>
         </div>
         <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-primary btn-block">Login</button>
       </form>

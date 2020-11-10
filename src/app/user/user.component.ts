@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, Vi
 import {WidgetComponent} from '../widget/widget.component';
 import {Account, Transaction} from '../api/Api';
 import {HttpClient} from '@angular/common/http';
+
 const baseUrl = 'http://localhost:10101';
 
 @Component({
@@ -14,9 +15,10 @@ export class UserComponent implements OnInit {
   @ViewChild('parent', {read: ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
 
-  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) { }
+  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) {
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.http.request('GET', baseUrl + '/accounts').subscribe((accounts: Account[]) => {
       if (accounts) {
         this.accounts = accounts;

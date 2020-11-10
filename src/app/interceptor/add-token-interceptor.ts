@@ -3,9 +3,8 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable} from 'rxjs';
 
 
-
 @Injectable()
-export class AddTokenInterceptor implements HttpInterceptor{
+export class AddTokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let token = '';

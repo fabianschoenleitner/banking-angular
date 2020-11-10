@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit {
-  selected: "No widget"; // TODO: syntaxfehler
+  selected: 'No widget'; // TODO: syntaxfehler
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
