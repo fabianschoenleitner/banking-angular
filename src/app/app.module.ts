@@ -13,9 +13,14 @@ import {AuthService} from './services/auth-service';
 import { UserComponent } from './user/user.component';
 import { TransferOrdersComponent } from './transfer-orders/transfer-orders.component';
 
-
-
-
+import { ChartAccountHistoryComponent } from './chart-account-history/chart-account-history.component';
+import { WidgetComponent } from './widget/widget.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,9 @@ import { TransferOrdersComponent } from './transfer-orders/transfer-orders.compo
     TransactionComponent,
     TableListComponent,
     UserComponent,
-    TransferOrdersComponent,
+    ChartAccountHistoryComponent,
+    WidgetComponent,
+    TransferOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +40,12 @@ import { TransferOrdersComponent } from './transfer-orders/transfer-orders.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    ClickOutsideModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

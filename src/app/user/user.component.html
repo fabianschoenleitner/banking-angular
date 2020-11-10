@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p>user works!  </p>
 
 <table class="table table-striped container">
@@ -20,3 +21,36 @@
   </tr>
   </tbody>
 </table>
+=======
+<table class="table table-striped container">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Kontotyp</th>
+    <th scope="col">Iban</th>
+    <th scope="col">Balance</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let account of accounts; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td> {{ account.name }} </td>
+    <td> {{ account.accountType }} </td>
+    <td>{{ account.iban }}</td>
+    <td>{{ account.balance | number }}</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+<br><br>
+<br><br>
+<br><br>
+<br>
+<button class="btn btn-primary" (click)="addComponent()">Widget hinzufügen</button>
+<div #parent>
+</div>
+
+>>>>>>> master

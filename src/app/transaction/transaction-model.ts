@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// TODO: interfaces statt klassen
+>>>>>>> master
 export class TransactionModel {
   public timestamp: Date;
   public amount: number;
