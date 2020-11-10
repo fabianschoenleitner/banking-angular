@@ -2,7 +2,8 @@ import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, Vi
 import {WidgetComponent} from '../widget/widget.component';
 import {Account, Transaction} from '../api/Api';
 import {HttpClient} from '@angular/common/http';
-const baseUrl = 'http://localhost:10101';
+
+
 
 @Component({
   selector: 'app-user',
@@ -11,21 +12,21 @@ const baseUrl = 'http://localhost:10101';
 })
 export class UserComponent implements OnInit {
   accounts: Account[] = [];
-
+  baseUrl = 'http://localhost:10101';
   @ViewChild('parent', {read: ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
 
+  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) {
+  }
 
-  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) { }
-
-  ngOnInit() {
-    this.http.request('GET', baseUrl + '/accounts').subscribe((accounts: Account[]) => {
+  ngOnInit(): void {
+    this.http.request('GET', this.baseUrl + '/accounts').subscribe((accounts: Account[]) => {
       if (accounts) {
         this.accounts = accounts;
         for (const acc in this.accounts) {
           if (this.accounts.hasOwnProperty(acc)) {
             const path = '/transactions/' + this.accounts[acc].iban;
-            this.http.request('POST', baseUrl + path).subscribe((transactions: Transaction[]) => {
+            this.http.request('POST', this.baseUrl + path).subscribe((transactions: Transaction[]) => {
               if (transactions) {
                 this.accounts[acc].transactions = transactions;
               }

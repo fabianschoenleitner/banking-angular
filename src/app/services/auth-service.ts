@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-const baseUrl = 'http://localhost:10101';
+
 @Injectable()
 export class AuthService {
+  baseUrl = 'http://localhost:10101';
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   isLoggedIn(): Observable<boolean> {
@@ -22,7 +23,7 @@ export class AuthService {
   }
 
   login(user): Subscription {
-    return this.http.request('POST', baseUrl + '/login', {
+    return this.http.request('POST', this.baseUrl + '/login', {
       body: user,
       responseType: 'json',
       observe: 'body',

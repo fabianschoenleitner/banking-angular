@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth-service';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../services/auth-service';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +10,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 export class NavbarComponent implements OnInit {
   collapsed = true;
   mobile = false;
+
   constructor(public authService: AuthService, public breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
@@ -17,12 +18,12 @@ export class NavbarComponent implements OnInit {
       this.mobile = result.matches;
     });
   }
+
   // TODO: How to close toggle-menu on click outside of nav. Setting collapsed = true doesn't help.
   onClickedOutside(e: Event): void {
     if (!this.collapsed) {
       console.log('Clicked outside:', e);
       this.collapsed = true;
-
     }
   }
 

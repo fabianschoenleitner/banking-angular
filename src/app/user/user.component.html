@@ -32,20 +32,20 @@
   </thead>
   <tbody>
 
-    <ng-container *ngFor="let account of accounts; index as i">
-      <ng-container *ngFor="let transaction of account.transactions; index as j">
-        <tr><td scope="row">{{ i + 1 }}</td>
+  <ng-container *ngFor="let account of accounts; index as i">
+    <ng-container *ngFor="let transaction of account.transactions; index as j">
+      <tr>
+        <td scope="row">{{ i + 1 }}</td>
         <td>  {{ transaction.type }} </td>
         <td> {{ transaction.recipientIban }} </td>
         <td>{{ transaction.senderIban }}</td>
         <td>{{ transaction.timestamp }}</td>
         <td>{{ transaction.amount | number }}</td>
-        </tr>
-      </ng-container>
+      </tr>
     </ng-container>
+  </ng-container>
   </tbody>
 </table>
-
 
 <br>
 <br>
