@@ -1,10 +1,9 @@
 import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {ServerService} from '../services/server-service';
 
 import {WidgetComponent} from '../widget/widget.component';
-
-import {AccountModel} from '../account/account.model';
-import {TransactionModel} from '../transaction/transaction-model';
+import {Account, Transaction} from '../api/Api';
+import {HttpClient} from '@angular/common/http';
+const baseUrl = 'http://localhost:10101';
 
 @Component({
   selector: 'app-user',
@@ -12,22 +11,22 @@ import {TransactionModel} from '../transaction/transaction-model';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  accounts: AccountModel[] = [];
+  accounts: Account[] = [];
 
   @ViewChild('parent', {read: ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
 
 
-  constructor(private server: ServerService, private resolver: ComponentFactoryResolver) { }
+  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    this.server.request('GET', '/accounts').subscribe((accounts: AccountModel[]) => {
+    this.http.request('GET', baseUrl + '/accounts').subscribe((accounts: Account[]) => {
       if (accounts) {
         this.accounts = accounts;
         for (const acc in this.accounts) {
           if (this.accounts.hasOwnProperty(acc)) {
             const path = '/transactions/' + this.accounts[acc].iban;
-            this.server.request('POST', path).subscribe((transactions: TransactionModel[]) => {
+            this.http.request('POST', baseUrl + path).subscribe((transactions: Transaction[]) => {
               if (transactions) {
                 this.accounts[acc].transactions = transactions;
               }

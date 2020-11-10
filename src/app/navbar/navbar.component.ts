@@ -21,12 +21,12 @@ export class NavbarComponent implements OnInit {
   onClickedOutside(e: Event) {
     if (!this.collapsed) {
       console.log('Clicked outside:', e);
-      this.collapsed = false;
+      this.collapsed = true;
     }
   }
 
-  onLogout() {
-    this.authService.logout();
+  async onLogout() {
+    await this.authService.logout();
   }
 
 
