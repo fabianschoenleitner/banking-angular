@@ -1,8 +1,6 @@
 import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ServerService} from '../services/server-service';
 
-
-import {ChartAccountHistoryComponent} from '../chart-account-history/chart-account-history.component';
 import {WidgetComponent} from '../widget/widget.component';
 
 import {AccountModel} from '../account/account.model';
@@ -44,6 +42,4 @@ export class UserComponent implements OnInit {
     let childComponent = this.resolver.resolveComponentFactory(WidgetComponent);
     this.componentRef = this.target.createComponent(childComponent); // TODO: lieber mit ngFor das ganze
   }
-
-
 }

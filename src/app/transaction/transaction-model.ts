@@ -1,6 +1,3 @@
-
-// TODO: interfaces statt klassen
-
 type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz';
 export class TransactionModel {
   public timestamp: Date;
