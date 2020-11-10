@@ -18,7 +18,6 @@ import {WidgetComponent} from './widget/widget.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
