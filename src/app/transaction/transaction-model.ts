@@ -1,18 +1,18 @@
-<<<<<<< HEAD
-=======
+
 // TODO: interfaces statt klassen
->>>>>>> master
+
+type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz';
 export class TransactionModel {
   public timestamp: Date;
   public amount: number;
   public text: string;
   public textType: string;
-  public type: string;
+  public type: TransactionTextType;
   public senderIban: string;
   public recipientIban: string;
   public recipientName: string;
 
-  constructor(timestamp: Date, amount: number, text: string, textType: string, type: string, senderIban: string, recipientIban: string, recipientName: string) {
+  constructor(timestamp: Date, amount: number, text: string, textType: string, type: TransactionTextType, senderIban: string, recipientIban: string, recipientName: string) {
     this.timestamp = timestamp;
     this.amount = amount;
     this.text = text;
