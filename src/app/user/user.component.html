@@ -19,26 +19,6 @@
   </tr>
   </tbody>
 </table>
-<table class="table table-striped container">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Kontotyp</th>
-    <th scope="col">Iban</th>
-    <th scope="col">Balance</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let account of accounts; index as i">
-    <td scope="row">{{ i + 1 }}</td>
-    <td> {{ account.name }} </td>
-    <td> {{ account.accountType }} </td>
-    <td>{{ account.iban }}</td>
-    <td>{{ account.balance | number }}</td>
-  </tr>
-  </tbody>
-</table>
 
 <table class="table table-striped container">
   <thead>
