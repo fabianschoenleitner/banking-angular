@@ -5,11 +5,11 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
-  baseUrl = 'http://localhost:10101';
+  baseUrl = 'https://tsurneyt30.execute-api.us-east-1.amazonaws.com/production';
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
   }
 
   constructor(private router: Router, private http: HttpClient) {
@@ -25,17 +25,12 @@ export class AuthService {
   login(user): Subscription {
     return this.http.request('POST', this.baseUrl + '/login', {
       body: user,
-      responseType: 'json',
+      responseType: 'text',
       observe: 'body',
-    }).subscribe(async (response: any) => {
-      if (response.auth === true && response.token !== undefined) {
+    }).subscribe(async (response: string) => {
         this.loggedIn.next(true);
-        const userData = {
-          token: response.token,
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', response);
         await this.router.navigateByUrl('/user');
-      }
     });
   }
 

@@ -11,7 +11,7 @@ export class AccountService {
 
   getAllAccounts(): Observable<any> {
     return this.http
-      .get<any>("http://localhost:4200/accounts", { observe: "response" })
+      .get<any>('http://localhost:4200/accounts', { observe: "response" })
       .pipe(
         retry(3), // retry a failed request up to 3 times
         catchError(this.handleError) // then handle the error

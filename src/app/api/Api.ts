@@ -7,7 +7,7 @@ export interface Account {
   balance: number;
   name: string;
   accountType: string;
-  transactions: Transaction[];
+  transactions?: Transaction[];
 }
 
 export interface Transaction {
