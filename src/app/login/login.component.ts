@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
 import {AuthService} from '../services/auth-service';
 
 @Component({
@@ -24,12 +22,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
+  onSubmit(): void {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
     if (this.form.valid) {
       try {
-        await this.authService.login(this.form.value);
+        this.authService.login(this.form.value);
       } catch (err) {
         this.loginInvalid = true;
       }
@@ -37,7 +35,5 @@ export class LoginComponent implements OnInit {
       this.formSubmitAttempt = true;
     }
   }
-
-
 
 }

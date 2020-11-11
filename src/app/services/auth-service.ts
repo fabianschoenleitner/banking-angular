@@ -1,54 +1,48 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import {ServerService} from './server-service';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
+  baseUrl = 'http://localhost:10101';
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private token: string; // TODO: braucht man nicht speichern, hat man ja im localstorage
 
-  get isLoggedIn() {
+  isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
-  constructor(private router: Router, private server: ServerService) {
+  constructor(private router: Router, private http: HttpClient) {
     console.log('Auth Service');
     const userData = localStorage.getItem('user');
     if (userData) {
       console.log('Logged in from memory');
       const user = JSON.parse(userData);
-      this.token = user.token;
-      this.server.setLoggedIn(true, this.token);
       this.loggedIn.next(true);
     }
   }
 
-  login(user) {
-    if (user.username !== '' && user.password !== '' ) { // TODO: ünnötig, da required validatoren
-      return this.server.request('POST', '/login', {
-        username: user.username,
-        password: user.password
-      }).subscribe((response: any) => {
-        if (response.auth === true && response.token !== undefined) {
-          this.token = response.token;
-          this.server.setLoggedIn(true, this.token);
-          this.loggedIn.next(true);
-          const userData = {
-            token: this.token,
-          };
-          localStorage.setItem('user', JSON.stringify(userData));
-          this.router.navigateByUrl('/user'); // TODO: navigates immer awaiten
-        }
-      });
-    }
+  login(user): Subscription {
+    return this.http.request('POST', this.baseUrl + '/login', {
+      body: user,
+      responseType: 'json',
+      observe: 'body',
+    }).subscribe(async (response: any) => {
+      if (response.auth === true && response.token !== undefined) {
+        this.loggedIn.next(true);
+        const userData = {
+          token: response.token,
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+        await this.router.navigateByUrl('/user');
+      }
+    });
   }
 
-  logout() {
-    this.server.setLoggedIn(false);
-    delete this.token;
+  async logout(): Promise<void> {
+    localStorage.removeItem('user');
     this.loggedIn.next(false);
     localStorage.clear();
-    this.router.navigate(['/']); // TODO: navigates immer awaiten
+    await this.router.navigate(['/']);
   }
 }
