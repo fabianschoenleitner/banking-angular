@@ -11,7 +11,8 @@ export class NavbarComponent implements OnInit {
   collapsed = true;
   mobile = false;
 
-  constructor(public authService: AuthService, public breakpointObserver: BreakpointObserver) {}
+  constructor(public authService: AuthService, public breakpointObserver: BreakpointObserver) {
+  }
 
   ngOnInit(): void {
     this.breakpointObserver.observe('(max-width: 990px)').subscribe(result => {

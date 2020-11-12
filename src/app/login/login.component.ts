@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth-service';
+import {Account, UserData} from '../api/Api';
+import {Router} from '@angular/router';
+import {PartialObserver, Subject} from 'rxjs';
+import {UserService} from '../services/user-service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +13,8 @@ import {AuthService} from '../services/auth-service';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  public loginInvalid: boolean; // TODO: unnötige variable
-  private formSubmitAttempt: boolean;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private userService: UserService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,17 +25,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
     if (this.form.valid) {
-      try {
-        this.authService.login(this.form.value);
-      } catch (err) {
-        this.loginInvalid = true;
-      }
-    } else {
-      this.formSubmitAttempt = true;
+      this.authService.login(this.form.value).subscribe(async (data: UserData) => {
+        localStorage.setItem('user', JSON.stringify(data));
+        await this.router.navigateByUrl('/user').then(value => {
+          if (value) {
+            console.log('navigate to /user worked');
+          } else {
+            console.log('navigate to /user didnt work');
+          }
+        });
+      });
     }
   }
-
 }
+
+

@@ -8,8 +8,6 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {TransactionComponent} from './transaction/transaction.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {TableListComponent} from './table-list/table-list.component';
-import {AuthService} from './services/auth-service';
 import {UserComponent} from './user/user.component';
 import {TransferOrdersComponent} from './transfer-orders/transfer-orders.component';
 import {ChartAccountHistoryComponent} from './chart-account-history/chart-account-history.component';
@@ -20,6 +18,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
+import {TransactionTableComponent} from './user/transaction-table/transaction-table.component';
+import {NgbdSortableHeader} from './user/transaction-table/sortable.directive';
 
 @NgModule({
   declarations: [
@@ -27,11 +27,12 @@ import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
     LoginComponent,
     NavbarComponent,
     TransactionComponent,
-    TableListComponent,
     UserComponent,
     ChartAccountHistoryComponent,
     WidgetComponent,
-    TransferOrdersComponent
+    TransferOrdersComponent,
+    TransactionTableComponent,
+    NgbdSortableHeader
   ],
   imports: [
     BrowserModule,
@@ -46,12 +47,12 @@ import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
     MatSelectModule,
     ClickOutsideModule
   ],
-providers: [AuthService,
-  {
-    provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true
-  }
-],
-bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule {
