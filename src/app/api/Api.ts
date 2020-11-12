@@ -20,3 +20,42 @@ export interface Transaction {
   recipientIban: Iban;
   recipientName: string;
 }
+
+export interface TransactionRequest {
+  offset: number;
+  n: number;
+  type?: TransactionType;
+}
+
+export interface PriorBalanceRequest {
+  start: Date;
+  end: Date;
+}
+
+export interface UserData {
+  token?: string;
+  accounts: Account[];
+  firstName: string;
+  lastName: string;
+  lastLogin: Date;
+}
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface Balance {
+  date: Date;
+  balance: number;
+}
+
+export interface RecurringTransaction extends Transaction {
+  repeatOnEveryNthDayOfMonth: number; // note: shifts to end of month if day does not exist in given month
+}
+
+
+
+
+
+

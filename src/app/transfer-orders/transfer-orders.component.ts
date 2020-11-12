@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Transaction, TransactionRequest, UserData} from '../api/Api';
 
 @Component({
   selector: 'app-transfer-orders',
@@ -8,6 +9,8 @@ import {Component, OnInit} from '@angular/core';
 export class TransferOrdersComponent implements OnInit {
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
 }

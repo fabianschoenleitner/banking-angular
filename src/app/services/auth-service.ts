@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {LoginRequest, UserData} from '../api/Api';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
-  baseUrl = 'https://tsurneyt30.execute-api.us-east-1.amazonaws.com/production';
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  baseUrl = 'http://localhost:10101';
+  data: UserData;
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('user');
@@ -14,30 +15,17 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {
     console.log('Auth Service');
-    const userData = localStorage.getItem('user');
-    if (userData) {
+    if (localStorage.getItem('user')) {
       console.log('Logged in from memory');
-      const user = JSON.parse(userData);
-      this.loggedIn.next(true);
     }
   }
 
-  login(user): Subscription {
-    return this.http.request('POST', this.baseUrl + '/login', {
-      body: user,
-      responseType: 'text',
-      observe: 'body',
-    }).subscribe(async (response: string) => {
-        this.loggedIn.next(true);
-        localStorage.setItem('user', response);
-        await this.router.navigateByUrl('/user');
-    });
+  login(user: LoginRequest): Observable<UserData> {
+    return this.http.post<UserData>(this.baseUrl + '/login', user);
   }
 
-  async logout(): Promise<void> {
-    localStorage.removeItem('user');
-    this.loggedIn.next(false);
+  async logout(): Promise<boolean> {
     localStorage.clear();
-    await this.router.navigate(['/']);
+    return await this.router.navigate(['/']);
   }
 }
