@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Transaction, TransactionRequest, UserData} from '../api/Api';
 
 @Component({
   selector: 'app-transfer-orders',

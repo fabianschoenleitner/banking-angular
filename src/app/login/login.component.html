@@ -29,16 +29,10 @@
                  id="password"
                  placeholder="PIN"
                  required>
-          <small id="loginHelp" class="form-text text-muted">Geben Sie Ihre Anmeldedaten niemals an Dritte
-            wieter.</small>
+          <small id="loginHelp" class="form-text text-muted">Geben Sie Ihre Anmeldedaten niemals an Dritte weiter.</small>
         </div>
         <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-primary btn-block">Login</button>
       </form>
     </div>
   </div>
 </div>
-
-
-<pre>
-  {{form.value | json }}
-</pre>

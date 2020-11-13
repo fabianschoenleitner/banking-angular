@@ -1,13 +1,13 @@
-type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz';
-type TransactionType = 'Dauerauftrag' | 'Eilauftrag' | 'Eigenuebertragung';
-type Iban = string;
+export type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz';
+export type TransactionType = 'Dauerauftrag' | 'Eilauftrag' | 'Eigenuebertragung';
+export type Iban = string;
 
 export interface Account {
   iban: Iban;
   balance: number;
   name: string;
   accountType: string;
-  transactions?: Transaction[];
+
 }
 
 export interface Transaction {
@@ -33,8 +33,8 @@ export interface PriorBalanceRequest {
 }
 
 export interface UserData {
-  token?: string;
-  accounts: Account[];
+  token: string;
+  accounts: Iban[];
   firstName: string;
   lastName: string;
   lastLogin: Date;
