@@ -3,10 +3,10 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {LoginRequest, UserData} from '../api/Api';
+import {AppSettings} from '../../app-settings';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  baseUrl = 'http://localhost:10101';
   data: UserData;
 
   isLoggedIn(): boolean {
@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   login(user: LoginRequest): Observable<UserData> {
-    return this.http.post<UserData>(this.baseUrl + '/login', user);
+    return this.http.post<UserData>(AppSettings.baseUrl + '/login', user);
   }
 
   async logout(): Promise<boolean> {

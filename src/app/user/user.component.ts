@@ -1,6 +1,6 @@
 import {Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {WidgetComponent} from '../widget/widget.component';
-import {Transaction, TransactionRequest, UserData} from '../api/Api';
+import {Account, Iban, Transaction, TransactionRequest} from '../api/Api';
 import {UserService} from '../services/user-service';
 
 @Component({
@@ -11,13 +11,16 @@ import {UserService} from '../services/user-service';
 export class UserComponent implements OnInit {
   @ViewChild('parent', {read: ViewContainerRef}) target: ViewContainerRef;
   private componentRef: ComponentRef<any>;
-  public userData: UserData;
+  public transactions: Transaction[];
+  public accounts: Account[];
 
   constructor(private userService: UserService, private resolver: ComponentFactoryResolver) {
   }
 
   ngOnInit(): void {
-    this.userData = this.userService.getUserData();
+    this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
+      this.accounts = acc.accounts;
+    });;
   }
 
   addComponent(): void {

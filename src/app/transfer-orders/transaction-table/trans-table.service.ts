@@ -1,6 +1,6 @@
 import {Injectable, PipeTransform, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject, Subscribable, Subscription} from 'rxjs';
-import {Account, Transaction, UserData} from '../../api/Api';
+import {Account, Transaction, TransactionRequest, UserData} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './sortable.directive';
@@ -45,7 +45,7 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
 @Injectable({providedIn: 'root'})
 export class TransactionTableService {
 
-  userData: UserData;
+  transactions: Transaction[];
 
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
@@ -61,7 +61,12 @@ export class TransactionTableService {
   };
 
   constructor(private pipe: DecimalPipe, private userService: UserService) {
-    this.userData = userService.getUserData();
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const ibanArr = userData.accounts;
+    const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 100}};
+    userService.getTransactions(transactionRequest, ibanArr).subscribe((trans: { transactions: Transaction[] }) => {
+      this.transactions = trans.transactions;
+    });
 
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
@@ -130,7 +135,7 @@ export class TransactionTableService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let transactions = sort(this.userData.accounts[0].transactions, sortColumn, sortDirection);
+    let transactions = sort(this.transactions, sortColumn, sortDirection);
 
     // 2. filter
     transactions = transactions.filter(transaction => matches(transaction, searchTerm, this.pipe));
