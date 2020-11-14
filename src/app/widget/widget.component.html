@@ -1,14 +1,15 @@
-<div>
-  <p #item>
-    <mat-form-field appearance="fill">
-      <mat-label>Select a widget</mat-label>
-      <mat-select (selectionChange)="item.remove()" [(value)]="selected">
-        <mat-option>No widget</mat-option>
-        <mat-option value="chart">30-day chart</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </p>
+<div class="widget">
 
-  <chart-account-history></chart-account-history>
+  <div ngbDropdown class="d-inline-block" #item *ngIf="!hasWidget">
+    <button class="btn btn-outline-primary" id="dropdown1" ngbDropdownToggle>Select Widget</button>
+    <div ngbDropdownMenu aria-labelledby="dropdown1">
+      <button ngbDropdownItem>No Widget</button>
+      <button ngbDropdownItem (click)="item.remove();updateSelectedChart()">Chart</button>
+    </div>
+  </div>
+
+  <span *ngIf="selected==='chart'">
+    <app-chart-account-history></app-chart-account-history>
+  </span>
 
 </div>

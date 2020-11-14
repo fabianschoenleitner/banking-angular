@@ -31,3 +31,10 @@
 <div #parent>
 </div>
 
+<div fxLayout="row wrap" fxLayoutAlign="flex-start" >
+  <div class="innerDiv" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
+    <app-widget selected={{widget.typ}}></app-widget>
+  </div>
+</div>
+
+

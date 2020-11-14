@@ -3,7 +3,7 @@ import * as CanvasJS from 'src/assets/canvasjs.min';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'chart-account-history',
+  selector: 'app-chart-account-history',
   templateUrl: './chart-account-history.component.html',
   styleUrls: ['./chart-account-history.component.scss']
 })
@@ -81,7 +81,8 @@ export class ChartAccountHistoryComponent implements OnInit {
       animationEnabled: false,
       exportEnabled: false,
       title: {
-        text: "30-Tage Übersicht"
+        text: "30-Tage Übersicht Konto",
+        fontFamily: "sans-serif"
       },
       axisX: {
         interval: 7,
