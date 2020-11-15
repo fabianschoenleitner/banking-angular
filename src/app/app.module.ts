@@ -13,7 +13,6 @@ import {TransferOrdersComponent} from './transfer-orders/transfer-orders.compone
 import {ChartAccountHistoryComponent} from './chart-account-history/chart-account-history.component';
 import {WidgetComponent} from './widget/widget.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClickOutsideModule} from 'ng-click-outside';
@@ -44,7 +43,6 @@ import {NgbdSortableHeader} from './transfer-orders/transaction-table/sortable.d
     FlexLayoutModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MatSelectModule,
     ClickOutsideModule
   ],
   providers: [

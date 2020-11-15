@@ -9,7 +9,9 @@
   </div>
 
   <span *ngIf="selected==='chart'">
-    <app-chart-account-history></app-chart-account-history>
+    <app-chart-account-history idName={{idString}}></app-chart-account-history>
   </span>
+
+  <button type="button" class="btn btn-outline-danger float-sm-right align-top">X</button>
 
 </div>

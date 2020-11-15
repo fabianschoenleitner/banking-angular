@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import * as CanvasJS from 'src/assets/canvasjs.min';
 
 @Component({
@@ -8,10 +8,13 @@ import * as CanvasJS from 'src/assets/canvasjs.min';
   styleUrls: ['./chart-account-history.component.scss']
 })
 export class ChartAccountHistoryComponent implements OnInit {
+  @Input() idName: string = 'default';
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ngAfterViewInit() {
     let dataPoints = [
       {x: new Date(2020, 11, 8), y: 52000},
       {x: new Date(2020, 11, 9), y: 45000},
@@ -76,12 +79,13 @@ export class ChartAccountHistoryComponent implements OnInit {
       {x: new Date(2021, 0, 5), y: -24360},
       {x: new Date(2021, 0, 6), y: -18760}
     ];
-    let chart = new CanvasJS.Chart("chartContainer", {
+
+    let chart = new CanvasJS.Chart(this.idName, {
       zoomEnabled: false,
       animationEnabled: false,
       exportEnabled: false,
       title: {
-        text: "30-Tage Übersicht Konto",
+        text: "30-Tage Übersicht",
         fontFamily: "sans-serif"
       },
       axisX: {
