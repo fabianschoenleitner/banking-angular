@@ -1,4 +1,4 @@
-<div class="widget">
+<div class="widget" id="{{deleteID}}">
 
   <div ngbDropdown class="d-inline-block" #item *ngIf="!hasWidget">
     <button class="btn btn-outline-primary" id="dropdown1" ngbDropdownToggle>Select Widget</button>
@@ -12,6 +12,6 @@
     <app-chart-account-history idName={{idString}}></app-chart-account-history>
   </span>
 
-  <button type="button" class="btn btn-outline-danger float-sm-right align-top">X</button>
+  <button type="button" style="z-index: 10; position: relative;" class="btn btn-outline-danger float-sm-right align-top" (click)="deleteWidget($event)">X</button>
 
 </div>

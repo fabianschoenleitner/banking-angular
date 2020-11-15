@@ -10,6 +10,7 @@ import {Widget} from '../user/user.component';
 export class WidgetComponent implements OnInit {
   @Input() selected = 'empty';
   @Input() id = 0;
+  deleteID: string;
   idString: string;
   hasWidget: boolean;
 
@@ -17,11 +18,17 @@ export class WidgetComponent implements OnInit {
     this.selected = 'chart';
   }
 
+  deleteWidget(event): void {
+    const node = document.getElementById(this.deleteID);
+    node.parentElement.parentElement.parentElement.removeChild(node.parentNode.parentNode);
+  }
+
   constructor() {
   }
 
   ngOnInit(): void {
     this.idString = this.id.toString();
+    this.deleteID = this.idString + 'delete';
     if (this.selected !== 'empty') {
       this.hasWidget = true;
     }
