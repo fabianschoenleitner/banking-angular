@@ -135,7 +135,7 @@ export class TransactionTableService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let transactions = sort(this.userData.accounts[0].transactions, sortColumn, sortDirection);
+    let transactions = sort(this.transactions, sortColumn, sortDirection);
 
     // 2. filter
     transactions = transactions.filter(transaction => matches(transaction, searchTerm, this.pipe));
