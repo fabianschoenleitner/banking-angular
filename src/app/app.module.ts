@@ -19,6 +19,8 @@ import {ClickOutsideModule} from 'ng-click-outside';
 import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
 import {TransactionTableComponent} from './transfer-orders/transaction-table/transaction-table.component';
 import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/sortable.directive';
+import { AccountsDropdownComponent } from './accounts-dropdown/accounts-dropdown.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -31,20 +33,22 @@ import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/s
     WidgetComponent,
     TransferOrdersComponent,
     TransactionTableComponent,
-    NgbdSortableHeaderDirective
+    NgbdSortableHeaderDirective,
+    AccountsDropdownComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    FlexLayoutModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    ClickOutsideModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbModule,
+        FlexLayoutModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        ClickOutsideModule,
+        FontAwesomeModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true
