@@ -3,7 +3,7 @@ import {Transaction} from '../../api/Api';
 
 export type SortColumn = keyof Transaction | '';
 export type SortDirection = 'asc' | 'desc' | '';
-const rotate: { [key: string]: SortDirection } = {'asc': 'desc', 'desc': '', '': 'asc'};
+const rotate: { [key: string]: SortDirection } = {asc: 'desc', desc: '', '': 'asc'};
 
 export interface SortEvent {
   column: SortColumn;
@@ -11,6 +11,8 @@ export interface SortEvent {
 }
 
 @Directive({
+  // suppressed because this is the ng bootstrap recommendation to implement sortable table header
+  // tslint:disable-next-line:directive-selector
   selector: 'th[sortable]',
   host: {
     '[class.asc]': 'direction === "asc"',
@@ -18,7 +20,7 @@ export interface SortEvent {
     '(click)': 'rotate()'
   }
 })
-export class NgbdSortableHeader {
+export class NgbdSortableHeaderDirective {
 
   @Input() sortable: SortColumn = '';
   @Input() direction: SortDirection = '';

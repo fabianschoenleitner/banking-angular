@@ -18,7 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
 import {TransactionTableComponent} from './transfer-orders/transaction-table/transaction-table.component';
-import {NgbdSortableHeader} from './transfer-orders/transaction-table/sortable.directive';
+import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/sortable.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import {NgbdSortableHeader} from './transfer-orders/transaction-table/sortable.d
     WidgetComponent,
     TransferOrdersComponent,
     TransactionTableComponent,
-    NgbdSortableHeader
+    NgbdSortableHeaderDirective
   ],
   imports: [
     BrowserModule,

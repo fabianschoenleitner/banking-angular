@@ -1,6 +1,6 @@
-import {Injectable, PipeTransform, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, of, Subject, Subscribable, Subscription} from 'rxjs';
-import {Account, Transaction, TransactionRequest, UserData} from '../../api/Api';
+import {Injectable, PipeTransform} from '@angular/core';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {Transaction, TransactionRequest} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './sortable.directive';
@@ -47,12 +47,12 @@ export class TransactionTableService {
 
   transactions: Transaction[];
 
-  private _loading$ = new BehaviorSubject<boolean>(true);
-  private _search$ = new Subject<void>();
-  private _transactions$ = new BehaviorSubject<Transaction[]>([]);
-  private _total$ = new BehaviorSubject<number>(0);
+  private loadingvar$ = new BehaviorSubject<boolean>(true);
+  private searchvar$ = new Subject<void>();
+  private transactionsvar$ = new BehaviorSubject<Transaction[]>([]);
+  private totalvar$ = new BehaviorSubject<number>(0);
 
-  private _state: State = {
+  private statevar: State = {
     page: 1,
     pageSize: 10,
     searchTerm: '',
@@ -68,52 +68,57 @@ export class TransactionTableService {
       this.transactions = trans.transactions;
     });
 
-    this._search$.pipe(
-      tap(() => this._loading$.next(true)),
+    this.searchvar$.pipe(
+      tap(() => this.loadingvar$.next(true)),
       debounceTime(200),
       switchMap(() => this._search()),
       delay(200),
-      tap(() => this._loading$.next(false))
+      tap(() => this.loadingvar$.next(false))
     ).subscribe(result => {
-      this._transactions$.next(result.transactions);
-      this._total$.next(result.total);
+      this.transactionsvar$.next(result.transactions);
+      this.totalvar$.next(result.total);
     });
 
-    this._search$.next();
+    this.searchvar$.next();
   }
 
   get transactions$(): Observable<Transaction[]> {
-    return this._transactions$.asObservable();
+    return this.transactionsvar$.asObservable();
   }
 
   get total$(): Observable<number> {
-    return this._total$.asObservable();
+    return this.totalvar$.asObservable();
   }
 
   get loading$(): Observable<boolean> {
-    return this._loading$.asObservable();
+    return this.loadingvar$.asObservable();
   }
 
   get page(): number {
-    return this._state.page;
+    return this.statevar.page;
   }
 
   get pageSize(): number {
-    return this._state.pageSize;
+    return this.statevar.pageSize;
   }
 
   get searchTerm(): string {
-    return this._state.searchTerm;
+    return this.statevar.searchTerm;
   }
-
+  // suppressed because of ng bootstrap recommendation
+  // tslint:disable-next-line:adjacent-overload-signatures
   set page(page: number) {
     this._set({page});
   }
 
+  // suppressed because of ng bootstrap recommendation
+  // tslint:disable-next-line:adjacent-overload-signatures
   set pageSize(pageSize: number) {
     this._set({pageSize});
   }
 
+  // suppressed because of ng bootstrap recommendation
+  // tslint:disable-next-line:adjacent-overload-signatures
   set searchTerm(searchTerm: string) {
     this._set({searchTerm});
   }
@@ -127,12 +132,12 @@ export class TransactionTableService {
   }
 
   private _set(patch: Partial<State>): void {
-    Object.assign(this._state, patch);
-    this._search$.next();
+    Object.assign(this.statevar, patch);
+    this.searchvar$.next();
   }
 
   private _search(): Observable<SearchResult> {
-    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this.statevar;
 
     // 1. sort
     let transactions = sort(this.transactions, sortColumn, sortDirection);

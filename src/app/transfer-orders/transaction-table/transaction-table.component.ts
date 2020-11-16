@@ -1,10 +1,9 @@
-import {Component, Input, QueryList, ViewChildren} from '@angular/core';
+import {Component, QueryList, ViewChildren} from '@angular/core';
 import {Transaction} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {TransactionTableService} from './trans-table.service';
-import {NgbdSortableHeader, SortEvent} from './sortable.directive';
-import {UserService} from '../../services/user-service';
+import {NgbdSortableHeaderDirective, SortEvent} from './sortable.directive';
 
 @Component({
   selector: 'app-transaction-table',
@@ -17,7 +16,7 @@ export class TransactionTableComponent {
   transactions$: Observable<Transaction[]>;
   total$: Observable<number>;
 
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
 
   constructor(public service: TransactionTableService) {
     this.transactions$ = service.transactions$;
