@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WidgetComponent} from '../widget/widget.component';
-import {Account, Iban, Transaction, TransactionRequest} from '../api/Api';
+import {Account} from '../api/Api';
 import {UserService} from '../services/user-service';
 
 export class Widget {

@@ -20,7 +20,10 @@ import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
 import {TransactionTableComponent} from './transfer-orders/transaction-table/transaction-table.component';
 import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/sortable.directive';
 import { AccountsDropdownComponent } from './accounts-dropdown/accounts-dropdown.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {SubNavbarComponent} from './sub-navbar/sub-navbar.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -34,21 +37,24 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TransferOrdersComponent,
     TransactionTableComponent,
     NgbdSortableHeaderDirective,
-    AccountsDropdownComponent
+    AccountsDropdownComponent,
+    SubNavbarComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgbModule,
-        FlexLayoutModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        ClickOutsideModule,
-        FontAwesomeModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgbModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    ClickOutsideModule,
+    MatDatepickerModule,
+    MatInputModule,
+    FontAwesomeModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true

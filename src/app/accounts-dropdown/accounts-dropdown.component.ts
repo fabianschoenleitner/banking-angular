@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Account} from '../api/Api';
 import {UserService} from '../services/user-service';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {Router} from '@angular/router';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-accounts-dropdown',
