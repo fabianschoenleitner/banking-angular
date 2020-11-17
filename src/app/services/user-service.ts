@@ -3,11 +3,13 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Account, Balance, Iban, PriorBalanceRequest, Transaction, TransactionRequest, UserData} from '../api/Api';
 import {AppSettings} from '../../app-settings';
-import {from, Observable} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
+
+  accountSubject = new Subject<Account>();
 
   constructor(private router: Router, private http: HttpClient) {
   }

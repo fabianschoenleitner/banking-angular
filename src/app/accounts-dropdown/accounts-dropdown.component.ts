@@ -4,6 +4,7 @@ import {UserService} from '../services/user-service';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-accounts-dropdown',
@@ -19,7 +20,7 @@ export class AccountsDropdownComponent implements OnInit {
     accountName: [this.accounts[0], [Validators.required]]
   });
 
-  constructor(private userService: UserService, public fb: FormBuilder, private library: FaIconLibrary) {
+  constructor(private userService: UserService, public fb: FormBuilder, private library: FaIconLibrary, private router: Router) {
     library.addIcons(faPlus);
   }
 
@@ -27,7 +28,18 @@ export class AccountsDropdownComponent implements OnInit {
     this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
       this.accounts = acc.accounts;
       this.selectedAccount = acc.accounts[0];
+      this.addAllAccountsEntry();
     });
+
+    console.log(this.accounts);
+  }
+
+  addAllAccountsEntry(): void {
+    let sum = 0;
+    for (const acc of this.accounts) {
+      sum = sum + acc.balance;
+    }
+    this.accounts.splice(0, 0, { iban: '',  balance: sum, name: 'Alle Konten', accountType: 'All',  });
   }
 
   ChangeSelectedAccount(currentAccount: Account, buttonId: string): void {
@@ -35,9 +47,9 @@ export class AccountsDropdownComponent implements OnInit {
     this.selectedAccount = currentAccount;
   }
 
-  /*########### Template Driven Form ###########*/
-  onSubmit(): boolean {
-    alert(JSON.stringify(this.registrationForm.value));
-    return true;
-    }
+  async onSubmit(selectedAccount): Promise<void> {
+    alert(JSON.stringify(selectedAccount));
+    await this.router.navigateByUrl('/transaction').then( acc => { this.userService.accountSubject.next(selectedAccount); });
+  }
+
 }
