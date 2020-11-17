@@ -5,11 +5,16 @@
     <div ngbDropdownMenu aria-labelledby="dropdown1">
       <button ngbDropdownItem>No Widget</button>
       <button ngbDropdownItem (click)="item.remove();updateSelectedChart()">Chart</button>
+      <button ngbDropdownItem (click)="item.remove();updateSelectedAccount()">Accounts</button>
     </div>
   </div>
 
   <span *ngIf="selected==='chart'">
     <app-chart-account-history idName={{idString}}></app-chart-account-history>
+  </span>
+
+  <span *ngIf="selected==='acc-dropdown'">
+    <app-accounts-dropdown> idName={{idString}} </app-accounts-dropdown>
   </span>
 
   <button type="button" style="z-index: 10; position: relative;" class="btn btn-outline-danger float-sm-right align-top" (click)="deleteWidget($event)">X</button>

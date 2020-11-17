@@ -17,6 +17,9 @@ export class WidgetComponent implements OnInit {
   updateSelectedChart(): void {
     this.selected = 'chart';
   }
+  updateSelectedAccount(): void {
+    this.selected = 'acc-dropdown';
+  }
 
   deleteWidget(event): void {
     const node = document.getElementById(this.deleteID);
