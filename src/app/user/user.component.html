@@ -1,37 +1,44 @@
-<table class="table table-striped container">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Name</th>
-    <th scope="col">Kontotyp</th>
-    <th scope="col">Iban</th>
-    <th scope="col">Balance</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let account of accounts; index as i">
-    <td scope="row">{{ i + 1 }}</td>
-    <td> {{ account.name }} </td>
-    <td> {{ account.accountType }} </td>
-    <td>{{ account.iban }}</td>
-    <td>{{ account.balance | number }}</td>
-  </tr>
-  </tbody>
-</table>
+<div class="container pt-4">
+
+  <h3 class="pb-4">
+    Willkommen auf ihrer Startseite, {{ userdata.firstName }} {{ userdata.lastName }}!
+  </h3>
+
+  <table class="table table-striped container">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Kontotyp</th>
+      <th scope="col">Iban</th>
+      <th scope="col">Balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let account of accounts; index as i">
+      <td scope="row">{{ i + 1 }}</td>
+      <td> {{ account.name }} </td>
+      <td> {{ account.accountType }} </td>
+      <td>{{ account.iban }}</td>
+      <td>{{ account.balance | number }}</td>
+    </tr>
+    </tbody>
+  </table>
 
 
-<app-accounts-dropdown></app-accounts-dropdown>
+  <app-accounts-dropdown></app-accounts-dropdown>
+  <app-accounts-widget></app-accounts-widget>
 
-<br><br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br>
 
-<button class="btn btn-primary" (click)="addComponent()">Widget hinzufügen</button>
-<div #parent>
-</div>
-
-<div fxLayout="row wrap" fxLayoutAlign="flex-start">
-  <div class="innerDiv" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
-    <app-widget selected={{widget.typ}} [id]=widget.id></app-widget>
+  <button class="btn btn-primary" (click)="addComponent()">Widget hinzufügen</button>
+  <div #parent>
   </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="flex-start">
+    <div class="innerDiv" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
+      <app-widget selected={{widget.typ}} [id]=widget.id></app-widget>
+    </div>
+  </div>
+
 </div>
-
-

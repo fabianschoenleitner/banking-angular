@@ -1,76 +1,39 @@
 <!--<img class= "icon-styling" src="/assets/icons/plus-square-fill.svg" alt="" width="32" height="32" title="Bootstrap">-->
 
 <div class="container">
-  <div class="btn-group mr-3">
-    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <div class="btn-group mr-3 btn-block">
+    <div class="btn-group btn-block" ngbDropdown #accountdiv="ngbDropdown" role="group"
+         aria-label="Button group with nested dropdown">
       <button ngbDropdownToggle
               class="btn btn-outline-primary btn-block"
-              #accountsDropdown
               id="accountsDropdown">
         <span class="left-aligned"> {{ selectedAccount.name }} </span>
         <span class="right-aligned"><em> {{ selectedAccount.accountType }} </em></span>
         <br/>
         <span class="left-aligned">
-          {{ selectedAccount.iban.substring(0, 4) }}...{{ selectedAccount.iban.substring(9, selectedAccount.iban.length) }}
+          {{ selectedAccount.iban.substring(0, 4) }}
+          ...{{ selectedAccount.iban.substring(9, selectedAccount.iban.length) }}
         </span>
         <span class="right-aligned">  {{ selectedAccount.balance }} € </span>
       </button>
-      <div class="dropdown-menu" id="dropdown-elements" ngbDropdownMenu>
+      <div class="dropdown-menu btn-block" id="dropdown-elements" ngbDropdownMenu>
         <button
           ngbDropdownItem
           *ngFor="let acc of accounts"
-          (click)="ChangeSelectedAccount(acc, accountsDropdown.id)">
-            {{ acc.name }}
-            <span class="right-aligned" ><em> {{ acc.accountType }} </em></span>
-            <br/>
-            {{ acc.iban }}
-            <span class="right-aligned">  {{ acc.balance }} € </span>
+          (click)="changeSelectedAccount(acc)">
+          {{ acc.name }}
+          <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
+          <br/>
+          {{ acc.iban }}
+          <span class="right-aligned">  {{ acc.balance }} € </span>
         </button>
       </div>
-
     </div>
 
-      <button type="button" type="submit" class="btn btn-primary" (click)="onSubmit(selectedAccount)">
-        <fa-icon [icon]="['fas', 'plus']" size="1x" class="icon-styling"></fa-icon>
-      </button>
+    <button type="button" class="btn btn-primary" (click)="$event.stopPropagation(); accountdiv.open();">
+      <fa-icon [icon]="['fas', 'caret-down']" size="1x" class="icon-styling"></fa-icon>
+    </button>
 
   </div>
 </div>
-
-
-<!--SECOND DROPDOWN-->
-
-<!--<div class="container">-->
-<!--  <div class="row custom-wrapper">-->
-<!--    <div class="col-md-12">-->
-<!--      &lt;!&ndash; Form starts &ndash;&gt;-->
-<!--      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">-->
-<!--        <div class="group-gap">-->
-<!--          <div class="d-block my-3">-->
-<!--            <div class="mb-3">-->
-<!--              <select class="custom-select" (change)="changeAccount($event)" formControlName="accountName">-->
-<!--                <option *ngFor="let acc of accounts" [ngValue]="acc">-->
-<!--                    {{acc.name}}-->
-<!--                    {{acc.accountType}}-->
-
-<!--                    {{acc.iban}}-->
-<!--                    {{acc.balance}}-->
-
-<!--                </option>-->
-<!--              </select>-->
-<!--              &lt;!&ndash; error block &ndash;&gt;-->
-<!--              <div class="invalid-feedback" *ngIf="isSubmitted && accountName.errors?.required">-->
-<!--                <sup>*</sup> Wählen Sie einen Account-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; Submit Button &ndash;&gt;-->
-<!--        <button type="submit" class="btn btn-primary btn-lg btn-block">Absenden</button>-->
-<!--      </form>&lt;!&ndash; Form ends &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-
 

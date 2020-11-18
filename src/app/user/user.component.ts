@@ -18,6 +18,7 @@ export class UserComponent implements OnInit {
   public accounts: Account[];
   public widgets: Widget[] = [];
   public counter = 0;
+  public userdata;
 
   constructor(private userService: UserService) {
   }
@@ -26,6 +27,8 @@ export class UserComponent implements OnInit {
     this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
       this.accounts = acc.accounts;
     });
+
+    this.userdata = JSON.parse(localStorage.getItem('user'));
   }
 
   addComponent(): void {

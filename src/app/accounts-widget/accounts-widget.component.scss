@@ -1,0 +1,19 @@
+
+#singleAccount:hover {
+  cursor: text;
+  color: #007bff!important;
+  background-color:white;
+}
+
+.list-group-item {
+  border: 0 solid;
+  padding: .75rem 0;
+}
+
+#singleAccount {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

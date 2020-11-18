@@ -24,6 +24,7 @@ import {SubNavbarComponent} from './sub-navbar/sub-navbar.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { AccountsWidgetComponent } from './accounts-widget/accounts-widget.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     TransactionTableComponent,
     NgbdSortableHeaderDirective,
     AccountsDropdownComponent,
-    SubNavbarComponent
+    SubNavbarComponent,
+    AccountsWidgetComponent
   ],
   imports: [
     BrowserModule,

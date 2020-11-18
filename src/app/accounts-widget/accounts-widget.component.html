@@ -1,0 +1,23 @@
+<div class="container">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let acc of accounts; let i = index" >
+      <div class="btn-group mr-3 btn-block" *ngIf="hideAccountSum(acc)">
+        <button class="btn btn-outline-primary btn-block"
+                id="singleAccount">
+          <span class="left-aligned"> {{ acc.name }} </span>
+          <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
+          <br/>
+          <span class="left-aligned">
+              {{ acc.iban.substring(0, 4) }}
+            ...{{ acc.iban.substring(9, acc.iban.length) }}
+            </span>
+          <span class="right-aligned">  {{ acc.balance }} € </span>
+        </button>
+
+        <button type="button" class="btn btn-primary" (click)="onSubmit(acc)">
+          <fa-icon [icon]="['fas', 'plus']" size="1x" class="icon-styling"></fa-icon>
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
