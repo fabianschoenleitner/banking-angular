@@ -4,6 +4,8 @@ import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {TransactionTableService} from './trans-table.service';
 import {NgbdSortableHeaderDirective, SortEvent} from './sortable.directive';
+import {faArrowCircleUp} from '@fortawesome/free-solid-svg-icons';
+import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-transaction-table',
@@ -18,9 +20,10 @@ export class TransactionTableComponent {
 
   @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
 
-  constructor(public service: TransactionTableService) {
+  constructor(public service: TransactionTableService, private library: FaIconLibrary) {
     this.transactions$ = service.transactions$;
     this.total$ = service.total$;
+    library.addIcons(faArrowCircleUp);
   }
 
   onSort({column, direction}: SortEvent): void {
@@ -33,5 +36,17 @@ export class TransactionTableComponent {
 
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
+  }
+
+  checkBalance(balance): string  {
+    if (balance > 0) {
+      return 'green';
+    } else {
+      return 'red';
+    }
+  }
+
+  isUrgent(transactionType): boolean {
+    return 'Eilauftrag' === transactionType;
   }
 }

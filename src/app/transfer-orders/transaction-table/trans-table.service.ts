@@ -19,24 +19,25 @@ interface State {
   sortDirection: SortDirection;
 }
 
-// const compare = (v1: string | number | Date, v2: string | number | Date) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-
-const compare = (v1: string | number | Date, v2: string | number | Date): number => {
-  if (typeof (v1) === 'string') {
-    console.log('hiii');
-  }
-  else {
-    if (v1 < v2) {
-      return -1;
-    }
-    else if (v1 > v2) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-};
+const compare = (v1: string | number | Date, v2: string | number | Date) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+// TODO: Fix sorting of Date Objects if necessary. ATM: Temp Fake Server sends Timestamps as string
+//  => Sorting of Dates is based on 'day' instead of year.
+// const compare = (v1: string | number | Date, v2: string | number | Date): number => {
+//   if (typeof (v1) === 'string') {
+//     console.log('sorting type is string');
+//   }
+//   else {
+//     if (v1 < v2) {
+//       return -1;
+//     }
+//     else if (v1 > v2) {
+//       return 1;
+//     }
+//     else {
+//       return 0;
+//     }
+//   }
+// };
 
 function sort(transactions: Transaction[], column: SortColumn, direction: string): Transaction[] {
   if (direction === '' || column === '') {

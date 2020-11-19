@@ -23,11 +23,10 @@
       <tr *ngFor="let transaction of transactions$ | async; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>
+          <fa-icon *ngIf = "isUrgent(transaction.type)" [icon]="['fas', 'arrow-circle-up']" size="1x" class="icon-styling"> </fa-icon>
           <ngb-highlight [result]="transaction.type" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + 'b/ba/Flag_of_Germany.svg'" class="mr-2"
-               style="width: 20px" alt="flag germany">
           <ngb-highlight [result]="transaction.recipientName" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
@@ -39,8 +38,8 @@
         <td>
           <ngb-highlight [result]="transaction.timestamp " [term]="service.searchTerm"></ngb-highlight>
         </td>
-        <td>
-          <ngb-highlight [result]="transaction.amount | number " [term]="service.searchTerm"></ngb-highlight>
+        <td [ngClass]="checkBalance(transaction.amount)">
+          <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight> €
         </td>
       </tr>
       </tbody>

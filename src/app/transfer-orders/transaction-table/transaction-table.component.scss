@@ -19,3 +19,19 @@ th[sortable].desc:before {
   transform: rotate(180deg);
   -ms-transform: rotate(180deg);
 }
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.right-aligned {
+  //padding-right: 0.4rem;
+  //float:right;
+}
+fa-icon {
+  padding-right: 0.2rem;
+}

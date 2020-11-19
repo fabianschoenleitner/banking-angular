@@ -23,8 +23,6 @@ export class AccountsDropdownComponent implements OnInit {
       this.selectedAccount = acc.accounts[0];
       this.addAllAccountsEntry();
     });
-
-    // console.log(this.accounts);
   }
 
   addAllAccountsEntry(): void {
@@ -36,7 +34,6 @@ export class AccountsDropdownComponent implements OnInit {
   }
 
   changeSelectedAccount(currentAccount: Account): void {
-    // console.log(currentAccount.iban);
     this.selectedAccount = currentAccount;
     this.userService.transactionWidgetSubject.next(currentAccount);
   }
