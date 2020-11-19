@@ -19,7 +19,24 @@ interface State {
   sortDirection: SortDirection;
 }
 
-const compare = (v1: string | number | Date, v2: string | number | Date) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+// const compare = (v1: string | number | Date, v2: string | number | Date) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+
+const compare = (v1: string | number | Date, v2: string | number | Date): number => {
+  if (typeof (v1) === 'string') {
+    console.log('hiii');
+  }
+  else {
+    if (v1 < v2) {
+      return -1;
+    }
+    else if (v1 > v2) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+};
 
 function sort(transactions: Transaction[], column: SortColumn, direction: string): Transaction[] {
   if (direction === '' || column === '') {
@@ -37,9 +54,8 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
     || transaction.recipientIban.toLowerCase().includes(term.toLowerCase())
     || transaction.senderIban.toLowerCase().includes(term.toLowerCase())
     || transaction.type.toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(transaction.amount).includes(term)
-    || transaction.timestamp.toString().toLowerCase().includes(term.toLowerCase());
-  // || pipe.transform(transaction.timestamp).includes(term);
+    || pipe.transform(transaction.timestamp).includes(term)
+    || pipe.transform(transaction.amount).includes(term);
 }
 
 @Injectable({providedIn: 'root'})
@@ -66,13 +82,14 @@ export class TransactionTableService {
     const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 100}};
     userService.getTransactions(transactionRequest, ibanArr).subscribe((trans: { transactions: Transaction[] }) => {
       this.transactions = trans.transactions;
+      console.log(this.transactions);
     });
 
     this.searchvar$.pipe(
       tap(() => this.loadingvar$.next(true)),
       debounceTime(200),
       switchMap(() => this._search()),
-      delay(200),
+      // delay(200),
       tap(() => this.loadingvar$.next(false))
     ).subscribe(result => {
       this.transactionsvar$.next(result.transactions);

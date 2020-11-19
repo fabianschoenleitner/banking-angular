@@ -15,8 +15,8 @@
         <th scope="col" sortable="recipientName" (sort)="onSort($event)">Empfängername</th>
         <th scope="col" sortable="recipientIban" (sort)="onSort($event)">Empfänger Iban</th>
         <th scope="col" sortable="senderIban" (sort)="onSort($event)">Sender Iban</th>
-        <th scope="col" sortable="senderIban" (sort)="onSort($event)">Auftragsstatus</th>
-        <th scope="col" sortable="timestamp" (sort)="onSort($event)">Betrag</th>
+        <th scope="col" sortable="timestamp" (sort)="onSort($event)">Auftragsstatus</th>
+        <th scope="col" sortable="amount" (sort)="onSort($event)">Betrag</th>
       </tr>
       </thead>
       <tbody>
@@ -37,10 +37,10 @@
           <ngb-highlight [result]="transaction.senderIban" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="transaction.timestamp" [term]="service.searchTerm"></ngb-highlight>
+          <ngb-highlight [result]="transaction.timestamp " [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight>
+          <ngb-highlight [result]="transaction.amount | number " [term]="service.searchTerm"></ngb-highlight>
         </td>
       </tr>
       </tbody>
