@@ -20,7 +20,7 @@ export class UserService {
     return from(ibanArr).pipe(
       mergeMap((iban: string) => {
         return this.http.post<{ transactions: Transaction[] }>
-        (AppSettings.baseUrl + '/transactions/' + iban, transactionRequest) as Observable<{ transactions: Transaction[] }>;
+        (AppSettings.baseUrl + '/transactions/' + iban, transactionRequest).pipe() as Observable<{ transactions: Transaction[] }>;
       }));
   }
 

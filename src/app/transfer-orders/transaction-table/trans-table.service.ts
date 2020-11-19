@@ -55,14 +55,16 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
     || transaction.recipientIban.toLowerCase().includes(term.toLowerCase())
     || transaction.senderIban.toLowerCase().includes(term.toLowerCase())
     || transaction.type.toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(transaction.timestamp).includes(term)
+    || transaction.timestamp.toString().toLowerCase().includes(term.toLowerCase())
+    // || pipe.transform(transaction.timestamp).includes(term)
     || pipe.transform(transaction.amount).includes(term);
 }
 
 @Injectable({providedIn: 'root'})
 export class TransactionTableService {
 
-  transactions: Transaction[];
+  // transactions: { trans: Transaction[] };
+  transactions: Transaction[] = [];
 
   private loadingvar$ = new BehaviorSubject<boolean>(true);
   private searchvar$ = new Subject<void>();
@@ -82,8 +84,7 @@ export class TransactionTableService {
     const ibanArr = userData.accounts;
     const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 100}};
     userService.getTransactions(transactionRequest, ibanArr).subscribe((trans: { transactions: Transaction[] }) => {
-      this.transactions = trans.transactions;
-      console.log(this.transactions);
+      this.transactions.push(...trans.transactions);
     });
 
     this.searchvar$.pipe(
