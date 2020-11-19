@@ -1,8 +1,13 @@
 <div class="container">
+
+  <h4 class="justify-content-center text-center py-3 font-weight-normal">
+    Konten
+  </h4>
+
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let acc of accounts; let i = index" >
       <div class="btn-group mr-3 btn-block" *ngIf="hideAccountSum(acc)">
-        <button class="btn btn-outline-primary btn-block"
+        <button class="btn btn-light btn-block"
                 id="singleAccount">
           <span class="left-aligned"> {{ acc.name }} </span>
           <span class="right-aligned"><em> {{ acc.accountType }} </em></span>

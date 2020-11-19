@@ -25,6 +25,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { AccountsWidgetComponent } from './accounts-widget/accounts-widget.component';
+import { RevenueCostsWidgetComponent } from './revenue-costs-widget/revenue-costs-widget.component';
+import { TransactionWidgetComponent } from './transaction-widget/transaction-widget.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { AccountsWidgetComponent } from './accounts-widget/accounts-widget.compo
     NgbdSortableHeaderDirective,
     AccountsDropdownComponent,
     SubNavbarComponent,
-    AccountsWidgetComponent
+    AccountsWidgetComponent,
+    RevenueCostsWidgetComponent,
+    TransactionWidgetComponent
   ],
   imports: [
     BrowserModule,

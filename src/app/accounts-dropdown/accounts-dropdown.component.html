@@ -1,11 +1,10 @@
 <!--<img class= "icon-styling" src="/assets/icons/plus-square-fill.svg" alt="" width="32" height="32" title="Bootstrap">-->
 
-<div class="container">
   <div class="btn-group mr-3 btn-block">
     <div class="btn-group btn-block" ngbDropdown #accountdiv="ngbDropdown" role="group"
          aria-label="Button group with nested dropdown">
       <button ngbDropdownToggle
-              class="btn btn-outline-primary btn-block"
+              class="btn btn-light btn-block"
               id="accountsDropdown">
         <span class="left-aligned"> {{ selectedAccount.name }} </span>
         <span class="right-aligned"><em> {{ selectedAccount.accountType }} </em></span>
@@ -35,5 +34,4 @@
     </button>
 
   </div>
-</div>
 

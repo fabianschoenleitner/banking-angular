@@ -9,7 +9,8 @@ import {mergeMap} from 'rxjs/operators';
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-  accountSubject = new Subject<Account>();
+  accountsWidgetSubject = new Subject<Account>();
+  transactionWidgetSubject = new Subject<Account>();
 
   constructor(private router: Router, private http: HttpClient) {
   }

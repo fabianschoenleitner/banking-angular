@@ -22,15 +22,12 @@ export class AccountsWidgetComponent implements OnInit {
     this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
       this.accounts = acc.accounts;
       this.selectedAccount = acc.accounts[0];
-      // this.addAllAccountsEntry();
     });
-
-    console.log(this.accounts);
   }
 
   async onSubmit(selectedAccount): Promise<void> {
     alert(JSON.stringify(selectedAccount));
-    await this.router.navigateByUrl('/transaction').then( acc => { this.userService.accountSubject.next(selectedAccount); });
+    await this.router.navigateByUrl('/transaction').then( acc => { this.userService.accountsWidgetSubject.next(selectedAccount); });
   }
 
   hideAccountSum(acc): boolean {

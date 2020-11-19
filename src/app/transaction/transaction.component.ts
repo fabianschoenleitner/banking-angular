@@ -13,7 +13,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit {
-  account: Account = {iban: '123', balance: 0, name: '332', accountType: '',};
+  account: Account = {iban: '123', balance: 0, name: '332', accountType: ''};
   collapsed = true;
   mobile = false;
   form: FormGroup;
@@ -21,7 +21,7 @@ export class TransactionComponent implements OnInit {
   constructor(private fb: FormBuilder,
               public authService: AuthService,
               public breakpointObserver: BreakpointObserver, private userService: UserService) {
-    this.userService.accountSubject.subscribe(acc => {
+    this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
       console.log(this.account);
     });
@@ -37,6 +37,9 @@ export class TransactionComponent implements OnInit {
       transactionType: [''],
       iban: [''],
       date: [''],
+      transactionTextType: [''],
+      recepientName: [''],
+      bic: [''],
     });
   }
 
