@@ -1,23 +1,12 @@
 .blue {
   color: #007bff;
 }
-#button-group {
+#button-group, #text-group  {
   margin: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-#text-group {
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
 
-.text-area {
-  padding: 5px 20px 5px 5px;
-  margin: 20px 20px 20px 0px;
-  width: 200px;
-  height: 100px;
-}
+

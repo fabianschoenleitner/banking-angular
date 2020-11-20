@@ -1,4 +1,7 @@
 <app-sub-navbar></app-sub-navbar>
+<div class="container col-xl-7 ">
+  <app-accounts-dropdown></app-accounts-dropdown>
+</div>
 <div class="container col-xl-7">
   <h3 class="row my-3 col-xl-7">Neue Überweisung</h3>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -14,7 +17,7 @@
       </div>
     </div>
     <div class="row my-3 ">
-      <legend for="transactionType" class="col-form-label col-sm-3 pt-0">Durchführungsart <span class="blue">*</span>
+      <legend for="transactionType" class="col-form-label col-sm-3 pt-0">Durchführungsart
       </legend>
       <div class="col-sm-6">
         <div class="form-check form-check-inline">
@@ -80,7 +83,7 @@
     </div>
     <div class="btn-group btn-group-toggle btn-block col-sm-6" id="button-group" data-toggle="buttons" ngbRadioGroup name="radioBasic"
          formControlName="transactionTextType">
-      <label ngbButtonLabel class="  btn-outline-primary ">
+      <label ngbButtonLabel class="  btn-outline-primary active">
         <input
           ngbButton
           type="radio"

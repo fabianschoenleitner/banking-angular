@@ -22,6 +22,7 @@ export class AccountsDropdownComponent implements OnInit {
       this.accounts = acc.accounts;
       this.selectedAccount = acc.accounts[0];
       this.addAllAccountsEntry();
+      this.changeSelectedAccount(this.selectedAccount);
     });
   }
 
