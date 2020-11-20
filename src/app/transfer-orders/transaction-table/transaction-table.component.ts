@@ -1,5 +1,5 @@
 import {Component, QueryList, ViewChildren} from '@angular/core';
-import {Transaction} from '../../api/Api';
+import {Iban, Transaction} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {TransactionTableService} from './trans-table.service';
@@ -17,13 +17,16 @@ export class TransactionTableComponent {
 
   transactions$: Observable<Transaction[]>;
   total$: Observable<number>;
+  ibanArr: Iban[] = [];
 
   @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
 
   constructor(public service: TransactionTableService, private library: FaIconLibrary) {
     this.transactions$ = service.transactions$;
     this.total$ = service.total$;
+
     library.addIcons(faArrowCircleUp);
+    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
   }
 
   onSort({column, direction}: SortEvent): void {
@@ -38,15 +41,16 @@ export class TransactionTableComponent {
     this.service.sortDirection = direction;
   }
 
-  checkBalance(balance): string  {
-    if (balance > 0) {
-      return 'green';
-    } else {
+  checkBalance(iban): string  {
+    if (this.ibanArr.indexOf(iban) > -1) {
       return 'red';
+    } else {
+      return 'green';
     }
   }
 
   isUrgent(transactionType): boolean {
     return 'Eilauftrag' === transactionType;
   }
+
 }

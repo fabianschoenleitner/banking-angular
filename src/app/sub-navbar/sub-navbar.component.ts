@@ -20,17 +20,8 @@ export class SubNavbarComponent implements OnInit {
     });
   }
 
-  // TODO: How to close toggle-menu on click outside of nav. Setting collapsed = true doesn't help.
-  onClickedOutside(e: Event): void {
-    if (!this.collapsed) {
-      console.log('Clicked outside:', e);
-      this.collapsed = true;
-    }
-  }
-
   async onLogout(): Promise<void> {
     await this.authService.logout();
   }
-
 
 }

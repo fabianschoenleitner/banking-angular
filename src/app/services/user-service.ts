@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Account, Balance, Iban, PriorBalanceRequest, Transaction, TransactionRequest, UserData} from '../api/Api';
 import {AppSettings} from '../../app-settings';
-import {from, Observable, Subject} from 'rxjs';
+import {forkJoin, from, Observable, Subject} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
@@ -15,13 +15,22 @@ export class UserService {
   constructor(private router: Router, private http: HttpClient) {
   }
 
-  public getTransactions(transactionRequest: { request: TransactionRequest }, ibanArr: Iban[]):
-    Observable<{ transactions: Transaction[] }> {
-    return from(ibanArr).pipe(
-      mergeMap((iban: string) => {
-        return this.http.post<{ transactions: Transaction[] }>
-        (AppSettings.baseUrl + '/transactions/' + iban, transactionRequest).pipe() as Observable<{ transactions: Transaction[] }>;
-      }));
+  public getTransactions(transactionRequest: { request: TransactionRequest }, ibanArr: Iban[]): Observable<any> {
+
+    const obs: Array<Observable<any>> = [];
+    for (const iban of ibanArr) {
+      obs.push(
+        this.http.post<{ transactions: Transaction[] }>
+        (AppSettings.baseUrl + '/transactions/' + iban, transactionRequest));
+
+    }
+    return forkJoin(obs);
+
+    // return from(ibanArr).pipe(
+    //   mergeMap((iban: string) => {
+    //      return this.http.post<{ transactions: Transaction[] }>
+    //     (AppSettings.baseUrl + '/transactions/' + iban, transactionRequest) as Observable<{ transactions: Transaction[] }>;
+    //   }));
   }
 
   public getAllAccounts(): Observable<{ accounts: Account[] }> {

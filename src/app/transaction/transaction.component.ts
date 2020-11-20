@@ -13,54 +13,10 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit {
-  account: Account = {iban: '123', balance: 0, name: '332', accountType: ''};
-  collapsed = true;
-  mobile = false;
-  form: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              public authService: AuthService,
-              public breakpointObserver: BreakpointObserver, private userService: UserService) {
-    this.userService.accountsWidgetSubject.subscribe(acc => {
-      this.account = acc;
-      console.log(this.account);
-    });
+  constructor() { }
 
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.breakpointObserver.observe('(max-width: 990px)').subscribe(result => {
-      this.mobile = result.matches;
-    });
-    this.form = this.fb.group({
-      amount: [''],
-      transactionType: [''],
-      iban: [''],
-      date: [''],
-      transactionTextType: [''],
-      recepientName: [''],
-      bic: [''],
-    });
-  }
-
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-
-    }
-  }
-
-  // TODO: How to close toggle-menu on click outside of nav. Setting collapsed = true doesn't help.
-  onClickedOutside(e: Event): void {
-    if (!this.collapsed) {
-      console.log('Clicked outside:', e);
-      this.collapsed = true;
-    }
-  }
-
-  async onLogout(): Promise<void> {
-    await this.authService.logout();
-  }
 }
 

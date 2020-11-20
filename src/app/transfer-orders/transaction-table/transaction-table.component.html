@@ -1,4 +1,4 @@
-<div class="px-5">
+<div class="">
   <form>
     <div class="form-group form-inline">
       Volltextsuche:
@@ -10,10 +10,8 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col" sortable="type" (sort)="onSort($event)">Art</th>
-        <th scope="col" sortable="recipientName" (sort)="onSort($event)">Empfängername</th>
-        <th scope="col" sortable="recipientIban" (sort)="onSort($event)">Empfänger Iban</th>
+        <th scope="col" sortable="recipientName" (sort)="onSort($event)">Empfänger</th>
         <th scope="col" sortable="senderIban" (sort)="onSort($event)">Sender Iban</th>
         <th scope="col" sortable="timestamp" (sort)="onSort($event)">Auftragsstatus</th>
         <th scope="col" sortable="amount" (sort)="onSort($event)">Betrag</th>
@@ -21,25 +19,25 @@
       </thead>
       <tbody>
       <tr *ngFor="let transaction of transactions$ | async; index as i">
-        <th scope="row">{{ i + 1 }}</th>
         <td>
           <fa-icon *ngIf = "isUrgent(transaction.type)" [icon]="['fas', 'arrow-circle-up']" size="1x" class="icon-styling"> </fa-icon>
           <ngb-highlight [result]="transaction.type" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="transaction.recipientName" [term]="service.searchTerm"></ngb-highlight>
-        </td>
-        <td>
-          <ngb-highlight [result]="transaction.recipientIban" [term]="service.searchTerm"></ngb-highlight>
+          <br>
+          {{transaction.recipientIban}}
         </td>
         <td>
           <ngb-highlight [result]="transaction.senderIban" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="transaction.timestamp " [term]="service.searchTerm"></ngb-highlight>
+          <ngb-highlight [result]="transaction.timestamp" [term]="service.searchTerm"></ngb-highlight>
         </td>
-        <td [ngClass]="checkBalance(transaction.amount)">
-          <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight> €
+        <td [ngClass]="checkBalance(transaction.senderIban)">
+          <span *ngIf="'red' === checkBalance(transaction.senderIban)"> - </span>
+          <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight>
+          <span> € </span>
         </td>
       </tr>
       </tbody>

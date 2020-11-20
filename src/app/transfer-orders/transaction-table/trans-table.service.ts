@@ -2,7 +2,7 @@ import {Injectable, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {Transaction, TransactionRequest} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
-import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './sortable.directive';
 import {UserService} from '../../services/user-service';
 
@@ -63,7 +63,6 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
 @Injectable({providedIn: 'root'})
 export class TransactionTableService {
 
-  // transactions: { trans: Transaction[] };
   transactions: Transaction[] = [];
 
   private loadingvar$ = new BehaviorSubject<boolean>(true);
@@ -80,11 +79,16 @@ export class TransactionTableService {
   };
 
   constructor(private pipe: DecimalPipe, private userService: UserService) {
-    const userData = JSON.parse(localStorage.getItem('user'));
-    const ibanArr = userData.accounts;
+
+    const ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
     const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 100}};
-    userService.getTransactions(transactionRequest, ibanArr).subscribe((trans: { transactions: Transaction[] }) => {
-      this.transactions.push(...trans.transactions);
+    userService.getTransactions(transactionRequest, ibanArr).subscribe((response) => {
+      let i = 0;
+      this.transactions = [];
+      while (i < response.length) {
+        this.transactions = this.transactions.concat(response[i].transactions);
+        i = i + 1;
+      }
     });
 
     this.searchvar$.pipe(

@@ -27,6 +27,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { AccountsWidgetComponent } from './accounts-widget/accounts-widget.component';
 import { RevenueCostsWidgetComponent } from './revenue-costs-widget/revenue-costs-widget.component';
 import { TransactionWidgetComponent } from './transaction-widget/transaction-widget.component';
+import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TransactionWidgetComponent } from './transaction-widget/transaction-wid
     SubNavbarComponent,
     AccountsWidgetComponent,
     RevenueCostsWidgetComponent,
-    TransactionWidgetComponent
+    TransactionWidgetComponent,
+    NewTransactionComponent
   ],
   imports: [
     BrowserModule,

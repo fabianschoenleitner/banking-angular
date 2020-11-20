@@ -4,6 +4,7 @@ import {LoginComponent} from './login/login.component';
 import {TransactionComponent} from './transaction/transaction.component';
 import {UserComponent} from './user/user.component';
 import {TransferOrdersComponent} from './transfer-orders/transfer-orders.component';
+import {NewTransactionComponent} from './new-transaction/new-transaction.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,15 @@ const routes: Routes = [
   {
     path: 'transfer_orders',
     component: TransferOrdersComponent
-  }
+  },
+  {
+    path: 'transaction/new_transaction',
+    component: NewTransactionComponent
+  },
+  {
+    path: 'transaction/uebersicht',
+    component: NewTransactionComponent
+  },
 
 ];
 
