@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as CanvasJS from 'src/assets/canvasjs.min';
+import {Account, Iban, Transaction, TransactionRequest} from '../api/Api';
+import {UserService} from '../services/user-service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,12 +11,40 @@ import * as CanvasJS from 'src/assets/canvasjs.min';
 })
 export class ChartAccountHistoryComponent implements OnInit {
   @Input() idName: string = 'default';
+  ibanArr: Iban[] = [];
+  account: Account;
+  transactions: Transaction[] = [];
 
-  constructor() { }
+  constructor(private userService: UserService) {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
+
+    this.userService.transactionWidgetSubject.subscribe(acc => {
+      this.account = acc;
+      let ibanArr = [this.account.iban];
+
+      if (this.account.name === 'Alle Konten') {
+        ibanArr = userData.accounts;
+      }
+
+      const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 30}};
+      userService.getTransactions(transactionRequest, ibanArr).subscribe((response) => {
+        let i = 0;
+        this.transactions = [];
+        while (i < response.length) {
+          this.transactions = this.transactions.concat(response[i].transactions);
+          i = i + 1;
+        }
+        console.log(this.transactions);
+      });
+
+    });
+  }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
+
     let dataPoints = [
       {x: new Date(2020, 11, 8), y: 52000},
       {x: new Date(2020, 11, 9), y: 45000},
@@ -85,20 +115,20 @@ export class ChartAccountHistoryComponent implements OnInit {
       animationEnabled: false,
       exportEnabled: false,
       title: {
-        text: "30-Tage Übersicht",
-        fontFamily: "sans-serif"
+        text: 'Kontoverlaufsübersicht',
+        fontFamily: 'sans-serif'
       },
       axisX: {
         interval: 7,
-        intervalType: "day"
+        intervalType: 'day'
       },
       data: [
         {
-          type: "line",
+          type: 'line',
           dataPoints: dataPoints
         },
         {
-          type: "line",
+          type: 'line',
           dataPoints: dataPoints2
         }]
     });
