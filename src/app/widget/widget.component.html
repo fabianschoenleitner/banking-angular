@@ -4,24 +4,24 @@
     <button class="btn btn-outline-primary" id="dropdown1" ngbDropdownToggle>Select Widget</button>
     <div ngbDropdownMenu aria-labelledby="dropdown1">
       <button ngbDropdownItem>No Widget</button>
-      <button ngbDropdownItem (click)="item.remove();updateSelectedChart()">Chart</button>
+      <button ngbDropdownItem (click)="item.remove();updateSelected('chart')">Chart</button>
       <button ngbDropdownItem (click)="item.remove();updateSelected('acc-transactions')">Accounts-Dropdown</button>
       <button ngbDropdownItem (click)="item.remove();updateSelected('acc-list')">Accounts-List</button>
     </div>
   </div>
+
+  <button type="button" style="z-index: 1; position: relative;" class="btn btn-outline-danger float-sm-right align-top" (click)="deleteWidget($event)">X</button>
 
   <span *ngIf="selected==='chart'">
     <app-chart-account-history idName={{idString}}></app-chart-account-history>
   </span>
 
   <span *ngIf="selected==='acc-transactions'">
-    <app-revenue-costs-widget> idName={{idString}} </app-revenue-costs-widget>
+    <app-revenue-costs-widget idName={{idString}}> </app-revenue-costs-widget>
   </span>
 
   <span *ngIf="selected==='acc-list'">
-    <app-accounts-widget> idName={{idString}} </app-accounts-widget>
+    <app-accounts-widget idName={{idString}}> </app-accounts-widget>
   </span>
-
-  <button type="button" style="z-index: 10; position: relative;" class="btn btn-outline-danger float-sm-right align-top" (click)="deleteWidget($event)">X</button>
 
 </div>

@@ -28,7 +28,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="center center">
     <div class="square shadow  m-2 pt-2" fxFlex="0 1 calc(33.3% - 32px)"> <app-revenue-costs-widget></app-revenue-costs-widget> </div>
     <div class="square shadow  m-2 pt-2" fxFlex="0 1 calc(33.3% - 32px)"> <app-accounts-widget></app-accounts-widget> </div>
-    <div class="square shadow  m-2 pt-2" fxFlex="0 1 calc(33.3% - 32px)"><app-transaction-widget></app-transaction-widget></div>
+    <div class="square shadow  m-2 pt-2" fxFlex="0 1 calc(33.3% - 32px)"> <app-transaction-widget></app-transaction-widget></div>
   </div>
 
 <!--  <app-chart-account-history></app-chart-account-history>-->
@@ -39,8 +39,8 @@
   <div #parent>
   </div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="flex-start">
-    <div class="innerDiv" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
+  <div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div class="square shadow  m-2 pt-2" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
       <app-widget selected={{widget.typ}} [id]=widget.id></app-widget>
     </div>
   </div>

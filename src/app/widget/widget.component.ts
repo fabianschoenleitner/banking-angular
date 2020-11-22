@@ -14,10 +14,6 @@ export class WidgetComponent implements OnInit {
   idString: string;
   hasWidget: boolean;
 
-  updateSelectedChart(): void {
-    this.selected = 'chart';
-  }
-
   updateSelected(name): void {
     this.selected = name;
   }
