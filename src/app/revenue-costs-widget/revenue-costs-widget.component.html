@@ -4,7 +4,7 @@
     Einnahmen & Ausgaben
   </h4>
 
-  <app-accounts-dropdown></app-accounts-dropdown>
+  <app-accounts-dropdown (currAcc)="getAccount($event)"></app-accounts-dropdown>
 
   <p class="chart" id="{{idName}}"> Placeholder for bar chart </p>
 </div>

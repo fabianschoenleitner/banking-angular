@@ -1,5 +1,5 @@
 import {Component, LOCALE_ID, NgModule, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, Form, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../services/user-service';
 import {Account} from '../api/Api';
 
@@ -22,6 +22,23 @@ export class NewTransactionComponent implements OnInit {
     });
   }
 
+  // ngOnInit(): void {
+  //   this.form = this.fb.group({
+  //     amount: [''],
+  //     transactionType: [''],
+  //     iban: [''],
+  //     date: [''],
+  //     transactionTextType: [''],
+  //     recepientName: [''],
+  //     bic: [''],
+  //     text: this.fb.array([
+  //       this.fb.control(''),
+  //       this.fb.control(''),
+  //       this.fb.control(''),
+  //       this.fb.control('')
+  //     ])
+  //   });
+  // }
   ngOnInit(): void {
     this.form = this.fb.group({
       amount: [''],
@@ -31,12 +48,7 @@ export class NewTransactionComponent implements OnInit {
       transactionTextType: [''],
       recepientName: [''],
       bic: [''],
-      text: this.fb.array([
-        this.fb.control(''),
-        this.fb.control(''),
-        this.fb.control(''),
-        this.fb.control('')
-      ])
+      texts: new FormArray([])
     });
   }
 
@@ -47,12 +59,40 @@ export class NewTransactionComponent implements OnInit {
     }
   }
 
-  get text(): FormArray {
-    return this.form.get('text') as FormArray;
+  // get texts(): FormArray {
+  //   return this.form.get('texts') as FormArray;
+  // }
+
+  get f(): { [p: string]: AbstractControl } {
+    return this.form.controls;
+  }
+
+  get t(): FormArray {
+    return this.f.texts as FormArray;
   }
 
   setPaymentUsageContent(paymentUsageContent: boolean): void {
     this.paymentUsageContent = paymentUsageContent;
+  }
+
+  onChangeTransactionTextType(e): void {
+    const numberOfRows = e;
+    if (this.t.length < numberOfRows) {
+      for (let i = this.t.length; i < numberOfRows; i++) {
+        this.t.push(this.fb.group({
+          text: [''],
+        }));
+      }
+    } else {
+      for (let i = this.t.length; i >= numberOfRows; i--) {
+        this.t.removeAt(i);
+      }
+    }
+  }
+
+  onClear(): void {
+    // clear errors and reset ticket fields
+    this.t.reset();
   }
 
 }

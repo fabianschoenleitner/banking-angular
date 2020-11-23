@@ -27,8 +27,8 @@ export class ChartAccountHistoryComponent implements OnInit {
         ibanArr = userData.accounts;
       }
 
-      const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 30}};
-      userService.getTransactions(transactionRequest, ibanArr).subscribe((response) => {
+      const request: TransactionRequest = {n: 0};
+      userService.getTransactions(request, ibanArr).subscribe((response) => {
         let i = 0;
         this.transactions = [];
         while (i < response.length) {

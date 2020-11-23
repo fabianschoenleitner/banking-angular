@@ -1,5 +1,5 @@
-export type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz';
-export type TransactionType = 'Dauerauftrag' | 'Eilauftrag' | 'Eigenuebertragung';
+export type TransactionTextType = 'Verwendungszweck' | 'Zahlungsreferenz' | 'Senderreferenz' | '';
+export type TransactionType = 'Dauerauftrag' | 'Eilauftrag' | 'Eigenuebertragung' | '';
 export type Iban = string;
 
 export interface Account {
@@ -15,13 +15,13 @@ export interface Transaction {
   text: string;
   textType: TransactionTextType;
   type: TransactionType;
-  senderIban: Iban;
-  recipientIban: Iban;
-  recipientName: string;
+  iban: Iban;
+  complementaryIban: Iban;
+  complementaryName: string;
 }
 
 export interface TransactionRequest {
-  offset: number;
+  exclusiveDate?: number;
   n: number;
   type?: TransactionType;
 }
@@ -37,6 +37,11 @@ export interface UserData {
   firstName: string;
   lastName: string;
   lastLogin: Date;
+}
+
+export interface TransactionResponse {
+  transactions: Transaction[];
+  lastDate: Date;
 }
 
 export interface LoginRequest {

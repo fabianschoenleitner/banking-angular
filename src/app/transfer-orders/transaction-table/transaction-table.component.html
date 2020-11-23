@@ -11,8 +11,8 @@
       <thead>
       <tr>
         <th scope="col" sortable="type" (sort)="onSort($event)">Art</th>
-        <th scope="col" sortable="recipientName" (sort)="onSort($event)">Empfänger</th>
-        <th scope="col" sortable="senderIban" (sort)="onSort($event)">Sender Iban</th>
+        <th scope="col" sortable="complementaryName" (sort)="onSort($event)">Empfänger</th>
+        <th scope="col" sortable="iban" (sort)="onSort($event)">Sender Iban</th>
         <th scope="col" sortable="timestamp" (sort)="onSort($event)">Auftragsstatus</th>
         <th scope="col" sortable="amount" (sort)="onSort($event)">Betrag</th>
       </tr>
@@ -24,18 +24,18 @@
           <ngb-highlight [result]="transaction.type" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="transaction.recipientName" [term]="service.searchTerm"></ngb-highlight>
+          <ngb-highlight [result]="transaction.complementaryName" [term]="service.searchTerm"></ngb-highlight>
           <br>
-          {{transaction.recipientIban}}
+          {{transaction.complementaryIban}}
         </td>
         <td>
-          <ngb-highlight [result]="transaction.senderIban" [term]="service.searchTerm"></ngb-highlight>
+          <ngb-highlight [result]="transaction.iban" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="transaction.timestamp" [term]="service.searchTerm"></ngb-highlight>
         </td>
-        <td [ngClass]="checkBalance(transaction.senderIban)">
-          <span *ngIf="'red' === checkBalance(transaction.senderIban)"> - </span>
+        <td [ngClass]="checkBalance(transaction.iban)">
+          <span *ngIf="'red' === checkBalance(transaction.iban)"> - </span>
           <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight>
           <span> € </span>
         </td>

@@ -4,15 +4,15 @@
     Transaktionen
   </h4>
 
-  <app-accounts-dropdown></app-accounts-dropdown>
+  <app-accounts-dropdown (currAcc)="getAccount($event)"></app-accounts-dropdown>
 
   <div class="text-center py-4">
     <ul class="list-group list-group-flush" *ngFor="let trans of transactions; let i = index">
       <li class="list-group-item"  *ngIf="i < 4">
         <div>
           <span class="left-aligned"> {{ trans.timestamp }} </span>
-          <span class="right-aligned" [ngClass]=checkBalance(trans.senderIban)>
-            <span *ngIf="'red' === checkBalance(trans.senderIban)"> - </span>
+          <span class="right-aligned" [ngClass]=checkBalance(trans.iban)>
+            <span *ngIf="'red' === checkBalance(trans.iban)"> - </span>
             {{ trans.amount }} €
           </span>
         </div>

@@ -1,6 +1,6 @@
 import {Injectable, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {Transaction, TransactionRequest} from '../../api/Api';
+import {Transaction, TransactionRequest, TransactionResponse} from '../../api/Api';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './sortable.directive';
@@ -51,9 +51,9 @@ function sort(transactions: Transaction[], column: SortColumn, direction: string
 }
 
 function matches(transaction: Transaction, term: string, pipe: PipeTransform): void {
-  return transaction.recipientName.toLowerCase().includes(term.toLowerCase())
-    || transaction.recipientIban.toLowerCase().includes(term.toLowerCase())
-    || transaction.senderIban.toLowerCase().includes(term.toLowerCase())
+  return transaction.complementaryName.toLowerCase().includes(term.toLowerCase())
+    || transaction.complementaryIban.toLowerCase().includes(term.toLowerCase())
+    || transaction.iban.toLowerCase().includes(term.toLowerCase())
     || transaction.type.toLowerCase().includes(term.toLowerCase())
     || transaction.timestamp.toString().toLowerCase().includes(term.toLowerCase())
     // || pipe.transform(transaction.timestamp).includes(term)
@@ -79,16 +79,10 @@ export class TransactionTableService {
   };
 
   constructor(private pipe: DecimalPipe, private userService: UserService) {
-
-    const ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
-    const transactionRequest: { request: TransactionRequest } = {request: {n: 0, offset: 100}};
-    userService.getTransactions(transactionRequest, ibanArr).subscribe((response) => {
-      let i = 0;
-      this.transactions = [];
-      while (i < response.length) {
-        this.transactions = this.transactions.concat(response[i].transactions);
-        i = i + 1;
-      }
+    const ibanArr = this.userService.getIbans({iban: '', balance: 0, name: 'Alle Konten', accountType: ''});
+    const request: TransactionRequest = {n: 100};
+    userService.getTransactions(request, ibanArr).subscribe((response: TransactionResponse[]) => {
+      this.transactions = this.userService.sortTransactions(response);
     });
 
     this.searchvar$.pipe(
@@ -128,6 +122,7 @@ export class TransactionTableService {
   get searchTerm(): string {
     return this.statevar.searchTerm;
   }
+
   // suppressed because of ng bootstrap recommendation
   // tslint:disable-next-line:adjacent-overload-signatures
   set page(page: number) {

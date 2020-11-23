@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as CanvasJS from 'src/assets/canvasjs.min';
+import {Account, Iban, TransactionRequest, TransactionResponse} from '../api/Api';
+import {UserService} from '../services/user-service';
 
 @Component({
   selector: 'app-revenue-costs-widget',
@@ -8,10 +10,45 @@ import * as CanvasJS from 'src/assets/canvasjs.min';
 })
 export class RevenueCostsWidgetComponent implements OnInit {
   @Input() idName: string = 'default';
-
-  constructor() { }
+  account: Account = {iban: '', balance: 0, name: '', accountType: ''};
+  ibanArr: Iban[] = [];
+  transactionResponse: TransactionResponse[] =
+    [{
+      transactions: [{
+        timestamp: new Date(),
+        amount: 0,
+        text: '',
+        textType: '',
+        type: '',
+        iban: '',
+        complementaryIban: '',
+        complementaryName: ''
+      }],
+      lastDate: new Date()
+    }];
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  getAccount(account: Account): void {
+    this.account = account;
+    const userData = JSON.parse(localStorage.getItem('user'));
+    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
+    let ibanArr = [this.account.iban];
+
+    if (this.account.name === 'Alle Konten') {
+      ibanArr = userData.accounts;
+    }
+
+    const request: TransactionRequest = {n: 100};
+    this.userService.getTransactions(request, ibanArr).subscribe((response: TransactionResponse[]) => {
+      this.transactionResponse = [];
+      for (const transactionResponse of response) {
+        this.transactionResponse.push(transactionResponse);
+      }
+      console.log(this.transactionResponse);
+    });
   }
 
   ngAfterViewInit() {

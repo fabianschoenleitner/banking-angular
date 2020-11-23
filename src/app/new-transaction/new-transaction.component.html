@@ -81,7 +81,9 @@
           name="date" ngbDatepicker>
       </div>
     </div>
-    <div class="btn-group btn-group-toggle btn-block col-sm-6" id="button-group" data-toggle="buttons" ngbRadioGroup name="radioBasic"
+    <div class="btn-group btn-group-toggle btn-block col-sm-6 px-lg-2" id="button-group" data-toggle="buttons"
+         ngbRadioGroup
+         name="radioBasic"
          formControlName="transactionTextType">
       <label ngbButtonLabel class="  btn-outline-primary active">
         <input
@@ -89,7 +91,7 @@
           type="radio"
           checked
           value="Zahlungsreferenz"
-          (click)="setPaymentUsageContent(false)">
+          (click)="onChangeTransactionTextType(1); setPaymentUsageContent(false)">
         Zahlungsreferenz
       </label>
       <label ngbButtonLabel class=" btn-outline-primary">
@@ -97,47 +99,29 @@
           ngbButton
           type="radio"
           value="Verwendungszweck"
-          (click)="setPaymentUsageContent(true)">
+          (click)="onChangeTransactionTextType(4); setPaymentUsageContent(true)">
         Verwendungszweck
       </label>
     </div>
-
-    <div class="row my-3" id="text-group">
-      <div class="col-sm-6 " formArrayName="text">
-        <input [formControlName]=0
-               type="text"
-               placeholder="1 x 35 Zeichen"
-               class="form-control"
-               maxlength="35"
-        >
-        <div *ngIf="paymentUsageContent">
-          <input [formControlName]=1
-                 type="text"
-                 placeholder="1 x 35 Zeichen"
-                 class="form-control"
-                 maxlength="35"
-          >
-          <input [formControlName]=2
-                 type="text"
-                 placeholder="1 x 35 Zeichen"
-                 class="form-control"
-                 maxlength="35"
-          >
-          <input [formControlName]=3
-                 type="text"
-                 placeholder="1 x 35 Zeichen"
-                 class="form-control"
-                 maxlength="35"
-          >
+    <div class="my-3">
+      <div *ngFor="let text of t.controls; let i = index">
+        <div [formGroup]="text" class="row">
+          <div class="form-group col-sm-6" id="text-group">
+            <input
+              formControlName="text"
+              type="text"
+              placeholder="1 x 35 Zeichen"
+              class="form-control"
+              maxlength="35"/>
+          </div>
         </div>
       </div>
     </div>
 
 
     <div class="container text-right">
-      <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Senden
-      </button>
+      <button type="submit " [disabled]="form.invalid" class="btn btn-primary mr-1">Senden</button>
+      <button class="btn btn-secondary " type="reset" (click)="onClear()">Clear</button>
     </div>
   </form>
 </div>
-<p> {{ account.balance | currency}} </p>
