@@ -11,8 +11,7 @@
       <li class="list-group-item"  *ngIf="i < 4">
         <div>
           <span class="left-aligned"> {{ trans.timestamp }} </span>
-          <span class="right-aligned" [ngClass]=checkBalance(trans.iban)>
-            <span *ngIf="'red' === checkBalance(trans.iban)"> - </span>
+          <span class="right-aligned" [ngClass]=checkBalance(trans.amount)>
             {{ trans.amount }} €
           </span>
         </div>

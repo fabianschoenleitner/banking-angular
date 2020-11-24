@@ -41,11 +41,11 @@ export class TransactionTableComponent {
     this.service.sortDirection = direction;
   }
 
-  checkBalance(iban): string  {
-    if (this.ibanArr.indexOf(iban) > -1) {
-      return 'red';
-    } else {
+  checkBalance(amount): string  {
+    if (amount >= 0) {
       return 'green';
+    } else {
+      return 'red';
     }
   }
 

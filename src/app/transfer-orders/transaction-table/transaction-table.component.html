@@ -34,8 +34,7 @@
         <td>
           <ngb-highlight [result]="transaction.timestamp" [term]="service.searchTerm"></ngb-highlight>
         </td>
-        <td [ngClass]="checkBalance(transaction.iban)">
-          <span *ngIf="'red' === checkBalance(transaction.iban)"> - </span>
+        <td [ngClass]="checkBalance(transaction.amount)">
           <ngb-highlight [result]="transaction.amount | number" [term]="service.searchTerm"></ngb-highlight>
           <span> € </span>
         </td>
