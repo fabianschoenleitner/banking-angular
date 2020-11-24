@@ -1,6 +1,6 @@
 <app-sub-navbar></app-sub-navbar>
-<div class="container col-xl-7 ">
-  <app-accounts-dropdown></app-accounts-dropdown>
+<div class="container col-xl-7 my-4">
+  <app-accounts-dropdown-lg [(currAcc)]="account"></app-accounts-dropdown-lg>
 </div>
 <div class="container col-xl-7">
   <h3 class="row my-3 col-xl-7">Neue Überweisung</h3>
@@ -17,64 +17,65 @@
       </div>
     </div>
     <div class="row my-3 ">
-      <legend for="transactionType" class="col-form-label col-sm-3 pt-0">Durchführungsart
+      <legend for="type" class="col-form-label col-sm-3 pt-0">Durchführungsart
       </legend>
       <div class="col-sm-6">
         <div class="form-check form-check-inline">
-          <input class="form-check-input active" type="radio" formControlName="transactionType" id="Standard"
+          <input class="form-check-input active" type="radio" formControlName="type" id="Standard"
                  value="Standard">
           <label class="form-check-label" for="Standard">Standard</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="transactionType" id="Eilauftrag"
+          <input class="form-check-input" type="radio" formControlName="type" id="Eilauftrag"
                  value="Eilauftrag">
           <label class="form-check-label" for="Eilauftrag">eilig</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="transactionType" id="instant-payment" value="">
+          <input class="form-check-input" type="radio" formControlName="type" id="instant-payment" value="">
           <label class="form-check-label" for="instant-payment">Instant Payment</label>
         </div>
       </div>
     </div>
     <div class="row my-3">
-      <label for="recepientName" class="col-sm-3 col-form-label">Empfänger</label>
+      <label for="complementaryName" class="col-sm-3 col-form-label">Empfänger</label>
       <div class="col-sm-6 ">
-        <input formControlName="recepientName"
+        <input formControlName="complementaryName"
                type="text"
                class="form-control"
-               id="recepientName"
+               id="complementaryName"
                placeholder="Empfänger"
         >
       </div>
     </div>
     <div class="row my-3">
-      <label for="iban" class="col-sm-3 col-form-label">IBAN/Kontonummer <span class="blue">*</span></label>
+      <label for="complementaryIban" class="col-sm-3 col-form-label">IBAN/Kontonummer <span
+        class="blue">*</span></label>
       <div class="col-sm-6 ">
-        <input formControlName="iban"
+        <input formControlName="complementaryIban"
                type="text"
                class="form-control"
-               id="iban"
+               id="complementaryIban"
                placeholder="IBAN/Kontonummer"
         >
       </div>
     </div>
-    <div class="row my-3">
-      <label for="bic" class="col-sm-3 col-form-label">BIC/BLZ</label>
-      <div class="col-sm-6 ">
-        <input formControlName="bic"
-               type="text"
-               class="form-control"
-               id="bic"
-               placeholder="BIC nicht erforderlich"
+    <!--    <div class="row my-3">-->
+    <!--      <label for="bic" class="col-sm-3 col-form-label">BIC/BLZ</label>-->
+    <!--      <div class="col-sm-6 ">-->
+    <!--        <input formControlName="bic"-->
+    <!--               type="text"-->
+    <!--               class="form-control"-->
+    <!--               id="bic"-->
+    <!--               placeholder="BIC nicht erforderlich"-->
 
-        >
-      </div>
-    </div>
+    <!--        >-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="row my-3">
       <label class="col-sm-3 col-form-label">Datum <span class="blue">*</span></label>
       <div class="col-sm-6">
         <input
-          formControlName="date"
+          formControlName="timestamp"
           type="date"
           class="form-control"
           placeholder="yyyy-mm-dd"
@@ -84,14 +85,14 @@
     <div class="btn-group btn-group-toggle btn-block col-sm-6 px-lg-2" id="button-group" data-toggle="buttons"
          ngbRadioGroup
          name="radioBasic"
-         formControlName="transactionTextType">
+         formControlName="textType">
       <label ngbButtonLabel class="  btn-outline-primary active">
         <input
           ngbButton
           type="radio"
           checked
           value="Zahlungsreferenz"
-          (click)="onChangeTransactionTextType(1); setPaymentUsageContent(false)">
+          (click)="onChangeTextType(1); setPaymentUsageContent(false)">
         Zahlungsreferenz
       </label>
       <label ngbButtonLabel class=" btn-outline-primary">
@@ -99,7 +100,7 @@
           ngbButton
           type="radio"
           value="Verwendungszweck"
-          (click)="onChangeTransactionTextType(4); setPaymentUsageContent(true)">
+          (click)="onChangeTextType(4); setPaymentUsageContent(true)">
         Verwendungszweck
       </label>
     </div>
@@ -125,3 +126,8 @@
     </div>
   </form>
 </div>
+
+
+<p> {{ account.iban }} </p>
+<p> {{ account.balance }} </p>
+<p> {{ account.name }} </p>

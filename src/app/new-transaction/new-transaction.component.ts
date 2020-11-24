@@ -1,5 +1,5 @@
-import {Component, LOCALE_ID, NgModule, OnInit} from '@angular/core';
-import {AbstractControl, Form, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../services/user-service';
 import {Account} from '../api/Api';
 
@@ -10,10 +10,9 @@ import {Account} from '../api/Api';
   styleUrls: ['./new-transaction.component.scss']
 })
 export class NewTransactionComponent implements OnInit {
-  account: Account = {iban: '123', balance: 0.00, name: '332', accountType: ''};
+  account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
   paymentUsageContent = false;
   form: FormGroup;
-
 
   constructor(private userService: UserService, private fb: FormBuilder) {
     this.userService.accountsWidgetSubject.subscribe(acc => {
@@ -22,60 +21,53 @@ export class NewTransactionComponent implements OnInit {
     });
   }
 
-  // ngOnInit(): void {
-  //   this.form = this.fb.group({
-  //     amount: [''],
-  //     transactionType: [''],
-  //     iban: [''],
-  //     date: [''],
-  //     transactionTextType: [''],
-  //     recepientName: [''],
-  //     bic: [''],
-  //     text: this.fb.array([
-  //       this.fb.control(''),
-  //       this.fb.control(''),
-  //       this.fb.control(''),
-  //       this.fb.control('')
-  //     ])
-  //   });
-  // }
   ngOnInit(): void {
     this.form = this.fb.group({
+      timestamp: [''],
       amount: [''],
-      transactionType: [''],
+      text: new FormArray([]),
+      textType: [''],
+      type: [''],
       iban: [''],
-      date: [''],
-      transactionTextType: [''],
-      recepientName: [''],
-      bic: [''],
-      texts: new FormArray([])
+      complementaryIban: [''],
+      complementaryName: [''],
     });
+    this.onChangeTextType(1);
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      console.log(this.form.value);
+      this.form.value.iban = this.account.iban;
 
+      const tempDate = new Date();
+      tempDate.setFullYear(
+        this.form.value.timestamp.year,
+        this.form.value.timestamp.month - 1,
+        this.form.value.timestamp.day
+      );
+
+      this.form.value.timestamp = tempDate.toISOString();
+      this.form.value.text = this.form.value.text.map(x => x.text).join('\n');
+
+      this.userService.sendTransaction(this.form.value).subscribe(trans => {
+        console.log(trans);
+      });
     }
   }
-
-  // get texts(): FormArray {
-  //   return this.form.get('texts') as FormArray;
-  // }
 
   get f(): { [p: string]: AbstractControl } {
     return this.form.controls;
   }
 
   get t(): FormArray {
-    return this.f.texts as FormArray;
+    return this.f.text as FormArray;
   }
 
   setPaymentUsageContent(paymentUsageContent: boolean): void {
     this.paymentUsageContent = paymentUsageContent;
   }
 
-  onChangeTransactionTextType(e): void {
+  onChangeTextType(e): void {
     const numberOfRows = e;
     if (this.t.length < numberOfRows) {
       for (let i = this.t.length; i < numberOfRows; i++) {
@@ -94,5 +86,4 @@ export class NewTransactionComponent implements OnInit {
     // clear errors and reset ticket fields
     this.t.reset();
   }
-
 }
