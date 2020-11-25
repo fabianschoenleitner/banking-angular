@@ -24,6 +24,7 @@ export interface TransactionRequest {
   exclusiveDate?: number;
   n: number;
   type?: TransactionType;
+  stored: boolean;
 }
 
 export interface PriorBalanceRequest {

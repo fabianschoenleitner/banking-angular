@@ -18,7 +18,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let transaction of transactions$ | async; index as i">
+      <tr *ngFor="let transaction of transactions$ | async ; index as i">
         <td>
           <fa-icon *ngIf = "isUrgent(transaction.type)" [icon]="['fas', 'arrow-circle-up']" size="1x" class="icon-styling"> </fa-icon>
           <ngb-highlight [result]="transaction.type" [term]="service.searchTerm"></ngb-highlight>

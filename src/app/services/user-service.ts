@@ -32,18 +32,23 @@ export class UserService {
     return this.http.get<{ accounts: Account[] }>(path);
   }
 
-  public getBalances(priorBalanceRequest: { request: PriorBalanceRequest }, ibanArr: Iban[]):
-    Observable<Balance[]> {
-    return from(ibanArr).pipe(
-      mergeMap((iban: string) => {
-        return this.http.post<Balance[]>
-        (AppSettings.baseUrl + '/balances/' + iban, priorBalanceRequest) as Observable<Balance[]>;
-      }));
+  public getBalances(request: PriorBalanceRequest, ibanArr: Iban[]):
+    Observable<Balance[][]> {
+
+    const obs: Array<Observable<Balance[]>> = [];
+    for (const iban of ibanArr) {
+      obs.push(
+        this.http.post<Balance[]>
+        (AppSettings.baseUrl + '/balances/' + iban, request));
+
+    }
+    return forkJoin<Observable<Balance[]>[]>(obs);
+
   }
 
-  public sendTransaction(transaction: { request: Transaction }): Observable<void> {
+  public sendTransaction( request: Transaction, method: string): Observable<void> {
     const path = AppSettings.baseUrl + '/transaction';
-    return this.http.post<void>(path, transaction) as Observable<void>;
+    return this.http.request<void>(method, path, {body: request}) as Observable<void>;
   }
 
   public getIbans(account: Account): Iban[] {

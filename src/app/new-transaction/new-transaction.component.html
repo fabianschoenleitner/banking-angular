@@ -4,7 +4,7 @@
 </div>
 <div class="container col-xl-7">
   <h3 class="row my-3 col-xl-7">Neue Überweisung</h3>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit('POST')">
     <div class="row">
       <label for="amount" class="col-sm-3 col-form-label">Betrag <span class="blue">*</span></label>
       <div class="col-sm-6 ">
@@ -12,8 +12,10 @@
                type="number"
                class="form-control"
                id="amount"
-
+               required
+               pattern="[0-9]*.[0-9]{0,2}"
         >
+        <small class="form-text text-danger" *ngIf="f.amount.errors">Bitte geben Sie einen positiven Betrag an.<br/></small>
       </div>
     </div>
     <div class="row my-3 ">
@@ -56,6 +58,7 @@
                class="form-control"
                id="complementaryIban"
                placeholder="IBAN/Kontonummer"
+               required
         >
       </div>
     </div>
@@ -79,7 +82,12 @@
           type="date"
           class="form-control"
           placeholder="yyyy-mm-dd"
-          name="date" ngbDatepicker>
+          name="date"
+          ngbDatepicker
+          required
+          [minDate]="minDate"
+          >
+        <small class="form-text text-danger" *ngIf="f.timestamp.errors">Bitte geben Sie ein gültiges Datum an. <br/></small>
       </div>
     </div>
     <div class="btn-group btn-group-toggle btn-block col-sm-6 px-lg-2" id="button-group" data-toggle="buttons"
@@ -121,8 +129,10 @@
 
 
     <div class="container text-right">
-      <button type="submit " [disabled]="form.invalid" class="btn btn-primary mr-1">Senden</button>
-      <button class="btn btn-secondary " type="reset" (click)="onClear()">Clear</button>
+      <button type="btn btn-secondary mr-1" [disabled]="form.invalid"
+              class="btn btn-primary mr-1" (click)="storeTransaction('PUT')">Speichern </button>
+      <button type="submit" [disabled]="form.invalid" class="btn btn-primary mr-1">Senden</button>
+      <button class="btn btn-secondary" type="reset" (click)="onClear()">Clear</button>
     </div>
   </form>
 </div>

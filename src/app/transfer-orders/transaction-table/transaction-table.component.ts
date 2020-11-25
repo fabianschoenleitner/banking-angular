@@ -6,6 +6,7 @@ import {TransactionTableService} from './trans-table.service';
 import {NgbdSortableHeaderDirective, SortEvent} from './sortable.directive';
 import {faArrowCircleUp} from '@fortawesome/free-solid-svg-icons';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {UserService} from '../../services/user-service';
 
 @Component({
   selector: 'app-transaction-table',
@@ -15,18 +16,17 @@ import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 })
 export class TransactionTableComponent {
 
+  transactionsX: Transaction[];
   transactions$: Observable<Transaction[]>;
   total$: Observable<number>;
-  ibanArr: Iban[] = [];
 
   @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
+  // TODO: Load data on first try
+  constructor(public service: TransactionTableService, private library: FaIconLibrary, private userService: UserService) {
 
-  constructor(public service: TransactionTableService, private library: FaIconLibrary) {
     this.transactions$ = service.transactions$;
     this.total$ = service.total$;
-
     library.addIcons(faArrowCircleUp);
-    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
   }
 
   onSort({column, direction}: SortEvent): void {

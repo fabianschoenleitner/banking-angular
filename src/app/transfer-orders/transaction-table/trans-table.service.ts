@@ -20,24 +20,6 @@ interface State {
 }
 
 const compare = (v1: string | number | Date, v2: string | number | Date) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-// TODO: Fix sorting of Date Objects if necessary. ATM: Temp Fake Server sends Timestamps as string
-//  => Sorting of Dates is based on 'day' instead of year.
-// const compare = (v1: string | number | Date, v2: string | number | Date): number => {
-//   if (typeof (v1) === 'string') {
-//     console.log('sorting type is string');
-//   }
-//   else {
-//     if (v1 < v2) {
-//       return -1;
-//     }
-//     else if (v1 > v2) {
-//       return 1;
-//     }
-//     else {
-//       return 0;
-//     }
-//   }
-// };
 
 function sort(transactions: Transaction[], column: SortColumn, direction: string): Transaction[] {
   if (direction === '' || column === '') {
@@ -56,7 +38,6 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
     || transaction.iban.toLowerCase().includes(term.toLowerCase())
     || transaction.type.toLowerCase().includes(term.toLowerCase())
     || transaction.timestamp.toString().toLowerCase().includes(term.toLowerCase())
-    // || pipe.transform(transaction.timestamp).includes(term)
     || pipe.transform(transaction.amount).includes(term);
 }
 
@@ -80,9 +61,11 @@ export class TransactionTableService {
 
   constructor(private pipe: DecimalPipe, private userService: UserService) {
     const ibanArr = this.userService.getIbans({iban: '', balance: 0, name: 'Alle Konten', accountType: ''});
-    const request: TransactionRequest = {n: 100};
+    const request: TransactionRequest = {n: 100, stored: false};
     userService.getTransactions(request, ibanArr).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
+      this.transactionsvar$.next(this.transactions);
+      this.searchvar$.next();
     });
 
     this.searchvar$.pipe(

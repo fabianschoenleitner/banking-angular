@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Account} from '../api/Api';
+import {Account, UserData} from '../api/Api';
 import {UserService} from '../services/user-service';
 
 export class Widget {
@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
   public accounts: Account[];
   public widgets: Widget[] = [];
   public counter = 0;
-  public userdata;
+  public userdata: UserData;
 
   constructor(private userService: UserService) {
   }
@@ -38,4 +38,6 @@ export class UserComponent implements OnInit {
     newWidget.id = this.counter;
     this.widgets.push(newWidget);
   }
+
+
 }
