@@ -12,6 +12,7 @@ import {UserService} from '../services/user-service';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
+  invalid: boolean;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private userService: UserService, private router: Router) {
   }
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
+      this.invalid = true;
       this.authService.login(this.form.value).subscribe(async (data: UserData) => {
         localStorage.setItem('user', JSON.stringify(data));
         await this.router.navigateByUrl('/user').then(value => {
@@ -36,6 +38,10 @@ export class LoginComponent implements OnInit {
         });
       });
     }
+  }
+
+  close(): void {
+    this.invalid = false;
   }
 }
 

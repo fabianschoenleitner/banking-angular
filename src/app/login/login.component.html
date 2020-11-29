@@ -32,6 +32,7 @@
           <small id="loginHelp" class="form-text text-muted">Geben Sie Ihre Anmeldedaten niemals an Dritte weiter.</small>
         </div>
         <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-primary btn-block">Login</button>
+        <ngb-alert class="alert-danger mt-3" *ngIf="invalid" (close)="close()">Verfügernummer oder Passwort falsch</ngb-alert>
       </form>
     </div>
   </div>
