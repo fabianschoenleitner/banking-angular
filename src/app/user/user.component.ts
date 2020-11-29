@@ -5,7 +5,6 @@ import {UserService} from '../services/user-service';
 export class Widget {
   typ: string;
   id: number;
-  // Parameter für spätere Widgets hier hinzufügen
 }
 
 @Component({

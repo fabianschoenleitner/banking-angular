@@ -29,6 +29,7 @@ import { RevenueCostsWidgetComponent } from './revenue-costs-widget/revenue-cost
 import { TransactionWidgetComponent } from './transaction-widget/transaction-widget.component';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { AccountsDropdownLgComponent } from './accounts-dropdown-lg/accounts-dropdown-lg.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AccountsDropdownLgComponent } from './accounts-dropdown-lg/accounts-dro
     RevenueCostsWidgetComponent,
     TransactionWidgetComponent,
     NewTransactionComponent,
-    AccountsDropdownLgComponent
+    AccountsDropdownLgComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
