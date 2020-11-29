@@ -21,8 +21,6 @@ import {TransactionTableComponent} from './transfer-orders/transaction-table/tra
 import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/sortable.directive';
 import { AccountsDropdownComponent } from './accounts-dropdown/accounts-dropdown.component';
 import {SubNavbarComponent} from './sub-navbar/sub-navbar.component';
-import {MatInputModule} from '@angular/material/input';
-import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { AccountsWidgetComponent } from './accounts-widget/accounts-widget.component';
 import { RevenueCostsWidgetComponent } from './revenue-costs-widget/revenue-costs-widget.component';
@@ -63,8 +61,6 @@ import { ProfileComponent } from './profile/profile.component';
     BrowserAnimationsModule,
     MatFormFieldModule,
     ClickOutsideModule,
-    MatDatepickerModule,
-    MatInputModule,
     FontAwesomeModule
   ],
   providers: [

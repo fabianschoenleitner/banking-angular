@@ -5,10 +5,11 @@
   </h3>
 
   <div class="btn-group-vertical" id="btn_menu">
-    <button type="button" class="btn btn-primary" (click)="updateSelected('pdata')">Persönliche Daten</button>
-    <button type="button" class="btn btn-primary" (click)="updateSelected('news')">Neuigkeiten</button>
-    <button type="button" class="btn btn-primary">Karten</button>
-    <button type="button" class="btn btn-primary">Passwörter</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('pdata')">Persönliche Daten</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('news')">Neuigkeiten</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('cards')">Karten</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('config')">Passwörter</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('contact')">Kontakt</button>
   </div>
 
   <div class="card profileitem" *ngIf="selected==='pdata'">
@@ -20,7 +21,7 @@
           <td class="font-weight-bold">
             Name:
           </td>
-          <td class="">
+          <td>
             {{ userdata.firstName }}
           </td>
         </tr>
@@ -56,7 +57,7 @@
       </table>
     </div>
     <div class="card-footer text-center text-muted">
-      Letzter Login: {{ userdata.lastLogin | date:'medium' }}
+      Letzter Login am {{ userdata.lastLogin | date:'medium' }}
     </div>
   </div>
 
@@ -75,6 +76,81 @@
     </div>
     <div class="card-footer text-muted">
       Datum der Veröffentlichung
+    </div>
+  </div>
+
+  <div class="card-deck profileitem" *ngIf="selected==='cards'">
+    <div class="card align-items-center" *ngFor="let card of cards">
+      <div class="card-header w-100 text-center">
+        {{ card.ctype }}karte
+      </div>
+      <div class="card-body">
+        <h5 class="card-title text-center">
+          {{ card.cardnr }}
+        </h5>
+        <table class="table table-borderless">
+          <tbody>
+          <tr>
+            <td class="font-weight-bold">
+              Kartenlimit:
+            </td>
+            <td>
+              {{ card.limit }}€
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">
+              Verfügbar:
+            </td>
+            <td>
+              {{ card.available }}€
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-danger mr-2">{{ card.ctype }}karte sperren</button>
+        <button type="button" class="btn btn-warning">PIN anfordern</button>
+      </div>
+      <div class="card-footer w-100"></div>
+    </div>
+  </div>
+
+  <div class="card-deck profileitem" *ngIf="selected==='contact'">
+    <div class="card align-items-center">
+      <div class="card-header text-center card-title w-100">
+        Kontakt
+      </div>
+      <div class="card-body text-center">
+        <h5 class="mb-3">Öffnungszeiten</h5>
+        <table class="table table-borderless w-100">
+          <tbody>
+          <tr>
+            <td class="font-weight-bold">
+              Mo-Fr:
+            </td>
+            <td>
+              8:00 - 16:00 Uhr
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">
+              Sa:
+            </td>
+            <td>
+              8:00 - 12:00 Uhr
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header text-center">Termin</div>
+      <div class="card-body">
+        <p>Put datepicker here</p>
+        <p>Put timepicker here</p>
+        <p>Make sure to not allow dates/times outside of office hours</p>
+      </div>
     </div>
   </div>
 
