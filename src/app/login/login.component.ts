@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.invalid = true;
       this.authService.login(this.form.value).subscribe(async (data: UserData) => {
         localStorage.setItem('user', JSON.stringify(data));
         await this.router.navigateByUrl('/user').then(value => {
@@ -37,6 +36,8 @@ export class LoginComponent implements OnInit {
           }
         });
       });
+      // there needs to be a better solution
+      setTimeout(() => this.invalid = true, 500);
     }
   }
 
