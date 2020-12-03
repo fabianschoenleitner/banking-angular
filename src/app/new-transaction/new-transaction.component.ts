@@ -130,6 +130,7 @@ export class NewTransactionComponent implements OnInit {
 
   storeTransaction(method: string): void {
     this.onSubmit(method);
+    this.onClear();
   }
 
   onCheckboxChange(e, data: Transaction): void {
@@ -166,9 +167,11 @@ export class NewTransactionComponent implements OnInit {
     for (const t of transToSend.controls) {
       this.userService.sendTransaction(t.value, 'POST').subscribe(trans => {
         console.log(trans);
+        // TODO: Seems like entries are not deleted in savedTransactionsForm
         this.deleteFromFormArray(transToSend, t.value);
       });
     }
+    // this.savedTransactionsForm.reset();
   }
 
   deleteSavedTrans(): void {
@@ -177,7 +180,9 @@ export class NewTransactionComponent implements OnInit {
     for (const t of transToDelete.controls) {
       this.userService.sendTransaction(t.value, 'DELETE').subscribe(trans => {
         console.log(trans);
+        // TODO: Seems like entries are not deleted in savedTransactionsForm
         this.deleteFromFormArray(transToDelete, t.value);
+        console.log(this.savedTransactionsForm.value);
       });
     }
   }

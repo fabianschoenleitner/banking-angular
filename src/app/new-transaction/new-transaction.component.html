@@ -149,7 +149,7 @@
       </strong>
     </p>
 
-    <form [formGroup]="savedTransactionsForm" (ngSubmit)="sendSavedTrans()" novalidate>
+    <form [formGroup]="savedTransactionsForm" (ngSubmit)="openVerticallyCentered(content)" novalidate>
       <table class="table table-bordered table-hover table-sm">
         <thead>
         <tr class="bg-primary text-white">
@@ -176,7 +176,7 @@
         </tbody>
       </table>
 <!--      <button class="btn btn-primary mr-1" type="submit" (click)="sendSavedTrans()">Markierte Aufträge senden</button>-->
-      <button class="btn btn-primary mr-1" (click)="openVerticallyCentered(content)">Markierte Aufträge senden</button>
+      <button class="btn btn-primary mr-1" type="submit" >Markierte Aufträge senden</button>
       <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
 
       <ng-template #content let-modal>
@@ -186,7 +186,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form #sendForm="ngForm"  novalidate id="sendTransForm">
+        <form #sendForm="ngForm" novalidate id="sendTransForm">
         <div class="modal-body">
           <input
             ngModel
@@ -200,9 +200,10 @@
             required/>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="submit"
+          <button class="btn btn-primary"
+                  type="submit"
                   [disabled]="sendForm.invalid"
-                  (click)="sendSavedTrans(); modal.close('Close click')">Jetzt durchführen</button>
+                  (click)="modal.close('Close click'); sendSavedTrans();">Jetzt durchführen</button>
           <button type="button" class="btn btn-light mr-1" (click)="modal.close('Close click')">Abbrechen</button>
         </div>
         </form>
