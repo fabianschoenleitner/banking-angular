@@ -51,8 +51,8 @@ export class UserService {
     return this.http.request<void>(method, path, {body: request}) as Observable<void>;
   }
 
-  public getIbans(account: Account): Iban[] {
-    if (account.name === 'Alle Konten') {
+  public getIbans(account?: Account): Iban[] {
+    if (account == null || account.name === 'Alle Konten') {
       return JSON.parse(localStorage.getItem('user')).accounts;
     }
     return [account.iban];

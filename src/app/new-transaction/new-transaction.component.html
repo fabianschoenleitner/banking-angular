@@ -15,7 +15,8 @@
                required
                pattern="[0-9]*.[0-9]{0,2}"
         >
-        <small class="form-text text-danger" *ngIf="f.amount.errors">Bitte geben Sie einen positiven Betrag an.<br/></small>
+        <small class="form-text text-danger" *ngIf="f.amount.errors">Bitte geben Sie einen positiven Betrag
+          an.<br/></small>
       </div>
     </div>
     <div class="row my-3 ">
@@ -86,8 +87,9 @@
           ngbDatepicker
           required
           [minDate]="minDate"
-          >
-        <small class="form-text text-danger" *ngIf="f.timestamp.errors">Bitte geben Sie ein gültiges Datum an. <br/></small>
+        >
+        <small class="form-text text-danger" *ngIf="f.timestamp.errors">Bitte geben Sie ein gültiges Datum an.
+          <br/></small>
       </div>
     </div>
     <div class="btn-group btn-group-toggle btn-block col-sm-6 px-lg-2" id="button-group" data-toggle="buttons"
@@ -127,17 +129,87 @@
       </div>
     </div>
 
-
     <div class="container text-right">
-      <button type="btn btn-secondary mr-1" [disabled]="form.invalid"
-              class="btn btn-primary mr-1" (click)="storeTransaction('PUT')">Speichern </button>
       <button type="submit" [disabled]="form.invalid" class="btn btn-primary mr-1">Senden</button>
-      <button class="btn btn-secondary" type="reset" (click)="onClear()">Clear</button>
+      <button type="btn btn-secondary mr-1" [disabled]="form.invalid"
+              class="btn btn-primary mr-1" (click)="storeTransaction('PUT')">Speichern
+      </button>
+      <button class="btn btn-secondary" type="reset" (click)="onClear()">Zurücksetzen</button>
     </div>
   </form>
 </div>
 
+<div class="container col-xl-7 my-3">
+  <h4 class="row my-3 col-xl-7">Erfasste Aufträge</h4>
+  <div class="shadow py-3">
+    <p class="mx-3">
+      <strong>
+      {{ userdata.firstName }} {{ userdata.lastName }},  {{ account.iban }}
+      <span class="right-aligned"> Verfügbarer Betrag: {{ account.balance }} € </span>
+      </strong>
+    </p>
 
-<p> {{ account.iban }} </p>
-<p> {{ account.balance }} </p>
-<p> {{ account.name }} </p>
+    <form [formGroup]="savedTransactionsForm" (ngSubmit)="sendSavedTrans()" novalidate>
+      <table class="table table-bordered table-hover table-sm">
+        <thead>
+        <tr class="bg-primary text-white">
+          <th scope="col" class="col-xl-1 col-1"></th>
+          <th scope="col">Empfänger</th>
+          <th scope="col">Verwendungszweck</th>
+          <th scope="col">Ausführung</th>
+          <th scope="col">Betrag</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let trans of savedTransactions; let i=index">
+            <td class="text-center">
+              <label>
+                <input type="checkbox" [value]="trans" (change)="onCheckboxChange($event, trans)"/>
+              </label>
+            </td>
+            <td> {{ trans.complementaryName }} <br> {{ trans.complementaryIban }} </td>
+            <td> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
+            <td> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>
+            <td> {{ trans.amount }} €</td>
+        </tr>
+        </tbody>
+      </table>
+<!--      <button class="btn btn-primary mr-1" type="submit" (click)="sendSavedTrans()">Markierte Aufträge senden</button>-->
+      <button class="btn btn-primary mr-1" (click)="openVerticallyCentered(content)">Markierte Aufträge senden</button>
+      <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
+
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title">Geben Sie den TAN ein</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #sendForm="ngForm"  novalidate id="sendTransForm">
+        <div class="modal-body">
+          <input
+            ngModel
+            type="text"
+            placeholder="4-stelligen TAN eingeben"
+            class="form-control"
+            name="tan"
+            minlength="4"
+            maxlength="4"
+            pattern="[0-9]*"
+            required/>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit"
+                  [disabled]="sendForm.invalid"
+                  (click)="sendSavedTrans(); modal.close('Close click')">Jetzt durchführen</button>
+          <button type="button" class="btn btn-light mr-1" (click)="modal.close('Close click')">Abbrechen</button>
+        </div>
+        </form>
+      </ng-template>
+
+    </form>
+  </div>
+</div>
+
+

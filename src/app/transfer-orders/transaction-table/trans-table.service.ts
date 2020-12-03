@@ -37,6 +37,7 @@ function matches(transaction: Transaction, term: string, pipe: PipeTransform): v
     || transaction.complementaryIban.toLowerCase().includes(term.toLowerCase())
     || transaction.iban.toLowerCase().includes(term.toLowerCase())
     || transaction.type.toLowerCase().includes(term.toLowerCase())
+    || transaction.text.toLowerCase().includes(term.toLowerCase())
     || transaction.timestamp.toString().toLowerCase().includes(term.toLowerCase())
     || pipe.transform(transaction.amount).includes(term);
 }

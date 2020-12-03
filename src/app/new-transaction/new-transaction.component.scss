@@ -8,5 +8,22 @@
   justify-content: center;
 }
 
+.table td {
+  vertical-align: middle;
+}
 
+.square {
+  border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
+  background: rgb(230,230,230);
+  //width: 50vw;
+  //min-width: 300px!important;
+  //min-height: 300px!important;
+}
 
+.right-aligned {
+  float:right;
+}
+
+.left-aligned {
+  float:left;
+}

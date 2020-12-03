@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -28,6 +28,8 @@ import { TransactionWidgetComponent } from './transaction-widget/transaction-wid
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { AccountsDropdownLgComponent } from './accounts-dropdown-lg/accounts-dropdown-lg.component';
 import { ProfileComponent } from './profile/profile.component';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,9 @@ import { ProfileComponent } from './profile/profile.component';
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true
+    },
+    {
+      provide: LOCALE_ID, useValue: 'de'
     }
   ],
   bootstrap: [AppComponent]
@@ -73,3 +78,5 @@ import { ProfileComponent } from './profile/profile.component';
 
 export class AppModule {
 }
+
+registerLocaleData(localeDe, 'de');
