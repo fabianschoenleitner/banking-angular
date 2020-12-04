@@ -4,7 +4,7 @@
 </div>
 <div class="container col-xl-7">
   <h3 class="row my-3 col-xl-7">Neue Überweisung</h3>
-  <form [formGroup]="form" (ngSubmit)="onSubmit('POST')">
+  <form [formGroup]="transactionForm" (ngSubmit)="sendTransaction('POST')">
     <div class="row">
       <label for="amount" class="col-sm-3 col-form-label">Betrag <span class="blue">*</span></label>
       <div class="col-sm-6 ">
@@ -15,7 +15,7 @@
                required
                pattern="[0-9]*.[0-9]{0,2}"
         >
-        <small class="form-text text-danger" *ngIf="f.amount.errors">Bitte geben Sie einen positiven Betrag
+        <small class="form-text text-danger" *ngIf="transaction.amount.errors">Bitte geben Sie einen positiven Betrag
           an.<br/></small>
       </div>
     </div>
@@ -88,7 +88,7 @@
           required
           [minDate]="minDate"
         >
-        <small class="form-text text-danger" *ngIf="f.timestamp.errors">Bitte geben Sie ein gültiges Datum an.
+        <small class="form-text text-danger" *ngIf="transaction.timestamp.errors">Bitte geben Sie ein gültiges Datum an.
           <br/></small>
       </div>
     </div>
@@ -115,7 +115,7 @@
       </label>
     </div>
     <div class="my-3">
-      <div *ngFor="let text of t.controls; let i = index">
+      <div *ngFor="let text of transactionArray.controls; let i = index">
         <div [formGroup]="text" class="row">
           <div class="form-group col-sm-6" id="text-group">
             <input
@@ -130,11 +130,11 @@
     </div>
 
     <div class="container text-right">
-      <button type="submit" [disabled]="form.invalid" class="btn btn-primary mr-1">Senden</button>
-      <button type="btn btn-secondary mr-1" [disabled]="form.invalid"
+      <button type="submit" [disabled]="transactionForm.invalid" class="btn btn-primary mr-1">Senden</button>
+      <button type="btn btn-secondary mr-1" [disabled]="transactionForm.invalid"
               class="btn btn-primary mr-1" (click)="storeTransaction('PUT')">Speichern
       </button>
-      <button class="btn btn-secondary" type="reset" (click)="onClear()">Zurücksetzen</button>
+      <button class="btn btn-secondary" (click)="onClear()">Zurücksetzen</button>
     </div>
   </form>
 </div>
@@ -177,7 +177,7 @@
       </table>
 <!--      <button class="btn btn-primary mr-1" type="submit" (click)="sendSavedTrans()">Markierte Aufträge senden</button>-->
       <button class="btn btn-primary mr-1" type="submit" >Markierte Aufträge senden</button>
-      <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
+      <button class="btn btn-secondary"  type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
 
       <ng-template #content let-modal>
         <div class="modal-header">

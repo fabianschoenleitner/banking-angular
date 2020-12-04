@@ -6,6 +6,7 @@ import {UserComponent} from './user/user.component';
 import {TransferOrdersComponent} from './transfer-orders/transfer-orders.component';
 import {NewTransactionComponent} from './new-transaction/new-transaction.component';
 import {ProfileComponent} from './profile/profile.component';
+import {TransactionOverviewComponent} from './transaction-overview/transaction-overview.component';
 
 const routes: Routes = [
   {
@@ -39,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'transaction/uebersicht',
-    component: NewTransactionComponent
+    component: TransactionOverviewComponent
   },
 
 ];
