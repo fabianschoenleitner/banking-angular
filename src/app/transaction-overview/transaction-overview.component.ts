@@ -10,7 +10,7 @@ import {MatPaginator} from '@angular/material/paginator';
 @Component({
   selector: 'app-transaction-overview',
   templateUrl: './transaction-overview.component.html',
-  styleUrls: ['./transaction-overview.component.scss']
+  styleUrls: ['./transaction-overview.component.scss', '../transaction-widget/transaction-widget.component.scss']
 })
 export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
@@ -53,7 +53,6 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.transactions = this.userService.sortTransactions(response);
       this.transactions.map( ( trans: Transaction) => {
         trans.timestamp = new Date(trans.timestamp);
-        console.log(trans.timestamp);
       });
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
@@ -67,13 +66,22 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
 
   getDateRange(value): void {
     this.dataSource.data = this.transactions;
-    const fromDate = value.fromDate;
-    const toDate = value.toDate;
+
+    const toDate = new Date();
+    const fromDate = new Date();
+    fromDate.setFullYear(
+      this.filterForm.value.fromDate.year,
+      this.filterForm.value.fromDate.month - 1,
+      this.filterForm.value.fromDate.day
+    );
+    toDate.setFullYear(
+      this.filterForm.value.toDate.year,
+      this.filterForm.value.toDate.month - 1,
+      this.filterForm.value.toDate.day
+    );
+    toDate.setHours(23, 59, 59);
     this.dataSource.data = this.dataSource.data.filter(
-      e =>
-        e.timestamp.getFullYear() >= fromDate.getFullYear() && e.timestamp.getFullYear() <= toDate.getFullYear() &&
-        e.timestamp.getMonth() >= fromDate.getMonth()  && e.timestamp.getMonth()  <= toDate.getMonth()  &&
-        e.timestamp.getDate() >= fromDate.getDate()  && e.timestamp.getDate()  <= toDate.getDate()
+      e => e.timestamp.getTime() >= fromDate.getTime() && e.timestamp.getTime() <= toDate.getTime()
     );
   }
 
@@ -83,6 +91,14 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  checkBalance(amount): string  {
+    if (amount >= 0) {
+      return 'green';
+    } else {
+      return 'red';
     }
   }
 

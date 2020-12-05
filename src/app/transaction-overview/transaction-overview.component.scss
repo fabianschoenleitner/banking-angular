@@ -14,10 +14,10 @@ table {
   margin-right: 15px;
 }
 
-.mat-icon-button {
-  border-radius: 0!important;
+::ng-deep .mat-form-field-underline{
+  background-color: #007bff;
 }
 
-.datepickerOne .mat-calendar-body-today:not(.mat-calendar-body-selected){
-  border-color: darkgreen;
+.datepick .form-control {
+  width: auto;
 }
