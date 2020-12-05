@@ -4,7 +4,6 @@ import {UserService} from '../services/user-service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
-// import * as moment from 'moment';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 
@@ -17,8 +16,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
   transactions: Transaction[];
 
-  displayedColumns: string[] = ['complementaryname', 'iban', 'text', 'amount', 'timestamp'];
-  dataSource: MatTableDataSource<Transaction>;
+  displayedColumns: string[] = ['complementaryName', 'iban', 'text', 'amount', 'timestamp'];
+  dataSource = new MatTableDataSource(new Array<Transaction>());
   pipe: DatePipe;
 
   filterForm = new FormGroup({
@@ -29,10 +28,10 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  get fromDate(): any {
+  get fromDate(): Date {
     return this.filterForm.get('fromDate').value;
   }
-  get toDate(): any {
+  get toDate(): Date {
     return this.filterForm.get('toDate').value;
   }
 
@@ -40,26 +39,25 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
     });
+
+    const defaultPredicate = this.dataSource.filterPredicate;
+    this.dataSource.filterPredicate = (data: Transaction, filter) => {
+      const formatted = this.pipe.transform(data.timestamp, 'MM/dd/yyyy');
+      return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter) ;
+    };
   }
 
   ngOnInit(): void {
     const request: TransactionRequest = {n: 100, stored: false};
     this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
+      this.transactions.map( ( trans: Transaction) => {
+        trans.timestamp = new Date(trans.timestamp);
+        console.log(trans.timestamp);
+      });
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-
-
-      // this.pipe = new DatePipe('en');
-      // this.dataSource.filterPredicate = (data, filter) => {
-      //   if (this.fromDate && this.toDate) {
-      //     return data.timestamp >= this.fromDate && data.timestamp <= this.toDate;
-      //   }
-      //   return true;
-      // };
-
-
     });
   }
 
@@ -67,8 +65,16 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     // this.dataSource.sort = this.sort;
   }
 
-  applyRangeFilter(): void {
-    this.dataSource.filter = '' + Math.random();
+  getDateRange(value): void {
+    this.dataSource.data = this.transactions;
+    const fromDate = value.fromDate;
+    const toDate = value.toDate;
+    this.dataSource.data = this.dataSource.data.filter(
+      e =>
+        e.timestamp.getFullYear() >= fromDate.getFullYear() && e.timestamp.getFullYear() <= toDate.getFullYear() &&
+        e.timestamp.getMonth() >= fromDate.getMonth()  && e.timestamp.getMonth()  <= toDate.getMonth()  &&
+        e.timestamp.getDate() >= fromDate.getDate()  && e.timestamp.getDate()  <= toDate.getDate()
+    );
   }
 
   applyFilter(event: Event): void {

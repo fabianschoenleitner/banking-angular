@@ -13,3 +13,11 @@ table {
   flex-basis: 150px;
   margin-right: 15px;
 }
+
+.mat-icon-button {
+  border-radius: 0!important;
+}
+
+.datepickerOne .mat-calendar-body-today:not(.mat-calendar-body-selected){
+  border-color: darkgreen;
+}

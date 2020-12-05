@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-
-import {Account} from '../api/Api';
+import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {UserService} from '../services/user-service';
-import {AuthService} from '../services/auth-service';
-import {BreakpointObserver} from '@angular/cdk/layout';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatTableDataSource} from '@angular/material/table';
 
 
 @Component({
@@ -14,9 +11,20 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class TransactionComponent implements OnInit {
 
-  constructor() { }
+  transactions: Transaction[];
 
-  ngOnInit(): void {}
+  constructor(private userService: UserService) {
+    const request: TransactionRequest = {n: 100, stored: false};
+    this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
+      this.transactions = this.userService.sortTransactions(response);
+      this.transactions.map((trans: Transaction) => {
+        trans.timestamp = new Date(trans.timestamp);
+      });
+    });
+  }
+
+  ngOnInit(): void {
+  }
 
 }
 
