@@ -15,7 +15,9 @@ import {MatPaginator} from '@angular/material/paginator';
 export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
   transactions: Transaction[];
-
+  userdata = JSON.parse(localStorage.getItem('user'));
+  filterActive = false;
+  removable = true;
   displayedColumns: string[] = ['complementaryName', 'iban', 'text', 'amount', 'timestamp'];
   dataSource = new MatTableDataSource(new Array<Transaction>());
   pipe: DatePipe;
@@ -57,6 +59,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
     });
   }
 
@@ -65,15 +68,18 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   }
 
   getDateRange(value): void {
+    this.filterActive = true;
     this.dataSource.data = this.transactions;
+    // TODO: Ask why crating date is not working with a method call??
+    const toDate = this.getDate('fromDate');
+    const fromDate = this.getDate('toDate');
 
-    const toDate = new Date();
-    const fromDate = new Date();
     fromDate.setFullYear(
       this.filterForm.value.fromDate.year,
       this.filterForm.value.fromDate.month - 1,
       this.filterForm.value.fromDate.day
     );
+    fromDate.setHours(0, 0, 0);
     toDate.setFullYear(
       this.filterForm.value.toDate.year,
       this.filterForm.value.toDate.month - 1,
@@ -101,5 +107,33 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       return 'red';
     }
   }
+
+  getDate(date): Date {
+    const tempDate = new Date();
+    if (date === 'fromDate') {
+      tempDate.setFullYear(
+        this.filterForm.value.fromDate.year,
+        this.filterForm.value.fromDate.month - 1,
+        this.filterForm.value.fromDate.day
+      );
+      tempDate.setHours(0, 0, 0);
+    } else {
+      tempDate.setFullYear(
+        this.filterForm.value.toDate.year,
+        this.filterForm.value.toDate.month - 1,
+        this.filterForm.value.toDate.day
+      );
+      tempDate.setHours(23, 59, 59);
+    }
+    return tempDate;
+  }
+
+  clearFilters(): void {
+    this.dataSource.filter = '';
+    this.filterForm.reset();
+    this.filterActive = false;
+    this.dataSource.data = this.transactions;
+  }
+
 
 }
