@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('pdata')">Persönliche Daten</button>
     <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('news')">Neuigkeiten</button>
     <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('cards')">Karten</button>
-    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('config')">Passwörter</button>
+    <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('config')">Konfiguration</button>
     <button type="button" class="btn btn-primary mb-1" (click)="updateSelected('contact')">Kontakt</button>
   </div>
 
@@ -114,6 +114,45 @@
         <button type="button" class="btn btn-warning">PIN anfordern</button>
       </div>
       <div class="card-footer w-100"></div>
+    </div>
+  </div>
+
+  <div class="text-center profileitem" *ngIf="selected==='config'">
+    <div class="card">
+      <div class="card-header text-center">
+        Konfiguration
+      </div>
+      <div class="card-body">
+        <table class="table table-borderless w-100">
+          <tbody>
+          <tr>
+            <td class="font-weight-bold">
+              E-Mail ändern
+            </td>
+            <td>
+              <button class="btn btn-primary">Ändern</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">
+              Passwort ändern
+            </td>
+            <td>
+              <button class="btn btn-primary">Ändern</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">
+              Telefonnummer ändern
+            </td>
+            <td>
+              <button class="btn btn-primary">Ändern</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer"></div>
     </div>
   </div>
 

@@ -114,10 +114,7 @@ export class ChartAccountHistoryComponent implements OnInit {
       zoomEnabled: false,
       animationEnabled: false,
       exportEnabled: false,
-      title: {
-        text: 'Kontoverlaufsübersicht',
-        fontFamily: 'sans-serif'
-      },
+      backgroundColor: 'transparent',
       axisX: {
         interval: 7,
         intervalType: 'day'
