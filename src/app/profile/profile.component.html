@@ -147,15 +147,22 @@
         <p class="font-weight-bold">Geschlossen an Feier- und Sonntagen</p>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header text-center">Termin</div>
-      <div class="card-body text-center">
+    <div class="card text-center">
+      <div class="card-header">Termin</div>
+      <div class="card-body align-content-center">
         <ngb-datepicker
           [minDate]="{year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()}"
           [maxDate]="{year: maxDate.getFullYear(), month: maxDate.getMonth() + 1, day: maxDate.getDate()}"
           [markDisabled]="disabled"></ngb-datepicker>
-
-        <button type="button" class="btn btn-primary mb-1" (click)="makeAppointment()">Termin vereinbaren</button>
+        <ngb-timepicker
+          [(ngModel)]="time"
+          [hourStep]="1"
+          [minuteStep]="10"
+          [formControl]="ctrl"></ngb-timepicker>
+        <div *ngIf="ctrl.errors" class="small form-text text-danger">
+          <div *ngIf="ctrl.errors['outside']">Ihr Wunschtermin liegt außerhalb unserer Öffnungszeiten!</div>
+        </div>
+        <button type="button" class="btn btn-primary mt-4" (click)="makeAppointment()">Termin vereinbaren</button>
       </div>
     </div>
   </div>

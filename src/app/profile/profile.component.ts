@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserData} from '../api/Api';
 import {NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,18 @@ export class ProfileComponent implements OnInit {
   maxDate;
   calendar;
   disabled;
+  time;
+  ctrl = new FormControl('', (control: FormControl) => {
+    const val = control.value;
+
+    if (!val) {
+      return null;
+    } else if (val.hour < 8 || val.hour > 15) {
+      return {outside: true};
+    }
+
+    return null;
+  });
 
   constructor(calendar: NgbCalendar) {
     this.calendar = calendar;
@@ -26,6 +39,7 @@ export class ProfileComponent implements OnInit {
     this.today = new Date();
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 21);
+    this.time = {hour: this.today.getHours(), minute: this.getNextSlot()};
     this.userdata = JSON.parse(localStorage.getItem('user'));
     this.cards = [
       {limit: 1000, available: 840, cardnr: 'SD12345678', ctype: 'Debit'},
@@ -42,5 +56,14 @@ export class ProfileComponent implements OnInit {
   }
 
   makeAppointment(): void {  }
+
+  getNextSlot(): number {
+    let slot = this.today.getMinutes();
+    slot = Math.ceil(slot / 10) * 10;
+    if (slot === 60){
+      return 0;
+    }
+    return slot;
+  }
 
 }
