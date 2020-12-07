@@ -18,9 +18,10 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
   removable = true;
-  displayedColumns: string[] = ['complementaryName', 'iban', 'text', 'amount', 'timestamp'];
+  displayedColumns: string[] = ['complementaryName', 'iban', 'text', 'timestamp', 'amount'];
   dataSource = new MatTableDataSource(new Array<Transaction>());
   pipe: DatePipe;
+  showDateError = false;
 
   filterForm = new FormGroup({
     fromDate: new FormControl(),
@@ -29,13 +30,6 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  get fromDate(): Date {
-    return this.filterForm.get('fromDate').value;
-  }
-  get toDate(): Date {
-    return this.filterForm.get('toDate').value;
-  }
 
   constructor(private userService: UserService) {
     this.userService.accountsWidgetSubject.subscribe(acc => {
@@ -64,15 +58,35 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.dataSource.sort = this.sort;
+    this.filterForm.valueChanges.subscribe(data => {
+        if (this.toDate != null && this.fromDate != null) {
+          const toDate = new Date(this.getDate('toDate'));
+          const fromDate = new Date(this.getDate('fromDate'));
+          if (fromDate > toDate) {
+            this.showDateError = true;
+          } else {
+            this.showDateError = false;
+          }
+        } else {
+          this.showDateError = false;
+        }
+    });
   }
 
-  getDateRange(value): void {
+  get fromDate(): Date {
+    return this.filterForm.get('fromDate').value;
+  }
+  get toDate(): Date {
+    return this.filterForm.get('toDate').value;
+  }
+
+  getDateRange(): void {
     this.filterActive = true;
     this.dataSource.data = this.transactions;
-    // TODO: Ask why crating date is not working with a method call??
-    const toDate = this.getDate('fromDate');
-    const fromDate = this.getDate('toDate');
+
+    // TODO: Ask why creating date is not working with a method call??
+    const toDate = new Date(this.getDate('fromDate'));
+    const fromDate = new Date(this.getDate('toDate'));
 
     fromDate.setFullYear(
       this.filterForm.value.fromDate.year,
@@ -86,6 +100,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.filterForm.value.toDate.day
     );
     toDate.setHours(23, 59, 59);
+
     this.dataSource.data = this.dataSource.data.filter(
       e => e.timestamp.getTime() >= fromDate.getTime() && e.timestamp.getTime() <= toDate.getTime()
     );
@@ -134,6 +149,5 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     this.filterActive = false;
     this.dataSource.data = this.transactions;
   }
-
 
 }
