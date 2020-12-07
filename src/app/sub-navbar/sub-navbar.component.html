@@ -1,21 +1,16 @@
 <div class="container my-2 col-xl-7" *ngIf="authService.isLoggedIn()">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="uebersicht-tab" data-toggle="tab" [routerLinkActive]="['active']" role="tab"
+        <a class="nav-link" id="uebersicht-tab" data-toggle="tab" [routerLinkActive]="['active']" role="tab"
            aria-controls="uebersicht" routerLink="/transaction/uebersicht" aria-selected="true">Übersicht</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="neue-ueberweisung-tab" data-toggle="tab" [routerLinkActive]="['active']" role="tab"
            aria-controls="neue-ueberweisung" routerLink="/transaction/new_transaction" aria-selected="false">Neue Überweisung</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="platzhalter-tab" data-toggle="tab" [routerLinkActive]="['active']" role="tab"
-           aria-controls="platzhalter" routerLink="/transaction/" aria-selected="false">Platzhalter</a>
-      </li>
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="uebersicht" role="tabpanel" aria-labelledby="uebersicht-tab"></div>
       <div class="tab-pane fade" id="neue-ueberweisung" role="tabpanel" aria-labelledby="neue-ueberweisung-tab"></div>
-      <div class="tab-pane fade" id="platzhalter" role="tabpanel" aria-labelledby="platzhalter-tab"></div>
     </div>
 </div>

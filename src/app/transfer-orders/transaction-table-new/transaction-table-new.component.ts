@@ -8,7 +8,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {UserService} from '../../services/user-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faArrowCircleUp, faInfo} from '@fortawesome/free-solid-svg-icons';
+import {faArrowCircleUp, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-transaction-table-new',
@@ -47,7 +47,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit {
     this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
     });
-    library.addIcons(faArrowCircleUp,faInfo);
+    library.addIcons(faArrowCircleUp, faInfoCircle);
 
     const defaultPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: Transaction, filter) => {
@@ -181,6 +181,8 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit {
   }
 
   checkFutureDate(date): boolean {
-    return true;
+    const tempDate = new Date(date);
+    const now = new Date();
+    return now < tempDate;
   }
 }

@@ -85,12 +85,42 @@ export class NewTransactionComponent implements OnInit {
   }
 
   sendSavedTrans(): void {
-    const transToSend = this.savedTransactionsForm.get('checkArray') as FormArray;
-    for (const t of transToSend.controls) {
-      this.userService.sendTransaction(t.value, 'POST').subscribe(() => {
-        this.deleteStoredTransaction(t.value);
-      });
+    let i = 0;
+    console.log(this.savedTransCheckArray.value);
+    for (const trans of this.savedTransCheckArray.value) {
+      if (trans !== null && trans.iban !== '' && trans.amount > 0) {
+        this.userService.sendTransaction(trans, 'POST').subscribe(() => {
+          this.savedTransactions.forEach((item: Transaction) => {
+            if (this.compareTransactions(item, trans)) {
+              this.savedTransactions.splice(i, 1);
+              return;
+            }
+            i++;
+          });
+          i = 0;
+        });
+      }
     }
+    this.savedTransCheckArray.reset();
+  }
+
+  deleteSavedTrans(): void {
+    let i = 0;
+    for (const trans of this.savedTransCheckArray.value) {
+      if (trans !== null && trans.iban !== '' && trans.amount > 0) {
+        this.userService.sendTransaction(trans, 'DELETE').subscribe((tran: void) => {
+          this.savedTransactions.forEach((item: Transaction) => {
+            if (this.compareTransactions(item, trans)) {
+              this.savedTransactions.splice(i, 1);
+              return;
+            }
+            i++;
+          });
+          i = 0;
+        });
+      }
+    }
+    this.savedTransCheckArray.reset();
   }
 
   sendTransaction(requestType: string): void {
@@ -133,21 +163,20 @@ export class NewTransactionComponent implements OnInit {
 
   onClear(): void {
     this.tempDate = new Date();
-    this.transactionArray.reset();
-    this.transactionForm.controls.amount.patchValue(0);
-    this.transactionForm.controls.textType.patchValue('Zahlungsreferenz');
-    this.transactionForm.controls.type.patchValue('');
-    this.transactionForm.controls.complementaryIban.reset();
-    this.transactionForm.controls.complementaryName.reset();
-    this.transactionForm.controls.timestamp.patchValue({
+    this.transactionForm.controls.timestamp.reset({
       year: this.tempDate.getFullYear(),
       month: this.tempDate.getMonth() + 1, day: this.tempDate.getDate()
-    });
+    }, Validators.required);
+    this.transactionForm.controls.amount.reset(0, Validators.required);
+    this.transactionArray.reset();
+    this.transactionForm.controls.textType.reset('Zahlungsreferenz');
+    this.transactionForm.controls.type.reset('');
+    this.transactionForm.controls.complementaryIban.reset('', Validators.required);
+    this.transactionForm.controls.complementaryName.reset('');
   }
 
   onCheckboxChange(e, data: Transaction): void {
     if (e.target.checked) {
-      // console.log(data);
       this.savedTransCheckArray.push(new FormControl(data));
     } else {
       let i = 0;
@@ -159,39 +188,28 @@ export class NewTransactionComponent implements OnInit {
         i++;
       });
     }
-    // console.log(this.savedTransCheckArray.value);
   }
 
   openVerticallyCentered(content): void {
     this.modalService.open(content, {centered: true});
   }
 
-  deleteSavedTrans(): void {
-    let i = 0;
-    for (const trans of this.savedTransCheckArray.value) {
-      this.userService.sendTransaction(trans, 'DELETE').subscribe((tran: void) => {
-          this.savedTransactions.forEach((item: Transaction) => {
-            if (this.compareTransactions(item, trans)) {
-              this.savedTransactions.splice(i, 1);
-              return;
-            }
-            i = i + 1;
-          });
-          i = 0;
-        }
-      );
-    }
+  getMoneyPerIban(iban: string): number {
+    let money = 0;
+    this.savedTransCheckArray.value.map((trans: Transaction) => {
+      if (iban === trans.iban) {
+        money += trans.amount;
+      }
+    });
+    return money;
   }
 
-  deleteStoredTransaction(transaction: Transaction): void {
-    let i = 0;
-    this.savedTransactions.forEach((item: Transaction) => {
-      if (this.compareTransactions(item, transaction)) {
-        this.savedTransactions.splice(i, 1);
-        return;
-      }
-      i++;
+  allMarked(): number {
+    let money = 0;
+    this.savedTransCheckArray.value.map((trans: Transaction) => {
+      money += trans.amount;
     });
+    return money;
   }
 
   compareTransactions(trans1: Transaction, trans2: Transaction): boolean {
@@ -219,9 +237,6 @@ export class NewTransactionComponent implements OnInit {
     if (trans1.iban !== trans2.iban) {
       return false;
     }
-    if (trans1.timestamp !== trans2.timestamp) {
-      return false;
-    }
-    return true;
+    return trans1.timestamp === trans2.timestamp;
   }
 }
