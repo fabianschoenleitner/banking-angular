@@ -1,24 +1,36 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
-import {UserService} from '../services/user-service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Account, Transaction, TransactionRequest, TransactionResponse} from '../../api/Api';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
+import {FormControl, FormGroup} from '@angular/forms';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import {UserService} from '../../services/user-service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {faArrowCircleUp, faInfo} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-transaction-overview',
-  templateUrl: './transaction-overview.component.html',
-  styleUrls: ['./transaction-overview.component.scss', '../transaction-widget/transaction-widget.component.scss']
+  selector: 'app-transaction-table-new',
+  templateUrl: './transaction-table-new.component.html',
+  styleUrls: ['./transaction-table-new.component.scss', '../../transaction-widget/transaction-widget.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class TransactionOverviewComponent implements OnInit, AfterViewInit {
+export class TransactionTableNewComponent implements OnInit, AfterViewInit {
+
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
   transactions: Transaction[];
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
   removable = true;
-  displayedColumns: string[] = ['timestamp', 'complementaryIban', 'text', 'amount'];
+  displayedColumns: string[] = ['type', 'complementaryIban', 'text', 'timestamp', 'amount'];
+  expandedElement: Transaction | null;
   dataSource = new MatTableDataSource(new Array<Transaction>());
   pipe: DatePipe;
   showDateError = false;
@@ -31,10 +43,11 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private library: FaIconLibrary) {
     this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
     });
+    library.addIcons(faArrowCircleUp,faInfo);
 
     const defaultPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: Transaction, filter) => {
@@ -46,7 +59,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     const request: TransactionRequest = {n: 100, stored: false};
     this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
-      this.transactions = this.userService.sortTransactions(response);
+      this.transactions = this.userService.sortTransactions(response).filter( (trans: Transaction) => trans.amount < 0);
       this.transactions.map( ( trans: Transaction) => {
         trans.timestamp = new Date(trans.timestamp);
       });
@@ -59,17 +72,17 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.filterForm.valueChanges.subscribe(data => {
-        if (this.toDate != null && this.fromDate != null) {
-          const toDate = new Date(this.getDate('toDate'));
-          const fromDate = new Date(this.getDate('fromDate'));
-          if (fromDate > toDate) {
-            this.showDateError = true;
-          } else {
-            this.showDateError = false;
-          }
+      if (this.toDate != null && this.fromDate != null) {
+        const toDate = new Date(this.getDate('toDate'));
+        const fromDate = new Date(this.getDate('fromDate'));
+        if (fromDate > toDate) {
+          this.showDateError = true;
         } else {
           this.showDateError = false;
         }
+      } else {
+        this.showDateError = false;
+      }
     });
   }
 
@@ -150,4 +163,24 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.transactions;
   }
 
+  getColumnName(column: string): string {
+    if (column === 'text') { return 'Verwendungszweck'; }
+    else if (column === 'complementaryIban') { return 'Empfänger'; }
+    else if (column === 'amount') { return 'Betrag'; }
+    else if (column === 'timestamp') { return 'Datum'; }
+    else if (column === 'type') { return 'Art'; }
+    else { return column; }
+  }
+
+  getType(type): string {
+    if (type === '') {
+      return 'Standard';
+    } else {
+      return type;
+    }
+  }
+
+  checkFutureDate(date): boolean {
+    return true;
+  }
 }

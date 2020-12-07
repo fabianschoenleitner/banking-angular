@@ -77,6 +77,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
+import { TransactionTableNewComponent } from './transfer-orders/transaction-table-new/transaction-table-new.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
     NewTransactionComponent,
     AccountsDropdownLgComponent,
     ProfileComponent,
-    TransactionOverviewComponent
+    TransactionOverviewComponent,
+    TransactionTableNewComponent
   ],
   imports: [
     BrowserModule,
