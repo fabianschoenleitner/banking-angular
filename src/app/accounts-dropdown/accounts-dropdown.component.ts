@@ -20,9 +20,9 @@ export class AccountsDropdownComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
-      this.accounts = acc.accounts;
-      this.selectedAccount = acc.accounts[0];
+    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+      this.accounts = accounts;
+      this.selectedAccount = accounts[0];
       this.addAllAccountsEntry();
       this.changeSelectedAccount(this.selectedAccount);
     });

@@ -1,9 +1,18 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {Account, Balance, Iban, PriorBalanceRequest, Transaction, TransactionRequest, TransactionResponse, UserData} from '../api/Api';
+import {
+  Account,
+  Balance,
+  Iban,
+  PriorBalanceRequest,
+  Transaction,
+  TransactionRequest,
+  TransactionResponse,
+  UserData
+} from '../api/Api';
 import {AppSettings} from '../../app-settings';
-import {forkJoin, from, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, forkJoin, from, Observable, Subject} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
@@ -11,9 +20,9 @@ export class UserService {
 
   accountsWidgetSubject = new Subject<Account>();
   transactionWidgetSubject = new Subject<Account>();
+  transactionFinanceSite = new Subject<Transaction[]>();
 
-  constructor(private router: Router, private http: HttpClient) {
-  }
+  constructor(private router: Router, private http: HttpClient) { }
 
   public getTransactions(request: TransactionRequest, ibanArr: Iban[]): Observable<TransactionResponse[]> {
 
@@ -46,7 +55,7 @@ export class UserService {
 
   }
 
-  public sendTransaction( request: Transaction, method: string): Observable<void> {
+  public sendTransaction(request: Transaction, method: string): Observable<void> {
     const path = AppSettings.baseUrl + '/transaction';
     return this.http.request<void>(method, path, {body: request}) as Observable<void>;
   }

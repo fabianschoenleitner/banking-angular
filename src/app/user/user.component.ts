@@ -23,8 +23,8 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
-      this.accounts = acc.accounts;
+    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+      this.accounts = accounts;
     });
 
     this.userdata = JSON.parse(localStorage.getItem('user'));

@@ -19,15 +19,17 @@ export class AccountsWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
-      this.accounts = acc.accounts;
-      this.selectedAccount = acc.accounts[0];
+    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+      this.accounts = accounts;
+      this.selectedAccount = accounts[0];
     });
   }
 
   async onSubmit(selectedAccount): Promise<void> {
-    await this.router.navigateByUrl('/transaction/new_transaction').then( acc => {
-      this.userService.accountsWidgetSubject.next(selectedAccount); });
+    this.userService.accountsWidgetSubject.next(selectedAccount);
+    await this.router.navigateByUrl('/transaction/new_transaction');
+    // await this.router.navigateByUrl('/transaction/new_transaction').then( acc => {
+    //   this.userService.accountsWidgetSubject.next(selectedAccount); });
   }
 
   hideAccountSum(acc): boolean {

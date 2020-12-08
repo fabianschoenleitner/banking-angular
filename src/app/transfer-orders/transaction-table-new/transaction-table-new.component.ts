@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Account, Transaction, TransactionRequest, TransactionResponse} from '../../api/Api';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Account, Transaction} from '../../api/Api';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -9,6 +9,7 @@ import {UserService} from '../../services/user-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 import {faArrowCircleUp, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-transaction-table-new',
@@ -22,7 +23,7 @@ import {faArrowCircleUp, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
     ]),
   ],
 })
-export class TransactionTableNewComponent implements OnInit, AfterViewInit {
+export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
   transactions: Transaction[];
@@ -34,6 +35,8 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(new Array<Transaction>());
   pipe: DatePipe;
   showDateError = false;
+  transSub: Subscription;
+  accSub: Subscription;
 
   filterForm = new FormGroup({
     fromDate: new FormControl(),
@@ -44,25 +47,22 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private userService: UserService, private library: FaIconLibrary) {
-    this.userService.accountsWidgetSubject.subscribe(acc => {
+    library.addIcons(faArrowCircleUp, faInfoCircle);
+  }
+
+  ngOnInit(): void {
+    this.accSub = this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
     });
-    library.addIcons(faArrowCircleUp, faInfoCircle);
 
     const defaultPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: Transaction, filter) => {
       const formatted = this.pipe.transform(data.timestamp, 'MM/dd/yyyy');
       return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter) ;
     };
-  }
 
-  ngOnInit(): void {
-    const request: TransactionRequest = {n: 100, stored: false};
-    this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
-      this.transactions = this.userService.sortTransactions(response).filter( (trans: Transaction) => trans.amount < 0);
-      this.transactions.map( ( trans: Transaction) => {
-        trans.timestamp = new Date(trans.timestamp);
-      });
+    this.transSub = this.userService.transactionFinanceSite.subscribe(trans => {
+      this.transactions = trans.filter( (t: Transaction) => t.amount < 0);
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -84,6 +84,11 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit {
         this.showDateError = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.transSub.unsubscribe();
+    this.accSub.unsubscribe();
   }
 
   get fromDate(): Date {

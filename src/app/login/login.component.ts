@@ -35,9 +35,10 @@ export class LoginComponent implements OnInit {
             console.log('navigate to /user didnt work');
           }
         });
+      }, error => {
+        this.invalid = true;
+        console.log(error);
       });
-      // there needs to be a better solution
-      setTimeout(() => this.invalid = true, 500);
     }
   }
 

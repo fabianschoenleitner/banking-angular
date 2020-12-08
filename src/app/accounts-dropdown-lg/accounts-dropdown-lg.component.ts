@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Account} from '../api/Api';
+import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {UserService} from '../services/user-service';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
@@ -13,14 +13,15 @@ export class AccountsDropdownLgComponent implements OnInit {
   @Input() currAcc;
   @Output() currAccChange = new EventEmitter<Account>();
   accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
+  transactions: Transaction[];
 
   constructor(private userService: UserService, private library: FaIconLibrary) {
     library.addIcons(faCaretDown);
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe((acc: { accounts: Account[] }) => {
-      this.accounts = acc.accounts;
+    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+      this.accounts = accounts;
       if (this.currAcc.iban === '') {
         this.currAcc = this.accounts[0];
       }
@@ -29,9 +30,18 @@ export class AccountsDropdownLgComponent implements OnInit {
   }
 
   changeSelectedAccount(currentAccount: Account): void {
-    // this.selectedAccount = currentAccount;
     this.currAcc = currentAccount;
     this.currAccChange.emit(currentAccount);
+    this.userService.accountsWidgetSubject.next(currentAccount);
+
+    const request: TransactionRequest = {n: 100, stored: false};
+    this.userService.getTransactions(request, [currentAccount.iban]).subscribe((response: TransactionResponse[]) => {
+      this.transactions = this.userService.sortTransactions(response);
+      this.transactions.map((trans: Transaction) => {
+        trans.timestamp = new Date(trans.timestamp);
+      });
+      this.userService.transactionFinanceSite.next(this.transactions);
+    });
   }
 
 }

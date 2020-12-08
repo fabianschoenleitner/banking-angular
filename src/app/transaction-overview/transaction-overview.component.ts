@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, OnChanges, ViewChild} from '@angular/core';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {UserService} from '../services/user-service';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -31,7 +31,9 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService) { }
+
+  ngOnInit(): void {
     this.userService.accountsWidgetSubject.subscribe(acc => {
       this.account = acc;
     });
@@ -41,15 +43,9 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       const formatted = this.pipe.transform(data.timestamp, 'MM/dd/yyyy');
       return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter) ;
     };
-  }
 
-  ngOnInit(): void {
-    const request: TransactionRequest = {n: 100, stored: false};
-    this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
-      this.transactions = this.userService.sortTransactions(response);
-      this.transactions.map( ( trans: Transaction) => {
-        trans.timestamp = new Date(trans.timestamp);
-      });
+    this.userService.transactionFinanceSite.subscribe(trans => {
+      this.transactions = trans;
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

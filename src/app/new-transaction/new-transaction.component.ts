@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../services/user-service';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
@@ -19,6 +19,9 @@ export class NewTransactionComponent implements OnInit {
   minDate = undefined;
   tempDate = new Date();
   userdata = JSON.parse(localStorage.getItem('user'));
+  success = false;
+  httpType = '';
+  checked = false;
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
@@ -38,8 +41,12 @@ export class NewTransactionComponent implements OnInit {
   ngOnInit(): void {
     const tempDate = new Date();
     this.transactionForm = this.fb.group({
-      timestamp: [{year: tempDate.getFullYear(), month: tempDate.getMonth() + 1, day: tempDate.getDate()}, Validators.required],
-      amount: [0, Validators.required],
+      timestamp: [{
+        year: tempDate.getFullYear(),
+        month: tempDate.getMonth() + 1,
+        day: tempDate.getDate()
+      }, Validators.required],
+      amount: [Validators.required],
       text: new FormArray([]),
       textType: ['Zahlungsreferenz'],
       type: [''],
@@ -79,8 +86,8 @@ export class NewTransactionComponent implements OnInit {
     return this.savedTrans.checkArray as FormArray;
   }
 
-  storeTransaction(requestType: string): void {
-    this.sendTransaction(requestType);
+  storeTransaction(requestType: string, content?: TemplateRef<any>): void {
+    this.sendTransaction(requestType, content);
     this.onClear();
   }
 
@@ -123,8 +130,9 @@ export class NewTransactionComponent implements OnInit {
     this.savedTransCheckArray.reset();
   }
 
-  sendTransaction(requestType: string): void {
+  sendTransaction(requestType: string, content?: TemplateRef<any>): void {
     if (this.transactionForm.valid) {
+      this.httpType = requestType;
       this.transactionForm.value.iban = this.account.iban;
 
       this.tempDate.setFullYear(
@@ -136,11 +144,16 @@ export class NewTransactionComponent implements OnInit {
       this.transactionForm.value.timestamp = this.tempDate.toISOString();
       this.transactionForm.value.text = this.transactionForm.value.text.map(x => x.text).join('\n');
 
-      if (requestType === `PUT`) {
-        this.savedTransactions.push(this.transactionForm.value);
-      }
-
       this.userService.sendTransaction(this.transactionForm.value, requestType).subscribe(() => {
+        if (requestType === `PUT`) {
+          this.savedTransactions.push(this.transactionForm.value);
+        }
+        this.success = true;
+        this.openVerticallyCentered(content);
+        this.onClear();
+      }, error => {
+        this.success = false;
+        this.openVerticallyCentered(content);
         this.onClear();
       });
     }
@@ -167,7 +180,7 @@ export class NewTransactionComponent implements OnInit {
       year: this.tempDate.getFullYear(),
       month: this.tempDate.getMonth() + 1, day: this.tempDate.getDate()
     }, Validators.required);
-    this.transactionForm.controls.amount.reset(0, Validators.required);
+    this.transactionForm.controls.amount.reset(Validators.required);
     this.transactionArray.reset();
     this.transactionForm.controls.textType.reset('Zahlungsreferenz');
     this.transactionForm.controls.type.reset('');
@@ -175,11 +188,23 @@ export class NewTransactionComponent implements OnInit {
     this.transactionForm.controls.complementaryName.reset('');
   }
 
-  onCheckboxChange(e, data: Transaction): void {
-    if (e.target.checked) {
-      this.savedTransCheckArray.push(new FormControl(data));
+  onCheckboxChange(data: Transaction, check?: boolean, e?): void {
+    let i = 0;
+    let found = false;
+    if (check || (e !== undefined && e.target.checked)) {
+      // this.savedTransCheckArray.push(new FormControl(data));
+      i = 0;
+      this.savedTransCheckArray.controls.forEach((item: FormControl) => {
+        if (this.compareTransactions(item.value, data)) {
+          found = true;
+        }
+        i++;
+      });
+      if (!found) {
+        this.savedTransCheckArray.push(new FormControl(data));
+      }
     } else {
-      let i = 0;
+      i = 0;
       this.savedTransCheckArray.controls.forEach((item: FormControl) => {
         if (this.compareTransactions(item.value, data)) {
           this.savedTransCheckArray.removeAt(i);
@@ -188,6 +213,7 @@ export class NewTransactionComponent implements OnInit {
         i++;
       });
     }
+    console.log(this.savedTransCheckArray.value);
   }
 
   openVerticallyCentered(content): void {
@@ -197,7 +223,7 @@ export class NewTransactionComponent implements OnInit {
   getMoneyPerIban(iban: string): number {
     let money = 0;
     this.savedTransCheckArray.value.map((trans: Transaction) => {
-      if (iban === trans.iban) {
+      if (trans !== null && iban === trans.iban) {
         money += trans.amount;
       }
     });
@@ -207,7 +233,9 @@ export class NewTransactionComponent implements OnInit {
   allMarked(): number {
     let money = 0;
     this.savedTransCheckArray.value.map((trans: Transaction) => {
-      money += trans.amount;
+      if (trans !== null) {
+        money += trans.amount;
+      }
     });
     return money;
   }
@@ -239,4 +267,27 @@ export class NewTransactionComponent implements OnInit {
     }
     return trans1.timestamp === trans2.timestamp;
   }
+
+  checkAll(): void {
+    this.savedTransactions.forEach((item: Transaction) => {
+      // this.savedTransCheckArray.push(new FormControl(item));
+      this.onCheckboxChange(item, true);
+    });
+  }
+
+  uncheckAll(): void {
+    this.savedTransactions.forEach((item: Transaction) => {
+      this.onCheckboxChange(item, false);
+    });
+  }
+
+  setChecked(bool: boolean): void {
+    this.checked = bool;
+    if (!bool) {
+      this.uncheckAll();
+    } else {
+      this.checkAll();
+    }
+  }
+
 }
