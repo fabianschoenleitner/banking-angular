@@ -12,6 +12,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewTransactionComponent implements OnInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
+  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
   savedTransactions: Transaction[];
   paymentUsageContent = false;
   transactionForm: FormGroup;
@@ -103,6 +104,7 @@ export class NewTransactionComponent implements OnInit {
             i++;
           });
           i = 0;
+          this.fetchAccount();
         });
       }
     }
@@ -145,6 +147,8 @@ export class NewTransactionComponent implements OnInit {
       this.userService.sendTransaction(this.transactionForm.value, requestType).subscribe(() => {
         if (requestType === `PUT`) {
           this.savedTransactions.push(this.transactionForm.value);
+        } else {
+          this.fetchAccount();
         }
         this.success = true;
         this.openVerticallyCentered(content);
@@ -156,6 +160,13 @@ export class NewTransactionComponent implements OnInit {
       });
     }
   }
+
+  fetchAccount(): void {
+    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+      this.accounts = accounts;
+      this.account = accounts.filter( (a: Account) => a.iban === this.account.iban)[0];
+    });
+}
 
   onChangeTextType(e): void {
     const numberOfRows = e;

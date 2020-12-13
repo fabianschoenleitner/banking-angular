@@ -12,7 +12,8 @@ import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 export class AccountsDropdownLgComponent implements OnInit {
   @Input() currAcc;
   @Output() currAccChange = new EventEmitter<Account>();
-  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
+  @Input() accounts;
+  // @Input() accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
   transactions: Transaction[];
 
   constructor(private userService: UserService, private library: FaIconLibrary) {
