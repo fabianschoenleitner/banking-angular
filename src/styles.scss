@@ -3,6 +3,9 @@
 
 // Import for components with mixin
 @import "app/user/user.component";
+@import "app/widget/widget.component";
+@import "app/app.component";
+@import "app/navbar/navbar.component";
 
 // Mixin for all components, add new component-mixins here and import above
 @mixin custom-theme($theme) {
@@ -12,7 +15,7 @@
 // Themes
 
 // Dark
-$dark-primary: mat-palette($mat-blue-grey);
+$dark-primary: mat-palette($mat-blue-grey, 900);
 $dark-accent: mat-palette($mat-deep-purple);
 $dark-warn: mat-palette($mat-red);
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
@@ -28,4 +31,22 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 }
 
 // Light (Standard)
+$light-primary: mat-palette($mat-yellow, 0);
+$light-accent: mat-palette($mat-light-green, 0);
+$light-warn: mat-palette($mat-orange, 0);
+$light-theme: mat-dark-theme($light-primary, $light-accent, $light-warn);
 
+@media (prefers-color-scheme: light) {
+  @include angular-material-theme($light-theme);
+  @include custom-theme($light-theme);
+}
+
+.light-theme {
+  @include angular-material-theme($light-theme);
+  @include custom-theme($light-theme);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
