@@ -1,0 +1,31 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+// Import for components with mixin
+@import "app/user/user.component";
+
+// Mixin for all components, add new component-mixins here and import above
+@mixin custom-theme($theme) {
+  @include user-theme($theme);
+}
+
+// Themes
+
+// Dark
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent: mat-palette($mat-deep-purple);
+$dark-warn: mat-palette($mat-red);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+@media (prefers-color-scheme: dark) {
+  @include angular-material-theme($dark-theme);
+  @include custom-theme($dark-theme);
+}
+
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+  @include custom-theme($dark-theme);
+}
+
+// Light (Standard)
+

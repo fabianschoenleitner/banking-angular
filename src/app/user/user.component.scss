@@ -10,3 +10,13 @@
   min-width: 300px!important;
   min-height: 300px!important;
 }
+
+@mixin user-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  div {
+    background: mat-color($primary, darker);
+    color: mat-color($primary, default-contrast)
+  }
+}
