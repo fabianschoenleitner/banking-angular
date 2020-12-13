@@ -16,9 +16,9 @@
   <div #parent>
   </div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="center center">
-    <div fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
-      <app-widget selected={{widget.typ}} [id]=widget.id></app-widget>
+  <div fxLayout="row wrap" fxLayoutAlign="center">
+    <div class="card-deck" fxFlex="0 1 calc(33.3% - 32px)" *ngFor="let widget of widgets">
+      <app-widget class="card text-center shadow mt-3 mr-4" selected={{widget.typ}} [id]=widget.id></app-widget>
     </div>
   </div>
 
