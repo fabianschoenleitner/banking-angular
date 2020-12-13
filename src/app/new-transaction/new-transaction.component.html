@@ -127,7 +127,7 @@
               class="btn btn-primary mr-1"
       >Senden
       </button>
-      <button type="btn btn-secondary mr-1"
+      <button type="button"
               [disabled]="transactionForm.invalid || transaction.amount.value === 0"
               class="btn btn-primary mr-1"
               (click)="storeTransaction('PUT', successContent)">Speichern

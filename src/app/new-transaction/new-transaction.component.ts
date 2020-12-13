@@ -88,7 +88,6 @@ export class NewTransactionComponent implements OnInit {
 
   storeTransaction(requestType: string, content?: TemplateRef<any>): void {
     this.sendTransaction(requestType, content);
-    this.onClear();
   }
 
   sendSavedTrans(): void {
