@@ -92,7 +92,6 @@ export class NewTransactionComponent implements OnInit {
 
   sendSavedTrans(): void {
     let i = 0;
-    console.log(this.savedTransCheckArray.value);
     for (const trans of this.savedTransCheckArray.value) {
       if (trans !== null && trans.iban !== '' && trans.amount > 0) {
         this.userService.sendTransaction(trans, 'POST').subscribe(() => {
@@ -212,7 +211,6 @@ export class NewTransactionComponent implements OnInit {
         i++;
       });
     }
-    console.log(this.savedTransCheckArray.value);
   }
 
   openVerticallyCentered(content): void {
@@ -269,7 +267,6 @@ export class NewTransactionComponent implements OnInit {
 
   checkAll(): void {
     this.savedTransactions.forEach((item: Transaction) => {
-      // this.savedTransCheckArray.push(new FormControl(item));
       this.onCheckboxChange(item, true);
     });
   }
