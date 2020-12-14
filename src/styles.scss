@@ -34,7 +34,7 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 $light-primary: mat-palette($mat-yellow, 0);
 $light-accent: mat-palette($mat-light-green, 0);
 $light-warn: mat-palette($mat-orange, 0);
-$light-theme: mat-dark-theme($light-primary, $light-accent, $light-warn);
+$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
 
 @media (prefers-color-scheme: light) {
   @include angular-material-theme($light-theme);
