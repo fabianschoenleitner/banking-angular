@@ -11,7 +11,8 @@ import {
   TransactionResponse
 } from '../api/Api';
 import {AppSettings} from '../../app-settings';
-import {forkJoin, from, Observable, Subject} from 'rxjs';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {FormGroup} from '@angular/forms';
 
 @Injectable({providedIn: 'root'})
 export class UserService {

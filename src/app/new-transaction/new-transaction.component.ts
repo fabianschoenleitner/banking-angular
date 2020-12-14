@@ -155,17 +155,21 @@ export class NewTransactionComponent implements OnInit {
         this.openVerticallyCentered(content);
         this.onClear();
       }, error => {
-        if (error.status === 400) {
-          this.success = false;
-          // TODO: Change to real error-string as soon as backend implementation is finished
-          if (error.error.error === 'cannot transfer to same account') {
-            // TODO: DO NOT COMMENT THIS IN!! INFINITE LOOP -> HIGH COSTS FOR KIM.
-            // this.sendTransaction('PUT', content);
-          } else {
-            this.openVerticallyCentered(content);
-            this.onClear();
-          }
-        }
+        this.success = false;
+        this.openVerticallyCentered(content);
+        this.onClear();
+
+        // this.success = false;
+        // if (error.status === 400) {
+        //   // TODO: Change to real error-string as soon as backend implementation is finished
+        //   if (error.error.error === 'cannot transfer to same account') {
+        //     // TODO: DO NOT COMMENT THIS IN!! INFINITE LOOP -> HIGH COSTS FOR KIM.
+        //     // this.sendTransaction('PUT', content);
+        //   } else {
+        //     this.openVerticallyCentered(content);
+        //     this.onClear();
+        //   }
+        // }
       });
     }
   }
@@ -210,7 +214,6 @@ export class NewTransactionComponent implements OnInit {
     let i = 0;
     let found = false;
     if (check || (e !== undefined && e.target.checked)) {
-      // this.savedTransCheckArray.push(new FormControl(data));
       i = 0;
       this.savedTransCheckArray.controls.forEach((item: FormControl) => {
         if (this.compareTransactions(item.value, data)) {
@@ -322,4 +325,15 @@ export class NewTransactionComponent implements OnInit {
     }
     return false;
   }
+
+  checkLimit(amount): string {
+    if (this.account.limit === undefined) {
+      this.account.limit = 0;
+    }
+    if (this.account.balance - amount < this.account.limit) {
+      return 'red';
+    }
+    return '';
+  }
+
 }

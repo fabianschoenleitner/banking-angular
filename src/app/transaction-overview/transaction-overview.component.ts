@@ -6,6 +6,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import {TableService} from '../services/table-service';
 
 @Component({
   selector: 'app-transaction-overview',
@@ -31,7 +32,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private userService: UserService) {
+  constructor(public userService: UserService, public tableService: TableService) {
   }
 
   ngOnInit(): void {
@@ -55,18 +56,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.filterForm.valueChanges.subscribe(data => {
-      if (this.toDate != null && this.fromDate != null) {
-        const toDate = new Date(this.getDate('toDate'));
-        const fromDate = new Date(this.getDate('fromDate'));
-        if (fromDate > toDate) {
-          this.showDateError = true;
-        } else {
-          this.showDateError = false;
-        }
-      } else {
-        this.showDateError = false;
-      }
+    this.filterForm.valueChanges.subscribe(() => {
+      this.showDateError = this.tableService.setShowDateError(this.toDate, this.fromDate, this.filterForm);
     });
   }
 
@@ -82,22 +73,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     this.filterActive = true;
     this.dataSource.data = this.transactions;
 
-    // TODO: Why creating date is not working with a method call??
-    const toDate = new Date(this.getDate('fromDate'));
-    const fromDate = new Date(this.getDate('toDate'));
-
-    fromDate.setFullYear(
-      this.filterForm.value.fromDate.year,
-      this.filterForm.value.fromDate.month - 1,
-      this.filterForm.value.fromDate.day
-    );
-    fromDate.setHours(0, 0, 0);
-    toDate.setFullYear(
-      this.filterForm.value.toDate.year,
-      this.filterForm.value.toDate.month - 1,
-      this.filterForm.value.toDate.day
-    );
-    toDate.setHours(23, 59, 59);
+    const toDate = this.tableService.getDate('toDate', this.filterForm);
+    const fromDate = this.tableService.getDate('fromDate', this.filterForm);
 
     this.dataSource.data = this.dataSource.data.filter(
       e => e.timestamp.getTime() >= fromDate.getTime() && e.timestamp.getTime() <= toDate.getTime()
@@ -111,34 +88,6 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  checkBalance(amount): string {
-    if (amount >= 0) {
-      return 'green';
-    } else {
-      return 'red';
-    }
-  }
-
-  getDate(date): Date {
-    const tempDate = new Date();
-    if (date === 'fromDate') {
-      tempDate.setFullYear(
-        this.filterForm.value.fromDate.year,
-        this.filterForm.value.fromDate.month - 1,
-        this.filterForm.value.fromDate.day
-      );
-      tempDate.setHours(0, 0, 0);
-    } else {
-      tempDate.setFullYear(
-        this.filterForm.value.toDate.year,
-        this.filterForm.value.toDate.month - 1,
-        this.filterForm.value.toDate.day
-      );
-      tempDate.setHours(23, 59, 59);
-    }
-    return tempDate;
   }
 
   clearFilters(): void {

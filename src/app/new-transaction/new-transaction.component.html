@@ -192,7 +192,7 @@
             <td
               *ngIf="iban === trans.iban"> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
             <td *ngIf="iban === trans.iban"> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>
-            <td *ngIf="iban === trans.iban"> {{ trans.amount }} €</td>
+            <td *ngIf="iban === trans.iban"> <span [ngClass]="checkLimit(trans.amount)"> {{ trans.amount }} € </span> </td>
           </tr>
           </tbody>
         </table>
@@ -211,9 +211,6 @@
       <div class="mx-3 pt-3">
         <button class="btn btn-primary mr-1" type="submit">Markierte Aufträge senden</button>
         <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
-        <strong>
-          <span class="right-aligned"> Saldo: {{ account.balance - allMarked() }} € </span>
-        </strong>
       </div>
 
       <ng-template #content let-modal>
