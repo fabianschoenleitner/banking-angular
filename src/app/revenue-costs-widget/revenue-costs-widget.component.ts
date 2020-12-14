@@ -10,7 +10,7 @@ import {UserService} from '../services/user-service';
 })
 export class RevenueCostsWidgetComponent implements OnInit {
   @Input() idName: string = 'default';
-  account: Account = {iban: '', balance: 0, name: '', accountType: ''};
+  account: Account = {iban: '', balance: 0, name: '', accountType: '', limit: 0};
   ibanArr: Iban[] = [];
   transactionResponse: TransactionResponse[] =
     [{

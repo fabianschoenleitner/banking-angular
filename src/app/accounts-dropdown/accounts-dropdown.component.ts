@@ -12,8 +12,8 @@ import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 export class AccountsDropdownComponent implements OnInit {
 
   @Output() currAcc = new EventEmitter<Account>();
-  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '' }];
-  selectedAccount = {iban: '', balance: 0, name: '', accountType: '' };
+  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '',  limit: 0 }];
+  selectedAccount: Account = {iban: '', balance: 0, name: '', accountType: '',  limit: 0 };
 
   constructor(private userService: UserService, private library: FaIconLibrary) {
     library.addIcons(faCaretDown);
@@ -33,7 +33,7 @@ export class AccountsDropdownComponent implements OnInit {
     for (const acc of this.accounts) {
       sum = sum + acc.balance;
     }
-    this.accounts.splice(0, 0, {iban: '', balance: sum, name: 'Alle Konten', accountType: 'All', });
+    this.accounts.splice(0, 0, {iban: '', balance: sum, name: 'Alle Konten', accountType: 'All',  limit: 0 });
   }
 
   changeSelectedAccount(currentAccount: Account): void {

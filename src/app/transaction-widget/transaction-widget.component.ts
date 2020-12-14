@@ -17,7 +17,7 @@ export class TransactionWidgetComponent {
 
   }
 
-  checkBalance(amount): string  {
+  checkBalance(amount): string {
     if (amount >= 0) {
       return 'green';
     } else {

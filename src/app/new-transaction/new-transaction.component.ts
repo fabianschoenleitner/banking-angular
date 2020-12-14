@@ -11,8 +11,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./new-transaction.component.scss']
 })
 export class NewTransactionComponent implements OnInit {
-  account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
-  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
+  account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
+  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '', limit: 0}];
   savedTransactions: Transaction[];
   paymentUsageContent = false;
   transactionForm: FormGroup;
@@ -140,9 +140,10 @@ export class NewTransactionComponent implements OnInit {
         this.transactionForm.value.timestamp.month - 1,
         this.transactionForm.value.timestamp.day
       );
-
-      this.transactionForm.value.timestamp = this.tempDate.toISOString();
-      this.transactionForm.value.text = this.transactionForm.value.text.map(x => x.text).join('\n');
+      if (typeof this.transactionForm.value.timestamp !== 'string') {
+        this.transactionForm.value.timestamp = this.tempDate.toISOString();
+        this.transactionForm.value.text = this.transactionForm.value.text.map(x => x.text).join('\n');
+      }
 
       this.userService.sendTransaction(this.transactionForm.value, requestType).subscribe(() => {
         if (requestType === `PUT`) {
@@ -154,19 +155,27 @@ export class NewTransactionComponent implements OnInit {
         this.openVerticallyCentered(content);
         this.onClear();
       }, error => {
-        this.success = false;
-        this.openVerticallyCentered(content);
-        this.onClear();
+        if (error.status === 400) {
+          this.success = false;
+          // TODO: Change to real error-string as soon as backend implementation is finished
+          if (error.error.error === 'cannot transfer to same account') {
+            // TODO: DO NOT COMMENT THIS IN!! INFINITE LOOP -> HIGH COSTS FOR KIM.
+            // this.sendTransaction('PUT', content);
+          } else {
+            this.openVerticallyCentered(content);
+            this.onClear();
+          }
+        }
       });
     }
   }
 
   fetchAccount(): void {
-    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;
-      this.account = accounts.filter( (a: Account) => a.iban === this.account.iban)[0];
+      this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });
-}
+  }
 
   onChangeTextType(e): void {
     const numberOfRows = e;

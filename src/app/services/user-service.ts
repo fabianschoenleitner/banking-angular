@@ -8,12 +8,10 @@ import {
   PriorBalanceRequest,
   Transaction,
   TransactionRequest,
-  TransactionResponse,
-  UserData
+  TransactionResponse
 } from '../api/Api';
 import {AppSettings} from '../../app-settings';
-import {BehaviorSubject, forkJoin, from, Observable, Subject} from 'rxjs';
-import {mergeMap} from 'rxjs/operators';
+import {forkJoin, from, Observable, Subject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -22,7 +20,8 @@ export class UserService {
   transactionWidgetSubject = new Subject<Account>();
   transactionFinanceSite = new Subject<Transaction[]>();
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) {
+  }
 
   public getTransactions(request: TransactionRequest, ibanArr: Iban[]): Observable<TransactionResponse[]> {
 

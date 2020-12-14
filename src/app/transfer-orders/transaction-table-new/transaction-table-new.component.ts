@@ -8,7 +8,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {UserService} from '../../services/user-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faArrowCircleUp, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import {faArrowCircleUp, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -25,7 +25,7 @@ import {Subscription} from 'rxjs';
 })
 export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
+  account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
   transactions: Transaction[];
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
@@ -58,11 +58,11 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
     const defaultPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: Transaction, filter) => {
       const formatted = this.pipe.transform(data.timestamp, 'MM/dd/yyyy');
-      return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter) ;
+      return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter);
     };
 
     this.transSub = this.userService.transactionFinanceSite.subscribe(trans => {
-      this.transactions = trans.filter( (t: Transaction) => t.amount < 0);
+      this.transactions = trans.filter((t: Transaction) => t.amount < 0);
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -94,6 +94,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
   get fromDate(): Date {
     return this.filterForm.get('fromDate').value;
   }
+
   get toDate(): Date {
     return this.filterForm.get('toDate').value;
   }
@@ -102,7 +103,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
     this.filterActive = true;
     this.dataSource.data = this.transactions;
 
-    // TODO: Ask why creating date is not working with a method call??
+    // TODO: Why creating date is not working with a method call??
     const toDate = new Date(this.getDate('fromDate'));
     const fromDate = new Date(this.getDate('toDate'));
 
@@ -133,7 +134,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  checkBalance(amount): string  {
+  checkBalance(amount): string {
     if (amount >= 0) {
       return 'green';
     } else {
@@ -169,12 +170,19 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getColumnName(column: string): string {
-    if (column === 'text') { return 'Verwendungszweck'; }
-    else if (column === 'complementaryIban') { return 'Empfänger'; }
-    else if (column === 'amount') { return 'Betrag'; }
-    else if (column === 'timestamp') { return 'Datum'; }
-    else if (column === 'type') { return 'Art'; }
-    else { return column; }
+    if (column === 'text') {
+      return 'Verwendungszweck';
+    } else if (column === 'complementaryIban') {
+      return 'Empfänger';
+    } else if (column === 'amount') {
+      return 'Betrag';
+    } else if (column === 'timestamp') {
+      return 'Datum';
+    } else if (column === 'type') {
+      return 'Art';
+    } else {
+      return column;
+    }
   }
 
   getType(type): string {

@@ -13,7 +13,6 @@ export class AccountsDropdownLgComponent implements OnInit {
   @Input() currAcc;
   @Output() currAccChange = new EventEmitter<Account>();
   @Input() accounts;
-  // @Input() accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: ''}];
   transactions: Transaction[];
 
   constructor(private userService: UserService, private library: FaIconLibrary) {
@@ -21,7 +20,7 @@ export class AccountsDropdownLgComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;
       if (this.currAcc.iban === '') {
         this.currAcc = this.accounts[0];

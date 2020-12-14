@@ -17,8 +17,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClickOutsideModule} from 'ng-click-outside';
 import {AddTokenInterceptor} from './interceptor/add-token-interceptor';
-import {TransactionTableComponent} from './transfer-orders/transaction-table/transaction-table.component';
-import {NgbdSortableHeaderDirective} from './transfer-orders/transaction-table/sortable.directive';
 import { AccountsDropdownComponent } from './accounts-dropdown/accounts-dropdown.component';
 import {SubNavbarComponent} from './sub-navbar/sub-navbar.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -89,8 +87,6 @@ import { TransactionTableNewComponent } from './transfer-orders/transaction-tabl
     ChartAccountHistoryComponent,
     WidgetComponent,
     TransferOrdersComponent,
-    TransactionTableComponent,
-    NgbdSortableHeaderDirective,
     AccountsDropdownComponent,
     SubNavbarComponent,
     AccountsWidgetComponent,

@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit, OnChanges, ViewChild} from '@angular/core';
-import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Account, Transaction} from '../api/Api';
 import {UserService} from '../services/user-service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
@@ -13,7 +13,7 @@ import {MatPaginator} from '@angular/material/paginator';
   styleUrls: ['./transaction-overview.component.scss', '../transaction-widget/transaction-widget.component.scss']
 })
 export class TransactionOverviewComponent implements OnInit, AfterViewInit {
-  account: Account = {iban: '', balance: 0.00, name: '', accountType: ''};
+  account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
   transactions: Transaction[];
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
@@ -31,7 +31,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit(): void {
     this.userService.accountsWidgetSubject.subscribe(acc => {
@@ -41,7 +42,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     const defaultPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: Transaction, filter) => {
       const formatted = this.pipe.transform(data.timestamp, 'MM/dd/yyyy');
-      return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter) ;
+      return formatted.indexOf(filter) >= 0 || defaultPredicate(data, filter);
     };
 
     this.userService.transactionFinanceSite.subscribe(trans => {
@@ -55,23 +56,24 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.filterForm.valueChanges.subscribe(data => {
-        if (this.toDate != null && this.fromDate != null) {
-          const toDate = new Date(this.getDate('toDate'));
-          const fromDate = new Date(this.getDate('fromDate'));
-          if (fromDate > toDate) {
-            this.showDateError = true;
-          } else {
-            this.showDateError = false;
-          }
+      if (this.toDate != null && this.fromDate != null) {
+        const toDate = new Date(this.getDate('toDate'));
+        const fromDate = new Date(this.getDate('fromDate'));
+        if (fromDate > toDate) {
+          this.showDateError = true;
         } else {
           this.showDateError = false;
         }
+      } else {
+        this.showDateError = false;
+      }
     });
   }
 
   get fromDate(): Date {
     return this.filterForm.get('fromDate').value;
   }
+
   get toDate(): Date {
     return this.filterForm.get('toDate').value;
   }
@@ -80,7 +82,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     this.filterActive = true;
     this.dataSource.data = this.transactions;
 
-    // TODO: Ask why creating date is not working with a method call??
+    // TODO: Why creating date is not working with a method call??
     const toDate = new Date(this.getDate('fromDate'));
     const fromDate = new Date(this.getDate('toDate'));
 
@@ -111,7 +113,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  checkBalance(amount): string  {
+  checkBalance(amount): string {
     if (amount >= 0) {
       return 'green';
     } else {

@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
+import {Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {UserService} from '../services/user-service';
-import {MatTableDataSource} from '@angular/material/table';
-
 
 @Component({
   selector: 'app-transaction',

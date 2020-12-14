@@ -7,6 +7,7 @@ export interface Account {
   balance: number;
   name: string;
   accountType: string;
+  limit: number;
 }
 
 export interface Transaction {

@@ -6,7 +6,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./transfer-orders.component.scss']
 })
 export class TransferOrdersComponent implements OnInit {
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {
 
