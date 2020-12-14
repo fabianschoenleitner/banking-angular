@@ -155,17 +155,16 @@
         </div>
       </form>
     </ng-template>
-
-
   </form>
 </div>
 
-<div class="container col-xl-7 my-3">
+<div class="container col-xl-7 my-3" *ngIf="checkSavedTransactions()" >
   <h4 class="row my-3 col-xl-7">Erfasste Aufträge</h4>
   <div class="shadow pb-5 pt-3">
 
     <form [formGroup]="savedTransactionsForm" (ngSubmit)="openVerticallyCentered(content)" novalidate>
       <div class="pb-3" *ngFor="let iban of userdata.accounts">
+      <div *ngIf="savedTransactionsContainsIban(iban)">
         <p class="mx-3">
           <strong>
             {{ iban }}
@@ -197,6 +196,7 @@
           </tr>
           </tbody>
         </table>
+      </div>
       </div>
 
       <div class="mx-3">

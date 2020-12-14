@@ -1,52 +1,52 @@
-@import '~@angular/material/theming';
-@include mat-core();
+//@import '~@angular/material/theming';
+//@include mat-core();
 
 // Import for components with mixin
-@import "app/user/user.component";
-@import "app/widget/widget.component";
-@import "app/app.component";
-@import "app/navbar/navbar.component";
+//@import "app/user/user.component";
+//@import "app/widget/widget.component";
+//@import "app/app.component";
+//@import "app/navbar/navbar.component";
 
 // Mixin for all components, add new component-mixins here and import above
-@mixin custom-theme($theme) {
-  @include user-theme($theme);
-}
+//@mixin custom-theme($theme) {
+//  @include user-theme($theme);
+//}
 
 // Themes
 
 // Dark
-$dark-primary: mat-palette($mat-blue-grey, 900);
-$dark-accent: mat-palette($mat-deep-purple);
-$dark-warn: mat-palette($mat-red);
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+//$dark-primary: mat-palette($mat-blue-grey, 900);
+//$dark-accent: mat-palette($mat-deep-purple);
+//$dark-warn: mat-palette($mat-red);
+//$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+//
+//@media (prefers-color-scheme: dark) {
+//  @include angular-material-theme($dark-theme);
+//  // @include custom-theme($dark-theme);
+//}
 
-@media (prefers-color-scheme: dark) {
-  @include angular-material-theme($dark-theme);
-  // @include custom-theme($dark-theme);
-}
+//.dark-theme {
+//  @include angular-material-theme($dark-theme);
+//  @include custom-theme($dark-theme);
+//}
+//
+//// Light (Standard)
+//$light-primary: mat-palette($mat-yellow, 0);
+//$light-accent: mat-palette($mat-light-green, 0);
+//$light-warn: mat-palette($mat-orange, 0);
+//$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+//
+//@media (prefers-color-scheme: light) {
+//  @include angular-material-theme($light-theme);
+//  // @include custom-theme($light-theme);
+//}
+//
+//.light-theme {
+//  @include angular-material-theme($light-theme);
+//  @include custom-theme($light-theme);
+//}
 
-.dark-theme {
-  @include angular-material-theme($dark-theme);
-  @include custom-theme($dark-theme);
-}
-
-// Light (Standard)
-$light-primary: mat-palette($mat-yellow, 0);
-$light-accent: mat-palette($mat-light-green, 0);
-$light-warn: mat-palette($mat-orange, 0);
-$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
-
-@media (prefers-color-scheme: light) {
-  @include angular-material-theme($light-theme);
-  // @include custom-theme($light-theme);
-}
-
-.light-theme {
-  @include angular-material-theme($light-theme);
-  @include custom-theme($light-theme);
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
+//body {
+//  margin: 0;
+//  padding: 0;
+//}

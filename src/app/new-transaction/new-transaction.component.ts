@@ -297,4 +297,20 @@ export class NewTransactionComponent implements OnInit {
     }
   }
 
+  checkSavedTransactions(): boolean {
+    if (this.savedTransactions !== undefined) {
+      return (this.savedTransactions.length > 0);
+    }
+    return false;
+  }
+
+  savedTransactionsContainsIban(iban: string): boolean {
+    let t;
+    for (t of this.savedTransactions) {
+      if (t.iban === iban) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
