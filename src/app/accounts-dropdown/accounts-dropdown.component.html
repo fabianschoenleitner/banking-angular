@@ -1,37 +1,35 @@
-<!--<img class= "icon-styling" src="/assets/icons/plus-square-fill.svg" alt="" width="32" height="32" title="Bootstrap">-->
-
-  <div class="btn-group mr-3 btn-block">
-    <div class="btn-group btn-block" ngbDropdown #accountdiv="ngbDropdown" role="group"
-         aria-label="Button group with nested dropdown">
-      <button ngbDropdownToggle
-              class="btn btn-light btn-block"
-              id="accountsDropdown">
-        <span class="left-aligned"> {{ selectedAccount.name }} </span>
-        <span class="right-aligned"><em> {{ selectedAccount.accountType }} </em></span>
-        <br/>
-        <span class="left-aligned">
+<div class="btn-group mr-3 btn-block">
+  <div class="btn-group btn-block" ngbDropdown #accountdiv="ngbDropdown" role="group"
+       aria-label="Button group with nested dropdown">
+    <button ngbDropdownToggle
+            class="btn btn-light btn-block"
+            id="accountsDropdown">
+      <span class="left-aligned"> {{ selectedAccount.name }} </span>
+      <span class="right-aligned"><em> {{ selectedAccount.accountType }} </em></span>
+      <br/>
+      <span class="left-aligned">
           {{ selectedAccount.iban.substring(0, 4) }}
-          ...{{ selectedAccount.iban.substring(selectedAccount.iban.length-4, selectedAccount.iban.length) }}
+        ...{{ selectedAccount.iban.substring(selectedAccount.iban.length - 4, selectedAccount.iban.length) }}
         </span>
-        <span class="right-aligned">  {{ selectedAccount.balance }} € </span>
-      </button>
-      <div class="dropdown-menu btn-block" id="dropdown-elements" ngbDropdownMenu>
-        <button
-          ngbDropdownItem
-          *ngFor="let acc of accounts"
-          (click)="changeSelectedAccount(acc)">
-          {{ acc.name }}
-          <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
-          <br/>
-          <span class="d-block"> {{ acc.iban }}  </span>
-          <span class=""> <strong>  {{ acc.balance }} € </strong>  </span>
-        </button>
-      </div>
-    </div>
-
-    <button type="button" class="btn btn-primary" (click)="$event.stopPropagation(); accountdiv.open();">
-      <fa-icon [icon]="['fas', 'caret-down']" size="1x" class="icon-styling"></fa-icon>
+      <span class="right-aligned">  {{ selectedAccount.balance }} € </span>
     </button>
-
+    <div class="dropdown-menu btn-block" id="dropdown-elements" ngbDropdownMenu>
+      <button
+        ngbDropdownItem
+        *ngFor="let acc of accounts"
+        (click)="changeSelectedAccount(acc)">
+        {{ acc.name }}
+        <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
+        <br/>
+        <span class="d-block"> {{ acc.iban }}  </span>
+        <span class=""> <strong>  {{ acc.balance }} € </strong>  </span>
+      </button>
+    </div>
   </div>
+
+  <button type="button" class="btn btn-primary" (click)="$event.stopPropagation(); accountdiv.open();">
+    <fa-icon [icon]="['fas', 'caret-down']" size="1x" class="icon-styling"></fa-icon>
+  </button>
+
+</div>
 

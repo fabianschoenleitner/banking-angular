@@ -2,6 +2,7 @@
 <div class="container col-xl-7 my-4">
   <app-accounts-dropdown-lg [(currAcc)]="account" [accounts]="accounts"></app-accounts-dropdown-lg>
 </div>
+{{ account.limit}}
 <div class="container col-xl-7">
   <h3 class="row my-3 col-xl-7">Neue Überweisung</h3>
   <form [formGroup]="transactionForm" (ngSubmit)="convertValues(); openVerticallyCentered(sendContent)">
@@ -136,16 +137,16 @@
       <button class="btn btn-secondary" (click)="onClear()">Zurücksetzen</button>
     </div>
 
-    <ng-template #successContent let-modal>
+    <ng-template #failContent let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Transaktionsstatus</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); success=false">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #successForm="ngForm" novalidate id="successForm">
+      <form #successForm="ngForm" novalidate id="failForm">
         <div class="modal-body">
-          <div *ngIf="!success">
+          <div>
             <p> Transaktion wurde nicht {{httpType === 'PUT' ? 'gespeichert' : 'gesendet' }}. </p>
             <p> Grund: {{ errorMsg }} </p>
           </div>
@@ -154,14 +155,31 @@
       </form>
     </ng-template>
 
-    <ng-template #sendContent let-modal>
+    <ng-template #successContent let-modal>
       <div class="modal-header">
-        <h4 class="modal-title">{{success === true ? 'Transaktion erfolgreich' : 'Geben Sie den TAN ein' }} </h4>
+        <h4 class="modal-title">Transaktionsstatus</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form #sendForm="ngForm" novalidate id="sendSingleTransForm" *ngIf="!success">
+      <form #successForm="ngForm" novalidate id="successForm">
+        <div class="modal-body">
+          <div>
+            <p> Transaktion wurde erfolgreich {{httpType === 'PUT' ? 'gespeichert' : 'gesendet' }}. </p>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #sendContent let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title"> Geben Sie den TAN ein </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #sendForm="ngForm" novalidate id="sendSingleTransForm">
         <div class="modal-body">
           <input
             ngModel
@@ -184,7 +202,7 @@
         </div>
       </form>
 
-      <div *ngIf="!success" class="pb-3">
+      <div class="pb-3">
         <h5 class="pl-3"> Transaktionsdetails: </h5>
 
         <ul class="list-group list-group-flush w-100" id="modal-list">
@@ -212,7 +230,6 @@
         </ul>
       </div>
 
-      <p class="text-center" *ngIf="success"> Ihre Transaktion wude erfolgreich gesendet. </p>
     </ng-template>
 
   </form>

@@ -47,7 +47,6 @@ export class RevenueCostsWidgetComponent implements OnInit {
       for (const transactionResponse of response) {
         this.transactionResponse.push(transactionResponse);
       }
-      console.log(this.transactionResponse);
     });
   }
 

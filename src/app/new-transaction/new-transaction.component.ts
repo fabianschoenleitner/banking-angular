@@ -20,11 +20,11 @@ export class NewTransactionComponent implements OnInit {
   minDate = undefined;
   tempDate = new Date();
   userdata = JSON.parse(localStorage.getItem('user'));
-  success = false;
   httpType = '';
   checked = false;
   tanModal: NgbModalRef;
   @ViewChild('successContent') successContent: ElementRef;
+  @ViewChild('failContent') failContent: ElementRef;
   errorMsg = '';
 
   constructor(private userService: UserService,
@@ -43,6 +43,7 @@ export class NewTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     const tempDate = new Date();
     this.transactionForm = this.fb.group({
       timestamp: [{
@@ -153,25 +154,25 @@ export class NewTransactionComponent implements OnInit {
       this.convertValues();
 
       this.userService.sendTransaction(this.transactionForm.value, requestType).subscribe(() => {
+        if (this.tanModal !== undefined) {
+          this.tanModal.close();
+        }
         if (requestType === `PUT`) {
           this.savedTransactions.push(this.transactionForm.value);
         } else {
           this.fetchAccount();
+          this.openVerticallyCentered(this.successContent);
         }
-        this.success = true;
         this.onClear();
       }, error => {
         this.modalService.dismissAll();
         if (this.tanModal !== undefined) {
           this.tanModal.close();
-          this.tanModal.dismiss();
         }
-        this.success = false;
         this.errorMsg = error.error.error;
-        this.openVerticallyCentered(this.successContent);
+        this.openVerticallyCentered(this.failContent);
         this.onClear();
 
-        // this.success = false;
         // if (error.status === 400) {
         //   // TODO: Change to real error-string as soon as backend implementation is finished
         //   if (error.error.error === 'cannot transfer to same account') {

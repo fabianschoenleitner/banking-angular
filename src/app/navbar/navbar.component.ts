@@ -22,7 +22,6 @@ export class NavbarComponent implements OnInit {
 
   onClickedOutside(e: Event): void {
     if (!this.collapsed) {
-      console.log('Clicked outside:', e);
       this.collapsed = true;
     }
   }
