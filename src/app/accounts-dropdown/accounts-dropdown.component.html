@@ -11,7 +11,7 @@
         <br/>
         <span class="left-aligned">
           {{ selectedAccount.iban.substring(0, 4) }}
-          ...{{ selectedAccount.iban.substring(16, selectedAccount.iban.length) }}
+          ...{{ selectedAccount.iban.substring(selectedAccount.iban.length-4, selectedAccount.iban.length) }}
         </span>
         <span class="right-aligned">  {{ selectedAccount.balance }} € </span>
       </button>
