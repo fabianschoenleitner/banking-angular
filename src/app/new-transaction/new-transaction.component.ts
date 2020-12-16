@@ -1,8 +1,8 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../services/user-service';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
-import {NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerConfig, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -23,6 +23,9 @@ export class NewTransactionComponent implements OnInit {
   success = false;
   httpType = '';
   checked = false;
+  tanModal: NgbModalRef;
+  @ViewChild('successContent') successContent: ElementRef;
+  errorMsg = '';
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
@@ -130,20 +133,24 @@ export class NewTransactionComponent implements OnInit {
     this.savedTransCheckArray.reset();
   }
 
+  convertValues(): void {
+    this.transactionForm.value.iban = this.account.iban;
+
+    this.tempDate.setFullYear(
+      this.transactionForm.value.timestamp.year,
+      this.transactionForm.value.timestamp.month - 1,
+      this.transactionForm.value.timestamp.day
+    );
+    if (typeof this.transactionForm.value.timestamp !== 'string') {
+      this.transactionForm.value.timestamp = this.tempDate.toISOString();
+      this.transactionForm.value.text = this.transactionForm.value.text.map(x => x.text).join('\n');
+    }
+  }
+
   sendTransaction(requestType: string, content?: TemplateRef<any>): void {
     if (this.transactionForm.valid) {
       this.httpType = requestType;
-      this.transactionForm.value.iban = this.account.iban;
-
-      this.tempDate.setFullYear(
-        this.transactionForm.value.timestamp.year,
-        this.transactionForm.value.timestamp.month - 1,
-        this.transactionForm.value.timestamp.day
-      );
-      if (typeof this.transactionForm.value.timestamp !== 'string') {
-        this.transactionForm.value.timestamp = this.tempDate.toISOString();
-        this.transactionForm.value.text = this.transactionForm.value.text.map(x => x.text).join('\n');
-      }
+      this.convertValues();
 
       this.userService.sendTransaction(this.transactionForm.value, requestType).subscribe(() => {
         if (requestType === `PUT`) {
@@ -152,11 +159,16 @@ export class NewTransactionComponent implements OnInit {
           this.fetchAccount();
         }
         this.success = true;
-        this.openVerticallyCentered(content);
         this.onClear();
       }, error => {
+        this.modalService.dismissAll();
+        if (this.tanModal !== undefined) {
+          this.tanModal.close();
+          this.tanModal.dismiss();
+        }
         this.success = false;
-        this.openVerticallyCentered(content);
+        this.errorMsg = error.error.error;
+        this.openVerticallyCentered(this.successContent);
         this.onClear();
 
         // this.success = false;
@@ -237,7 +249,7 @@ export class NewTransactionComponent implements OnInit {
   }
 
   openVerticallyCentered(content): void {
-    this.modalService.open(content, {centered: true});
+    this.tanModal = this.modalService.open(content, {centered: true});
   }
 
   getMoneyPerIban(iban: string): number {

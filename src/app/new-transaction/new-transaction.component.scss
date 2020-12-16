@@ -16,3 +16,8 @@
   border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
   background: rgb(230,230,230);
 }
+
+#modal-list .list-group-item, #modal-list .list-group-flush {
+  border: 0px solid;
+  padding: .2rem 1rem;
+}
