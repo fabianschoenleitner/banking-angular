@@ -249,6 +249,10 @@ export class NewTransactionComponent implements OnInit {
     }
   }
 
+  checkIfCheckboxSelected(): boolean {
+    return this.savedTransCheckArray.length <= 0;
+  }
+
   openVerticallyCentered(content): void {
     this.tanModal = this.modalService.open(content, {centered: true});
   }

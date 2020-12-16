@@ -19,8 +19,8 @@
                pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$"
         >
         <small class="form-text text-danger"
-               *ngIf="transaction.amount.errors && transactionForm.controls['amount']?.touched || transaction.amount.value === 0">Bitte
-          geben Sie einen gültigen Betrag an.<br/>
+               *ngIf="transaction.amount.errors && transactionForm.controls['amount']?.touched || transaction.amount.value === 0">
+          Bitte geben Sie einen gültigen Betrag an.<br/>
         </small>
       </div>
     </div>
@@ -69,10 +69,13 @@
                required
         >
         <small class="form-text text-danger"
-               *ngIf="transaction.complementaryIban.errors && transactionForm.controls['complementaryIban']?.touched">IBAN nicht gültig<br/>
+               *ngIf="transaction.complementaryIban.errors && transactionForm.controls['complementaryIban']?.touched
+                && transaction.complementaryIban.value !== ''">
+          IBAN nicht gültig<br/>
         </small>
         <small class="form-text text-danger"
-               *ngIf="transaction.complementaryIban.value === account.iban">Absender- und Empfänger Iban müssen unterschiedlich sein.<br/>
+               *ngIf="account.iban !=='' && transaction.complementaryIban.value === account.iban">
+          Absender- und Empfänger Iban müssen unterschiedlich sein.<br/>
         </small>
       </div>
     </div>
@@ -217,7 +220,8 @@
             <span> Empfänger: </span> <span class="float-right"> {{transactionForm.value.complementaryName}} </span>
           </li>
           <li class="list-group-item">
-            <span> Empfänger IBAN: </span> <span class="float-right"> {{transactionForm.value.complementaryIban}} </span>
+            <span> Empfänger IBAN: </span> <span
+            class="float-right"> {{transactionForm.value.complementaryIban}} </span>
           </li>
           <li class="list-group-item">
             Auftraggeber: <span class="float-right"> {{account.iban}} </span>
@@ -242,50 +246,54 @@
   </form>
 </div>
 
-<div class="container col-xl-7 my-3" *ngIf="checkSavedTransactions()" >
+<div class="container col-xl-7 my-3" *ngIf="checkSavedTransactions()">
   <h4 class="row my-3 col-xl-7">Erfasste Aufträge</h4>
   <div class="shadow pb-5 pt-3">
 
     <form [formGroup]="savedTransactionsForm" (ngSubmit)="openVerticallyCentered(content)" novalidate>
       <div class="pb-3" *ngFor="let iban of userdata.accounts">
-      <div *ngIf="savedTransactionsContainsIban(iban)">
-        <p class="mx-3">
-          <strong>
-            {{ iban }}
-            <span class="right-aligned"> Summe markierter Aufträge: {{ getMoneyPerIban(iban) }} € </span>
-          </strong>
-        </p>
-        <table class="table table-bordered table-hover table-sm">
-          <thead>
-          <tr class="bg-primary text-white">
-            <th scope="col" class="col-xl-1 col-1"></th>
-            <th scope="col">Empfänger</th>
-            <th scope="col">Verwendungszweck</th>
-            <th scope="col">Ausführung</th>
-            <th scope="col">Betrag</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let trans of savedTransactions; let i=index">
-            <td class="text-center" *ngIf="iban === trans.iban">
-              <label>
-                <input type="checkbox" [checked]="checked" [value]="trans" (change)="onCheckboxChange(trans, false, $event)"/>
-              </label>
-            </td>
-            <td *ngIf="iban === trans.iban"> {{ trans.complementaryName }} <br> {{ trans.complementaryIban }} </td>
-            <td
-              *ngIf="iban === trans.iban"> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
-            <td *ngIf="iban === trans.iban"> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>
-            <td *ngIf="iban === trans.iban"> <span [ngClass]="checkLimit(trans.amount)"> {{ trans.amount }} € </span> </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <div *ngIf="savedTransactionsContainsIban(iban)">
+          <p class="mx-3">
+            <strong>
+              {{ iban }}
+              <span class="right-aligned"> Summe markierter Aufträge: {{ getMoneyPerIban(iban) }} € </span>
+            </strong>
+          </p>
+          <table class="table table-bordered table-hover table-sm">
+            <thead>
+            <tr class="bg-primary text-white">
+              <th scope="col" class="col-xl-1 col-1"></th>
+              <th scope="col">Empfänger</th>
+              <th scope="col">Verwendungszweck</th>
+              <th scope="col">Ausführung</th>
+              <th scope="col">Betrag</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let trans of savedTransactions; let i=index">
+              <td class="text-center" *ngIf="iban === trans.iban">
+                <label>
+                  <input type="checkbox" [checked]="checked" [value]="trans"
+                         (change)="onCheckboxChange(trans, false, $event)"/>
+                </label>
+              </td>
+              <td *ngIf="iban === trans.iban"> {{ trans.complementaryName }} <br> {{ trans.complementaryIban }} </td>
+              <td
+                *ngIf="iban === trans.iban"> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
+              <td *ngIf="iban === trans.iban"> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>
+              <td *ngIf="iban === trans.iban"><span [ngClass]="checkLimit(trans.amount)"> {{ trans.amount }} € </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="mx-3">
-        <button class="btn btn-outline-secondary btn-sm mr-1" type="button" (click)="setChecked(true)">Alle wählen </button>
-        <button class="btn btn-outline-secondary btn-sm mr-1" type="button"  (click)="setChecked(false)">Alle abwählen </button>
+        <button class="btn btn-outline-secondary btn-sm mr-1" type="button" (click)="setChecked(true)">Alle wählen
+        </button>
+        <button class="btn btn-outline-secondary btn-sm mr-1" type="button" (click)="setChecked(false)">Alle abwählen
+        </button>
         <div class="right-aligned">
           <strong>
             <span> Summe aller markierten Aufträge: {{ allMarked() }} € </span>
@@ -293,8 +301,12 @@
         </div>
       </div>
       <div class="mx-3 pt-3">
-        <button class="btn btn-primary mr-1" type="submit">Markierte Aufträge senden</button>
-        <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()">Markierte Aufträge löschen</button>
+        <button class="btn btn-primary mr-1" type="submit"
+                [disabled]="checkIfCheckboxSelected()">Markierte Aufträge senden
+        </button>
+        <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()"
+                [disabled]="checkIfCheckboxSelected()">Markierte Aufträge löschen
+        </button>
       </div>
 
       <ng-template #content let-modal>
