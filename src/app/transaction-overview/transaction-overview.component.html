@@ -63,8 +63,10 @@
       </ng-container>
 
       <ng-container matColumnDef="complementaryIban">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Iban</th>
-        <td mat-cell *matCellDef="let element"> {{ element.complementaryIban }} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Empfänger / Sender </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.complementaryName !== ''" > {{ element.complementaryName }} <br> </span>
+          {{ element.complementaryIban }}   </td>
       </ng-container>
 
       <ng-container matColumnDef="text">
