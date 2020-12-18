@@ -12,7 +12,6 @@ import {
 } from '../api/Api';
 import {AppSettings} from '../../app-settings';
 import {forkJoin, Observable, Subject} from 'rxjs';
-import {FormGroup} from '@angular/forms';
 
 @Injectable({providedIn: 'root'})
 export class UserService {

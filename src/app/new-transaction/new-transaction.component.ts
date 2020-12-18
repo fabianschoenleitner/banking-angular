@@ -36,9 +36,6 @@ export class NewTransactionComponent implements OnInit {
               private config: NgbDatepickerConfig,
               private modalService: NgbModal,
               private route: ActivatedRoute) {
-    // this.userService.accountsWidgetSubject.subscribe(acc => {
-    //   this.account = acc;
-    // });
     const current = new Date();
     this.minDate = {
       year: current.getFullYear(),
