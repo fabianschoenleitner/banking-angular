@@ -27,7 +27,7 @@ export class AccountsWidgetComponent implements OnInit {
 
   async onSubmit(selectedAccount): Promise<void> {
     this.userService.accountsWidgetSubject.next(selectedAccount);
-    await this.router.navigateByUrl('/transaction/new_transaction');
+    await this.router.navigateByUrl('/transaction/new_transaction', { state: { acc: selectedAccount }});
   }
 
   hideAccountSum(acc): boolean {

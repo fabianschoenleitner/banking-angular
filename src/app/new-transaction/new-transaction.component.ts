@@ -4,6 +4,9 @@ import {UserService} from '../services/user-service';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {NgbDatepickerConfig, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-transaction',
@@ -13,6 +16,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class NewTransactionComponent implements OnInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
   accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '', limit: 0}];
+  accountObs: Observable<any>;
   savedTransactions: Transaction[];
   paymentUsageContent = false;
   transactionForm: FormGroup;
@@ -30,10 +34,11 @@ export class NewTransactionComponent implements OnInit {
   constructor(private userService: UserService,
               private fb: FormBuilder,
               private config: NgbDatepickerConfig,
-              private modalService: NgbModal) {
-    this.userService.accountsWidgetSubject.subscribe(acc => {
-      this.account = acc;
-    });
+              private modalService: NgbModal,
+              private route: ActivatedRoute) {
+    // this.userService.accountsWidgetSubject.subscribe(acc => {
+    //   this.account = acc;
+    // });
     const current = new Date();
     this.minDate = {
       year: current.getFullYear(),
@@ -43,6 +48,20 @@ export class NewTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.accountObs = this.route.paramMap
+      .pipe(map(() => window.history.state));
+
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
+      this.accounts = accounts;
+
+      this.accountObs.subscribe(a => {
+        if (a.acc !== undefined) {
+          this.account = a.acc;
+        } else {
+          this.account = this.accounts[0];
+        }
+      });
+    });
 
     const tempDate = new Date();
     this.transactionForm = this.fb.group({
