@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {AuthService} from '../services/auth-service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -8,8 +9,10 @@ import {BreakpointObserver} from '@angular/cdk/layout';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Output() themeSwitch = new EventEmitter<boolean>();
   collapsed = true;
   mobile = false;
+  currentMode = false;
 
   constructor(public authService: AuthService, public breakpointObserver: BreakpointObserver) {
   }
@@ -28,5 +31,14 @@ export class NavbarComponent implements OnInit {
 
   async onLogout(): Promise<void> {
     await this.authService.logout();
+  }
+
+  switchTheme(): void {
+    if (this.currentMode) {
+      this.currentMode = false;
+    } else {
+      this.currentMode = true;
+    }
+    this.themeSwitch.emit(this.currentMode);
   }
 }
