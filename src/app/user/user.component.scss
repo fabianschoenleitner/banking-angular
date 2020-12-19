@@ -11,6 +11,14 @@
   min-height: 300px!important;
 }
 
+.cardwidth {
+  width: 24vw;
+}
+
+.cardwidth2 {
+  width: 48vw;
+}
+
 @mixin user-theme($theme) {
   $primary: map-get($theme, primary);
 

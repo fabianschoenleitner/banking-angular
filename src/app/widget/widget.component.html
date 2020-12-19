@@ -21,8 +21,6 @@
 
     <button type="button" style="z-index: 1; position: relative;" class="btn btn-outline-danger float-sm-right align-top mb-2" (click)="deleteWidget($event)">X</button>
 
-    <!--<span *ngIf="selected==='chart'?changeWidgetSize(2):false"></span>-->
-
     <span *ngIf="selected==='chart'">
       <app-chart-account-history idName={{idString}}></app-chart-account-history>
     </span>

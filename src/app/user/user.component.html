@@ -1,4 +1,4 @@
-<div class="container pt-4">
+<div class="container pt-4 w-100">
 
   <h3 class="pb-4 font-weight-normal">
     Willkommen auf Ihrer Startseite, {{ userdata.firstName }} {{ userdata.lastName }}!
@@ -23,8 +23,8 @@
   <button class="btn btn-primary" (click)="addComponent()">Widget hinzufügen</button>
 
   <div fxLayout="row wrap" fxLayoutAlign="center">
-    <div class="card-deck" fxFlex="0 1 calc(33.3%)" *ngFor="let widget of widgets">
-      <app-widget class="card text-center shadow mt-3 mr-5" selected={{widget.typ}} [id]=widget.id></app-widget>
+    <div class="card-deck" *ngFor="let widget of widgets">
+      <app-widget class="card text-center shadow mt-3 mr-5 cardwidth" selected={{widget.typ}} [id]=widget.id></app-widget>
     </div>
   </div>
 

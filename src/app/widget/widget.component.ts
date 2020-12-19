@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-widget',
@@ -25,10 +25,10 @@ export class WidgetComponent implements OnInit {
     node.parentElement.parentElement.parentElement.removeChild(node.parentNode.parentNode);
   }
 
-  changeWidgetSize(size): void {
-    const node = document.getElementById(this.deleteID);
-    node.parentElement.parentElement.setAttribute('style', 'flex-basis: calc(66.6% - 32px);');
-    node.parentElement.parentElement.setAttribute('class', 'card text-center shadow mt-3 mr-4');
+  changeWidgetSize(): void {
+    // const node = document.getElementById(this.deleteID);
+    // node.parentElement.parentElement.setAttribute('style', 'flex-basis: calc(66.6% - 32px);');
+    // node.parentElement.parentElement.setAttribute('class', 'card text-center shadow mt-3 mr-4');
   }
 
   constructor() {
