@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(data));
         await this.router.navigateByUrl('/user').then(value => {
           if (value) {
-            console.log('navigate to /user worked');
+            // console.log('navigate to /user worked');
           } else {
-            console.log('navigate to /user didnt work');
+            // console.log('navigate to /user didnt work');
           }
         });
       }, error => {

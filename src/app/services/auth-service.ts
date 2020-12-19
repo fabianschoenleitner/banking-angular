@@ -14,9 +14,9 @@ export class AuthService {
   }
 
   constructor(private router: Router, private http: HttpClient) {
-    console.log('Auth Service');
+    // console.log('Auth Service');
     if (localStorage.getItem('user')) {
-      console.log('Logged in from memory');
+      // console.log('Logged in from memory');
     }
   }
 
