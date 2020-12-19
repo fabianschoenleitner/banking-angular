@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Account, Transaction} from '../../api/Api';
+import {Account, Transaction, TransactionRequest, TransactionResponse} from '../../api/Api';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -8,7 +8,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {UserService} from '../../services/user-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faArrowCircleUp, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+import {faArrowCircleUp, faInfoCircle, faSyncAlt} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 import {TableService} from '../../services/table-service';
 
@@ -27,6 +27,7 @@ import {TableService} from '../../services/table-service';
 export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
+  accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '', limit: 0}];
   transactions: Transaction[];
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
@@ -48,7 +49,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public userService: UserService, public tableService: TableService, private library: FaIconLibrary) {
-    library.addIcons(faArrowCircleUp, faInfoCircle);
+    library.addIcons(faArrowCircleUp, faInfoCircle, faSyncAlt);
   }
 
   ngOnInit(): void {
@@ -139,6 +140,24 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
     } else {
       return type;
     }
+  }
+
+  refreshTransactions(): void {
+    const request: TransactionRequest = {n: 100, stored: false};
+    this.userService.getTransactions(request, [this.account.iban]).subscribe((response: TransactionResponse[]) => {
+      this.transactions = this.userService.sortTransactions(response).filter((t: Transaction) => t.amount < 0);
+      this.transactions.map((trans: Transaction) => {
+        trans.timestamp = new Date(trans.timestamp);
+      });
+      this.userService.transactionFinanceSite.next(this.transactions);
+      this.dataSource = new MatTableDataSource(this.transactions);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
+      this.accounts = accounts;
+      this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
+    });
   }
 
 }

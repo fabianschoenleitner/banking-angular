@@ -1,5 +1,5 @@
 <div class="container col-xl-7 my-4">
-  <app-accounts-dropdown-lg [(currAcc)]="account"></app-accounts-dropdown-lg>
+  <app-accounts-dropdown-lg [(currAcc)]="account" [accounts]="accounts"></app-accounts-dropdown-lg>
 </div>
 
 <div class="container col-xl-7">
@@ -33,9 +33,18 @@
                 (click)="getDateRange()">Filtern
         </button>
       </div>
+      <div class="d-flex align-items-end ml-auto ">
+        <button type="button" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="top" title="Aktualisieren"
+                (click)="refreshTransactions()">
+          <fa-icon [icon]="['fas', 'sync-alt']" size="1x" class="icon-styling"></fa-icon>
+        </button>
+      </div>
     </div>
     <small class="row form-text text-danger" *ngIf="showDateError"> Startdatum muss vor dem Enddatum
-      liegen.<br/></small>
+      liegen.<br/>
+    </small>
+
+
   </form>
 
   <div *ngIf="filterActive" class="mt-2">
@@ -68,7 +77,7 @@
             {{ (element[column].length > 50) ? (element[column] | slice:0:50) + '..' : (element[column]) }}
           </span>
           <span *ngIf="column === 'complementaryIban'">
-            <span *ngIf="element['complementaryName'] !== ''" > {{ element['complementaryName'] }}   <br> </span>
+            <span *ngIf="element['complementaryName'] !== ''"> {{ element['complementaryName'] }}   <br> </span>
             {{ element[column] }} </span>
           <span *ngIf="column === 'type'">
             <fa-icon *ngIf="element[column] === 'Eilauftrag'" [icon]="['fas', 'arrow-circle-up']" size="1x"

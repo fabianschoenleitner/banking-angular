@@ -34,6 +34,12 @@
       <div class="d-flex align-items-end">
         <button type="submit" class="btn btn-primary" [disabled]="filterForm.invalid || showDateError" (click)="getDateRange()">Filtern</button>
       </div>
+      <div class="d-flex align-items-end ml-auto ">
+        <button type="button" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="top" title="Aktualisieren"
+                (click)="refreshTransactions()">
+          <fa-icon [icon]="['fas', 'sync-alt']" size="1x" class="icon-styling"></fa-icon>
+        </button>
+      </div>
     </div>
     <small class="row form-text text-danger" *ngIf="showDateError"> Startdatum muss vor dem Enddatum liegen.<br/></small>
   </form>
