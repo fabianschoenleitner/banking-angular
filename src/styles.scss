@@ -2,10 +2,10 @@
 @include mat-core();
 
 // Import for components with mixin
-//@import "app/user/user.component";
+@import "app/user/user.component";
 @import "app/widget/widget.component";
-//@import "app/app.component";
-//@import "app/navbar/navbar.component";
+@import "app/app.component";
+@import "app/navbar/navbar.component";
 
 // Mixin for all components, add new component-mixins here and import above
 @mixin custom-theme($theme) {
@@ -36,16 +36,12 @@ $light-accent: mat-palette($mat-light-green);
 $light-warn: mat-palette($mat-red);
 $light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
 
+//uncomment the line below to use light-theme, not recommended (needs detailed work to look good)
 //@include angular-material-theme($light-theme);
-//
+
 //@media (prefers-color-scheme: light) {
 //  @include angular-material-theme($light-theme);
 //  // @include custom-theme($light-theme);
-//}
-//
-//.light-theme {
-//  @include angular-material-theme($light-theme);
-//  @include custom-theme($light-theme);
 //}
 
 .red {
