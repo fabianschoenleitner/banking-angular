@@ -9,6 +9,7 @@
 
 // Mixin for all components, add new component-mixins here and import above
 @mixin custom-theme($theme) {
+  @include user-theme($theme);
   @include widget-theme($theme);
 }
 
