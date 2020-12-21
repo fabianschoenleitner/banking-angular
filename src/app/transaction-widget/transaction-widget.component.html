@@ -6,7 +6,7 @@
 
   <app-accounts-dropdown (currAcc)="getAccount($event)"></app-accounts-dropdown>
 
-  <div class="text-center py-4">
+  <div class="text-center py-4 pointer" (click)="onSubmit()">
     <ul class="list-group list-group-flush" *ngFor="let trans of transactions; let i = index">
       <li class="list-group-item"  *ngIf="i < 4">
         <div>

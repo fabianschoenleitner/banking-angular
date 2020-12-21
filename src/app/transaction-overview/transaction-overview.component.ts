@@ -7,7 +7,7 @@ import {DatePipe} from '@angular/common';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {TableService} from '../services/table-service';
-import {faArrowCircleUp, faInfoCircle, faSyncAlt} from '@fortawesome/free-solid-svg-icons';
+import {faSyncAlt} from '@fortawesome/free-solid-svg-icons';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 @Component({

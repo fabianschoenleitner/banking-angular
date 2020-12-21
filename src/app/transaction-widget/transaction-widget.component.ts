@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {UserService} from '../services/user-service';
 import {Account, Iban, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-transaction-widget',
@@ -13,8 +14,7 @@ export class TransactionWidgetComponent {
   account: Account;
   transactions: Transaction[];
 
-  constructor(private userService: UserService) {
-
+  constructor(private userService: UserService, private router: Router) {
   }
 
   checkBalance(amount): string {
@@ -34,4 +34,8 @@ export class TransactionWidgetComponent {
     });
   }
 
+  async onSubmit(): Promise<void> {
+    this.userService.accountsWidgetSubject.next(this.account); // delete maybe
+    await this.router.navigateByUrl('/transfer_orders', { state: { acc: this.account }});
+  }
 }
