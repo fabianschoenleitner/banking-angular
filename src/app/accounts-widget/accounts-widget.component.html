@@ -1,7 +1,7 @@
 <div class="container">
-
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let acc of accounts; let i = index" >
+  <cdk-virtual-scroll-viewport itemSize="50" class="accounts-viewport">
+  <ul class="list-group make-scrollable">
+    <li class="list-group-item" *cdkVirtualFor="let acc of accounts; let i = index" >
       <div class="btn-group mr-3 btn-block" *ngIf="hideAccountSum(acc)">
         <button class="btn btn-light btn-block"
                 id="singleAccount">
@@ -21,4 +21,5 @@
       </div>
     </li>
   </ul>
+  </cdk-virtual-scroll-viewport>
 </div>
