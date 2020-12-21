@@ -21,7 +21,9 @@
         {{ acc.name }}
         <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
         <br/>
-        <span class="d-block"> {{ acc.iban }}  </span>
+        <span class="d-block"> <span *ngIf="acc.iban.length < 29"> {{ acc.iban }} </span>
+          <span *ngIf="acc.iban.length > 22"> {{ acc.iban.substring(0,22) }} <br> {{ acc.iban.substring(23,acc.iban.length) }}  </span>
+        </span>
         <span class=""> <strong>  {{ acc.balance }} € </strong>  </span>
       </button>
     </div>
