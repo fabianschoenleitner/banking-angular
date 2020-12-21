@@ -65,7 +65,7 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
       this.accounts = accounts;
 
       this.accountObs.subscribe(a => {
-        if (a.acc !== undefined) {
+        if (a.acc !== undefined && a.acc.iban !== '') {
           this.account = a.acc;
         } else {
           this.account = this.accounts[0];
