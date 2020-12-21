@@ -38,11 +38,6 @@
                  value="Eilauftrag">
           <label class="form-check-label" for="Eilauftrag">eilig</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" formControlName="type" id="Eigenuebertragung"
-                 value="Eigenuebertragung">
-          <label class="form-check-label" for="Eigenuebertragung">Eigenübertragung</label>
-        </div>
       </div>
     </div>
     <div class="row my-3">
@@ -262,7 +257,7 @@
           <table class="table table-bordered table-hover table-sm">
             <thead>
             <tr class="bg-primary text-white">
-              <th scope="col" class="col-xl-1 col-1"></th>
+              <th scope="col" class=""></th>
               <th scope="col">Empfänger</th>
               <th scope="col">Verwendungszweck</th>
               <th scope="col">Ausführung</th>
@@ -273,11 +268,13 @@
             <tr *ngFor="let trans of savedTransactions; let i=index">
               <td class="text-center" *ngIf="iban === trans.iban">
                 <label>
-                  <input type="checkbox" [checked]="checked" [value]="trans"
+                  <input type="checkbox" #checkboxes [checked]="checked" [value]="trans"
                          (change)="onCheckboxChange(trans, false, $event)"/>
                 </label>
               </td>
-              <td *ngIf="iban === trans.iban"> {{ trans.complementaryName }} <br> {{ trans.complementaryIban }} </td>
+              <td *ngIf="iban === trans.iban">
+                <span *ngIf="trans.complementaryName !== ''"> {{ trans.complementaryName }} <br>  </span>
+                {{ trans.complementaryIban }} </td>
               <td
                 *ngIf="iban === trans.iban"> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
               <td *ngIf="iban === trans.iban"> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>

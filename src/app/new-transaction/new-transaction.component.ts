@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../services/user-service';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
@@ -29,6 +29,7 @@ export class NewTransactionComponent implements OnInit {
   tanModal: NgbModalRef;
   @ViewChild('successContent') successContent: ElementRef;
   @ViewChild('failContent') failContent: ElementRef;
+  @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
   errorMsg = '';
 
   constructor(private userService: UserService,
@@ -189,11 +190,10 @@ export class NewTransactionComponent implements OnInit {
         this.openVerticallyCentered(this.failContent);
         this.onClear();
 
-        // if (error.status === 400) {
-        //   // TODO: Change to real error-string as soon as backend implementation is finished
-        //   if (error.error.error === 'cannot transfer to same account') {
-        //     // TODO: DO NOT COMMENT THIS IN!! INFINITE LOOP -> HIGH COSTS FOR KIM.
-        //     // this.sendTransaction('PUT', content);
+        // TODO: Uncomment if transaction should be stored if limit was exceeded
+        // if (error.status === 403) {
+        //   if (error.error.error === 'limit exceeded') {
+        //     this.sendTransaction('PUT', content);
         //   } else {
         //     this.openVerticallyCentered(content);
         //     this.onClear();
@@ -330,6 +330,10 @@ export class NewTransactionComponent implements OnInit {
   uncheckAll(): void {
     this.savedTransactions.forEach((item: Transaction) => {
       this.onCheckboxChange(item, false);
+    });
+
+    this.checkboxes.forEach((element) => {
+      element.nativeElement.checked = false;
     });
   }
 

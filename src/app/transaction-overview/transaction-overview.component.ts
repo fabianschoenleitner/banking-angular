@@ -56,6 +56,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
+      this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
     });
   }
 
@@ -112,6 +113,7 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
     });
     this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;

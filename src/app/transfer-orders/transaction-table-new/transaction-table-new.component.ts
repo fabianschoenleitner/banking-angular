@@ -69,6 +69,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.paginator._intl.itemsPerPageLabel = 'Einträge pro Seite:';
+      this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
     });
   }
 
@@ -153,6 +154,7 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
     });
     this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;
@@ -161,3 +163,18 @@ export class TransactionTableNewComponent implements OnInit, AfterViewInit, OnDe
   }
 
 }
+
+// const germanRangeLabel = (page: number, pageSize: number, length: number) => {
+//   if (length === 0 || pageSize === 0) { return `0 von ${length}`; }
+//
+//   length = Math.max(length, 0);
+//
+//   const startIndex = page * pageSize;
+//
+//   // If the start index exceeds the list length, do not try and fix the end index to the end.
+//   const endIndex = startIndex < length ?
+//     Math.min(startIndex + pageSize, length) :
+//     startIndex + pageSize;
+//
+//   return `${startIndex + 1} - ${endIndex} von ${length}`;
+// };
