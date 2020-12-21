@@ -36,6 +36,6 @@ export class TransactionWidgetComponent {
 
   async onSubmit(): Promise<void> {
     this.userService.accountsWidgetSubject.next(this.account); // delete maybe
-    await this.router.navigateByUrl('/transfer_orders', { state: { acc: this.account }});
+    await this.router.navigateByUrl('/transaction/overview', { state: { acc: this.account }});
   }
 }

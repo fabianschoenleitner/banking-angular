@@ -9,6 +9,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {TableService} from '../services/table-service';
 import {faSyncAlt} from '@fortawesome/free-solid-svg-icons';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transaction-overview',
@@ -18,6 +21,7 @@ import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   account: Account = {iban: '', balance: 0.00, name: '', accountType: '', limit: 0};
   accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '', limit: 0}];
+  accountObs: Observable<any>;
   transactions: Transaction[];
   userdata = JSON.parse(localStorage.getItem('user'));
   filterActive = false;
@@ -35,13 +39,27 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public userService: UserService, public tableService: TableService, private library: FaIconLibrary) {
+  constructor(public userService: UserService,
+              public tableService: TableService,
+              private library: FaIconLibrary,
+              private route: ActivatedRoute) {
     library.addIcons(faSyncAlt);
   }
 
   ngOnInit(): void {
-    this.userService.accountsWidgetSubject.subscribe(acc => {
-      this.account = acc;
+    this.accountObs = this.route.paramMap
+      .pipe(map(() => window.history.state));
+
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
+      this.accounts = accounts;
+
+      this.accountObs.subscribe(a => {
+        if (a.acc !== undefined && a.acc.iban !== '') {
+          this.account = a.acc;
+        } else {
+          this.account = this.accounts[0];
+        }
+      });
     });
 
     const defaultPredicate = this.dataSource.filterPredicate;

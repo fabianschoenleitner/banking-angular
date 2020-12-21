@@ -39,7 +39,7 @@ const routes: Routes = [
     component: NewTransactionComponent
   },
   {
-    path: 'transaction/uebersicht',
+    path: 'transaction/overview',
     component: TransactionOverviewComponent
   }
 ];

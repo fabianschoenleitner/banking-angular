@@ -11,8 +11,6 @@ import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 import {faArrowCircleUp, faInfoCircle, faSyncAlt} from '@fortawesome/free-solid-svg-icons';
 import {Observable, Subscription} from 'rxjs';
 import {TableService} from '../services/table-service';
-import {ActivatedRoute} from '@angular/router';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transfer-orders',
@@ -52,25 +50,15 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(public userService: UserService,
               public tableService: TableService,
-              private library: FaIconLibrary,
-              private route: ActivatedRoute) {
+              private library: FaIconLibrary) {
     library.addIcons(faArrowCircleUp, faInfoCircle, faSyncAlt);
   }
 
   ngOnInit(): void {
-    this.accountObs = this.route.paramMap
-      .pipe(map(() => window.history.state));
 
     this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;
-
-      this.accountObs.subscribe(a => {
-        if (a.acc !== undefined && a.acc.iban !== '') {
-          this.account = a.acc;
-        } else {
-          this.account = this.accounts[0];
-        }
-      });
+      this.account = this.accounts[0];
     });
 
     const defaultPredicate = this.dataSource.filterPredicate;
@@ -110,7 +98,7 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
   getDateRange(): void {
     this.filterActive = true;
     this.dataSource.data = this.transactions;
-    const toDate = this.tableService.getDate('toDate' , this.filterForm);
+    const toDate = this.tableService.getDate('toDate', this.filterForm);
     const fromDate = this.tableService.getDate('fromDate', this.filterForm);
 
     this.dataSource.data = this.dataSource.data.filter(
