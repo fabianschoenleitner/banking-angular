@@ -23,7 +23,7 @@ export class NewTransactionComponent implements OnInit {
   savedTransactionsForm: FormGroup;
   minDate = undefined;
   tempDate = new Date();
-  userdata = JSON.parse(localStorage.getItem('user'));
+  userdata = JSON.parse(sessionStorage.getItem('user'));
   httpType = '';
   checked = false;
   tanModal: NgbModalRef;
@@ -237,6 +237,8 @@ export class NewTransactionComponent implements OnInit {
     this.transactionForm.controls.type.reset('');
     this.transactionForm.controls.complementaryIban.reset('', Validators.required);
     this.transactionForm.controls.complementaryName.reset('');
+    this.setPaymentUsageContent(false);
+    this.onChangeTextType(1);
   }
 
   onCheckboxChange(data: Transaction, check?: boolean, e?): void {

@@ -16,8 +16,8 @@ export class ChartAccountHistoryComponent implements OnInit {
   transactions: Transaction[] = [];
 
   constructor(private userService: UserService) {
-    const userData = JSON.parse(localStorage.getItem('user'));
-    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
+    const userData = JSON.parse(sessionStorage.getItem('user'));
+    this.ibanArr = JSON.parse(sessionStorage.getItem('user')).accounts;
 
     this.userService.transactionWidgetSubject.subscribe(acc => {
       this.account = acc;

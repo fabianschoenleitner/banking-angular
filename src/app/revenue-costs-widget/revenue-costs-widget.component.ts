@@ -33,8 +33,8 @@ export class RevenueCostsWidgetComponent implements OnInit {
 
   getAccount(account: Account): void {
     this.account = account;
-    const userData = JSON.parse(localStorage.getItem('user'));
-    this.ibanArr = JSON.parse(localStorage.getItem('user')).accounts;
+    const userData = JSON.parse(sessionStorage.getItem('user'));
+    this.ibanArr = JSON.parse(sessionStorage.getItem('user')).accounts;
     let ibanArr = [this.account.iban];
 
     if (this.account.name === 'Alle Konten') {

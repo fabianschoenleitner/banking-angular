@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 21);
     this.time = {hour: this.today.getHours(), minute: this.getNextSlot()};
-    this.userdata = JSON.parse(localStorage.getItem('user'));
+    this.userdata = JSON.parse(sessionStorage.getItem('user'));
     this.cards = [
       {limit: 1000, available: 840, cardnr: 'SD12345678', ctype: 'Debit'},
       {limit: 1200, available: 1200, cardnr: 'XS65471253', ctype: 'Kredit'}

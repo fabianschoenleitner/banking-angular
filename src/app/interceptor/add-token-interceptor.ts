@@ -5,10 +5,10 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class AddTokenInterceptor implements HttpInterceptor {
   intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
-    if (localStorage.getItem('user')) {
+    if (sessionStorage.getItem('user')) {
       const jsonReq: HttpRequest<T> = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+          Authorization: `Bearer ${JSON.parse(sessionStorage.getItem('user')).token}`
         }
       });
       return next.handle(jsonReq);

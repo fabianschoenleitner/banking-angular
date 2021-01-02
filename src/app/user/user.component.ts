@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
       this.accounts = accounts;
     });
 
-    this.userdata = JSON.parse(localStorage.getItem('user'));
+    this.userdata = JSON.parse(sessionStorage.getItem('user'));
   }
 
   addComponent(): void {

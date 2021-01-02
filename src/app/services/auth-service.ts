@@ -10,22 +10,17 @@ export class AuthService {
   data: UserData;
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('user');
+    return !!sessionStorage.getItem('user');
   }
 
-  constructor(private router: Router, private http: HttpClient) {
-    // console.log('Auth Service');
-    if (localStorage.getItem('user')) {
-      // console.log('Logged in from memory');
-    }
-  }
+  constructor(private router: Router, private http: HttpClient) { }
 
   login(user: LoginRequest): Observable<UserData> {
     return this.http.post<UserData>(AppSettings.baseUrl + '/login', user);
   }
 
   async logout(): Promise<boolean> {
-    localStorage.clear();
+    sessionStorage.clear();
     return await this.router.navigate(['/']);
   }
 }

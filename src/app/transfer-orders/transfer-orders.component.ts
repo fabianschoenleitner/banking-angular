@@ -29,7 +29,7 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
   accounts: Account[] = [{iban: '', balance: 0, name: '', accountType: '', limit: 0}];
   accountObs: Observable<any>;
   transactions: Transaction[];
-  userdata = JSON.parse(localStorage.getItem('user'));
+  userdata = JSON.parse(sessionStorage.getItem('user'));
   filterActive = false;
   removable = true;
   displayedColumns: string[] = ['type', 'complementaryIban', 'text', 'timestamp', 'amount'];

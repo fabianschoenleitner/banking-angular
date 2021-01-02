@@ -95,16 +95,15 @@
          ngbRadioGroup
          name="radioBasic"
          formControlName="textType">
-      <label ngbButtonLabel class="  btn-outline-primary active">
+      <label ngbButtonLabel class="btn-outline-primary">
         <input
           ngbButton
           type="radio"
-          checked
           value="Zahlungsreferenz"
           (click)="onChangeTextType(1); setPaymentUsageContent(false)">
         Zahlungsreferenz
       </label>
-      <label ngbButtonLabel class=" btn-outline-primary">
+      <label ngbButtonLabel class="btn-outline-primary">
         <input
           ngbButton
           type="radio"
@@ -139,7 +138,7 @@
               class="btn btn-primary mr-1"
               (click)="storeTransaction('PUT', successContent)">Speichern
       </button>
-      <button class="btn btn-secondary" (click)="onClear()">Zurücksetzen</button>
+      <button type="button" class="btn btn-secondary" (click)="onClear()">Zurücksetzen</button>
     </div>
 
     <ng-template #failContent let-modal>
