@@ -147,7 +147,7 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   refreshTransactions(): void {
-    const request: TransactionRequest = {n: 100, stored: false};
+    const request: TransactionRequest = {n: 10000, stored: false};
     this.userService.getTransactions(request, [this.account.iban]).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response).filter((t: Transaction) => t.amount < 0);
       this.transactions.map((trans: Transaction) => {

@@ -12,7 +12,7 @@ export class TransactionComponent implements OnInit {
   transactions: Transaction[];
 
   constructor(private userService: UserService) {
-    const request: TransactionRequest = {n: 100, stored: false};
+    const request: TransactionRequest = {n: 10000, stored: false};
     this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
       this.transactions.map((trans: Transaction) => {

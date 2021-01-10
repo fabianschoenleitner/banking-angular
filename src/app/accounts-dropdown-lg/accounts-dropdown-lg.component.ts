@@ -34,7 +34,7 @@ export class AccountsDropdownLgComponent implements OnInit {
     this.currAccChange.emit(currentAccount);
     this.userService.accountsWidgetSubject.next(currentAccount);
 
-    const request: TransactionRequest = {n: 100, stored: false};
+    const request: TransactionRequest = {n: 10000, stored: false};
     this.userService.getTransactions(request, [currentAccount.iban]).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
       this.transactions.map((trans: Transaction) => {
