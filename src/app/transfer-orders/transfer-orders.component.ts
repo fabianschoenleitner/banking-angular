@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Account, Transaction, TransactionRequest, TransactionResponse} from '../api/Api';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
@@ -50,7 +50,8 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(public userService: UserService,
               public tableService: TableService,
-              private library: FaIconLibrary) {
+              private library: FaIconLibrary,
+              private el: ElementRef) {
     library.addIcons(faArrowCircleUp, faInfoCircle, faSyncAlt);
   }
 
@@ -173,6 +174,7 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.userService.getTransactions(request, [this.account.iban]).subscribe((response: TransactionResponse[]) => {
       newTransactions = this.userService.sortTransactions(response).filter((t: Transaction) => t.amount < 0);
+      this.showNoMoreTransactionsMessage(newTransactions);
       newTransactions.map((trans: Transaction) => {
         trans.timestamp = new Date(trans.timestamp);
       });
@@ -192,6 +194,16 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
+  }
+
+  showNoMoreTransactionsMessage(newTransactions: Transaction[]): void {
+    const myTag = this.el.nativeElement.querySelector('.showNoMoreTransactions');
+    if (newTransactions.length === 0) {
+      myTag.classList.remove('d-none');
+      setTimeout(() => {  myTag.classList.add('d-none'); }, 3000);
+    } else {
+      myTag.classList.add('d-none');
+    }
   }
 
 }

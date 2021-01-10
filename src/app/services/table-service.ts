@@ -94,5 +94,4 @@ export class TableService {
     return transactions;
   }
 
-
 }

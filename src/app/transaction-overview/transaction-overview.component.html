@@ -102,6 +102,10 @@
       </button>
     </div>
 
+    <div class="w-100 d-flex justify-content-center w-100 ">
+      <p *ngIf="tableService.isLastPage(dataSource)" class="showNoMoreTransactions d-none row text-primary"> Keine weiteren Transaktionen </p>
+    </div>
+
     <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
   </div>
 
