@@ -42,7 +42,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   constructor(public userService: UserService,
               public tableService: TableService,
               private library: FaIconLibrary,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+  ) {
     library.addIcons(faSyncAlt);
   }
 
@@ -121,22 +122,55 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   }
 
   refreshTransactions(): void {
-    const request: TransactionRequest = {n: 10000, stored: false};
+    const amount = 1000;
+    // TODO: Comment in as soon as backend is finished
+    // if (this.transactions.length > 0) {
+    //   amount = this.transactions.length;
+    // }
+    const request: TransactionRequest = {n: amount, stored: false};
     this.userService.getTransactions(request, [this.account.iban]).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
       this.transactions.map((trans: Transaction) => {
         trans.timestamp = new Date(trans.timestamp);
       });
       this.userService.transactionFinanceSite.next(this.transactions);
-      this.dataSource = new MatTableDataSource(this.transactions);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
+      this.initTable();
     });
     this.userService.getAllAccounts().subscribe(({accounts}) => {
       this.accounts = accounts;
       this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });
+  }
+
+  fetchMoreTransactions(): void {
+    let request: TransactionRequest = {n: 10, stored: false};
+    let newTransactions: Transaction[] = [];
+    if (this.dataSource.paginator.hasNextPage() === false && this.transactions.length > 0) {
+      const lastDate: Date = this.transactions[this.transactions.length - 1].timestamp;
+      // const lastDate: Date = this.transactions[0].timestamp;
+      request = {n: 10, stored: false, exclusiveDate: new Date(lastDate.toISOString())};
+    }
+    this.userService.getTransactions(request, [this.account.iban]).subscribe((response: TransactionResponse[]) => {
+      newTransactions = this.userService.sortTransactions(response);
+      newTransactions.map((trans: Transaction) => {
+        trans.timestamp = new Date(trans.timestamp);
+      });
+
+      this.transactions = this.tableService.concatArrays(this.transactions, newTransactions);
+      this.userService.transactionFinanceSite.next(this.transactions);
+      this.initTable();
+    });
+    this.userService.getAllAccounts().subscribe(({accounts}) => {
+      this.accounts = accounts;
+      this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
+    });
+  }
+
+  initTable(): void {
+    this.dataSource = new MatTableDataSource(this.transactions);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.getRangeLabel = this.tableService.germanRangeLabel;
   }
 
 }

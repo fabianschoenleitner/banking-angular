@@ -22,7 +22,7 @@ export interface Transaction {
 }
 
 export interface TransactionRequest {
-  exclusiveDate?: number;
+  exclusiveDate?: Date;
   n: number;
   type?: TransactionType;
   stored: boolean;

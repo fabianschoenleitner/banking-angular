@@ -1,9 +1,14 @@
 import {Injectable} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {MatTableDataSource} from '@angular/material/table';
+import {Transaction} from '../api/Api';
+import {UserService} from './user-service';
 
 @Injectable({providedIn: 'root'})
 
 export class TableService {
+
+  constructor(private userService: UserService) { }
 
   getDate(date: string, form: FormGroup): Date {
     const tempDate = new Date();
@@ -43,6 +48,7 @@ export class TableService {
       return false;
     }
   }
+
   checkFutureDate(date): boolean {
     const tempDate = new Date(date);
     const now = new Date();
@@ -50,7 +56,9 @@ export class TableService {
   }
 
   germanRangeLabel = (page: number, pageSize: number, length: number) => {
-    if (length === 0 || pageSize === 0) { return `0 von ${length}`; }
+    if (length === 0 || pageSize === 0) {
+      return `0 von ${length}`;
+    }
 
     length = Math.max(length, 0);
 
@@ -63,5 +71,28 @@ export class TableService {
 
     return `${startIndex + 1} - ${endIndex} von ${length}`;
   }
+
+  isLastPage(dataSource: MatTableDataSource<Transaction>): boolean {
+    if (dataSource.paginator !== undefined && !dataSource.paginator.hasNextPage()) {
+      return true;
+    }
+    return false;
+  }
+
+  concatArrays(transactions: Transaction[], newTransactions: Transaction[]): Transaction[] {
+    // concat arrays and sort them
+    transactions = newTransactions.concat(transactions);
+    transactions = this.userService.sort(transactions);
+
+    // delete duplicates
+    for (let i = 0; i < transactions.length - 1; i++) {
+      if (this.userService.compareTransactions(transactions[i], transactions[i + 1])) {
+        transactions.splice(i + 1, 1);
+      }
+    }
+
+    return transactions;
+  }
+
 
 }

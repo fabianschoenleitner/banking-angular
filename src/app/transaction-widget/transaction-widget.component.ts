@@ -28,7 +28,8 @@ export class TransactionWidgetComponent {
   getAccount(account: Account): void {
     this.account = account;
     this.ibanArr = this.userService.getIbans(this.account);
-    const request: TransactionRequest = {n: 10000, stored: false};
+    // TODO: Change to n: 10 as soon as backend is finished
+    const request: TransactionRequest = {n: 1000, stored: false};
     this.userService.getTransactions(request, this.ibanArr).subscribe((response: TransactionResponse[]) => {
       this.transactions = this.userService.sortTransactions(response);
     });

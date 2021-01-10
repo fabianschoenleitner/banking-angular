@@ -137,6 +137,12 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
 
+    <div class="w-100 d-flex justify-content-center">
+      <button class="btn btn-outline-secondary text-center my-3"
+              *ngIf="tableService.isLastPage(dataSource)" (click)="fetchMoreTransactions()"> Mehr Transaktionen laden
+      </button>
+    </div>
+
     <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
   </div>
 

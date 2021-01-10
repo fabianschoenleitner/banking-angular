@@ -82,7 +82,7 @@ export class NewTransactionComponent implements OnInit {
       checkArray: this.fb.array([], [Validators.required])
     });
 
-    const request: TransactionRequest = {n: 10000, stored: true};
+    const request: TransactionRequest = {n: 1000, stored: true};
     this.userService.getTransactions(request, this.userService.getIbans()).subscribe((response: TransactionResponse[]) => {
       this.savedTransactions = this.userService.sortTransactions(response);
     });

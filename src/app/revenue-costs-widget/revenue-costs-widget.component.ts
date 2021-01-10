@@ -41,7 +41,7 @@ export class RevenueCostsWidgetComponent implements OnInit {
       ibanArr = userData.accounts;
     }
 
-    const request: TransactionRequest = {n: 10000, stored: false};
+    const request: TransactionRequest = {n: 1000, stored: false};
     this.userService.getTransactions(request, ibanArr).subscribe((response: TransactionResponse[]) => {
       this.transactionResponse = [];
       for (const transactionResponse of response) {

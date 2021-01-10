@@ -84,4 +84,32 @@ export class UserService {
     });
   }
 
+  compareTransactions(trans1: Transaction, trans2: Transaction): boolean {
+    if (trans1 === null || trans2 === null) {
+      return false;
+    }
+    if (trans1.type !== trans2.type) {
+      return false;
+    }
+    if (trans1.text !== trans2.text) {
+      return false;
+    }
+    if (trans1.complementaryName !== trans2.complementaryName) {
+      return false;
+    }
+    if (trans1.complementaryIban !== trans2.complementaryIban) {
+      return false;
+    }
+    if (trans1.amount !== trans2.amount) {
+      return false;
+    }
+    if (trans1.textType !== trans2.textType) {
+      return false;
+    }
+    if (trans1.iban !== trans2.iban) {
+      return false;
+    }
+    return trans1.timestamp.getTime() === trans2.timestamp.getTime();
+  }
+
 }
