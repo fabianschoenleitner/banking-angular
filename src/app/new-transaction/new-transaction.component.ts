@@ -375,4 +375,39 @@ export class NewTransactionComponent implements OnInit {
     return '';
   }
 
+  checkLimits(): boolean {
+    let available = 0;
+    let limitExceeded = false;
+    this.accounts.map((a: Account) => {
+      if (a.iban !== null) {
+        available = this.getAvailableAmount(a.iban);
+        if (available < 0) {
+          limitExceeded = true;
+        }
+      }
+    });
+    return limitExceeded;
+  }
+
+  findAccountByIban(iban: string): Account {
+    let account: Account = null;
+    this.accounts.map((a: Account) => {
+      if (a !== null && a.iban === iban) {
+        account = a;
+      }
+    });
+    return account;
+  }
+
+  getAvailableAmount(iban: string): number {
+    const currentBalance = this.findAccountByIban(iban).balance;
+    let available = 0;
+    let limit = 0;
+    if (this.findAccountByIban(iban) !== null) {
+      limit = this.findAccountByIban(iban).limit;
+    }
+    available = currentBalance - this.getMoneyPerIban(iban) - limit;
+    return available;
+  }
+
 }

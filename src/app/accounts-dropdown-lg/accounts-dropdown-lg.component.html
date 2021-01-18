@@ -10,7 +10,7 @@
       <br/>
       <span class="left-aligned"> <strong> {{ currAcc.name }} </strong> </span>
       <span> <strong> {{ currAcc.iban}} </strong></span>
-      <span class="right-aligned"> <strong>  {{ currAcc.balance }} € </strong> </span>
+      <span class="right-aligned"> <strong>  {{ currAcc.balance | number : '1.2-2' }} € </strong> </span>
     </button>
     <div class="dropdown-menu btn-block" id="dropdown-elements" ngbDropdownMenu>
       <button
@@ -21,7 +21,7 @@
         <span class="right-aligned"><em> {{ acc.accountType }} </em></span>
         <br/>
         <strong> {{ acc.iban }} </strong>
-        <span class="right-aligned"> <strong>  {{ acc.balance }} €  </strong> </span>
+        <span class="right-aligned"> <strong>  {{ acc.balance | number : '1.2-2' }} €  </strong> </span>
       </button>
     </div>
   </div>

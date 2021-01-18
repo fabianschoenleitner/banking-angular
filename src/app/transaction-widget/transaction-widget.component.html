@@ -12,7 +12,7 @@
         <div>
           <span class="left-aligned"> {{ trans.timestamp | date: 'dd. MMMM yyyy' }} </span>
           <span class="right-aligned" [ngClass]=checkBalance(trans.amount)>
-            {{ trans.amount }} €
+            {{ trans.amount  | number : '1.2-2' }} €
           </span>
         </div>
       </li>

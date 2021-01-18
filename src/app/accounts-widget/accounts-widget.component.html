@@ -12,7 +12,7 @@
               {{ acc.iban.substring(0, 4) }}
             ...{{ selectedAccount.iban.substring(16, selectedAccount.iban.length) }}
             </span>
-          <span class="right-aligned">  {{ acc.balance }} € </span>
+          <span class="right-aligned">  {{ acc.balance | number : '1.2-2' }} € </span>
         </button>
 
         <button type="button" class="btn btn-primary" (click)="onSubmit(acc)">

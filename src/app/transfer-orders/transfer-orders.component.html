@@ -71,7 +71,7 @@
         <td mat-cell *matCellDef="let element">
           <span *ngIf="column === 'timestamp'"> {{ element[column] | date: 'dd.MM.yyyy' }} </span>
           <span *ngIf="column === 'amount'"
-                [ngClass]=tableService.checkBalance(element[column].amount)> {{ element[column] }}
+                [ngClass]=tableService.checkBalance(element[column].amount)> {{ element[column] | number : '1.2-2' }}
             € </span>
           <span *ngIf="column === 'text'">
             {{ (element[column].length > 50) ? (element[column] | slice:0:50) + '..' : (element[column]) }}

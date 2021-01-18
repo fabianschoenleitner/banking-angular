@@ -11,7 +11,7 @@
           {{ selectedAccount.iban.substring(0, 4) }}
         ...{{ selectedAccount.iban.substring(selectedAccount.iban.length - 4, selectedAccount.iban.length) }}
         </span>
-      <span class="right-aligned">  {{ selectedAccount.balance }} € </span>
+      <span class="right-aligned">  {{ selectedAccount.balance | number : '1.2-2' }} € </span>
     </button>
     <div class="dropdown-menu btn-block" id="dropdown-elements" ngbDropdownMenu>
       <button
@@ -24,7 +24,7 @@
         <span class="d-block"> <span *ngIf="acc.iban.length < 29"> {{ acc.iban }} </span>
           <span *ngIf="acc.iban.length > 22"> {{ acc.iban.substring(0,22) }} <br> {{ acc.iban.substring(23,acc.iban.length) }}  </span>
         </span>
-        <span class=""> <strong>  {{ acc.balance }} € </strong>  </span>
+        <span class=""> <strong>  {{ acc.balance | number : '1.2-2' }} € </strong>  </span>
       </button>
     </div>
   </div>

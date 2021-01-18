@@ -247,11 +247,18 @@
     <form [formGroup]="savedTransactionsForm" (ngSubmit)="openVerticallyCentered(content)" novalidate>
       <div class="pb-3" *ngFor="let iban of userdata.accounts">
         <div *ngIf="savedTransactionsContainsIban(iban)">
-          <p class="mx-3">
+          <p class="mx-3 mb-0">
             <strong>
               {{ iban }}
-              <span class="right-aligned"> Summe markierter Aufträge: {{ getMoneyPerIban(iban) }} € </span>
+              <span class="right-aligned"> Summe markierter Aufträge: {{ getMoneyPerIban(iban) | number : '1.2-2' }} € </span>
             </strong>
+          </p>
+          <p class="mx-3 pt-0">
+            <small>
+              Kontolimit:  {{ findAccountByIban(iban).limit }} €
+              <span class="right-aligned red" *ngIf="getAvailableAmount(iban) < 0"> Limit überschritten </span>
+              <span class="right-aligned" *ngIf="getAvailableAmount(iban) >= 0"> verfügbarer Restbetrag: {{ getAvailableAmount(iban) | number : '1.2-2' }} € </span>
+            </small>
           </p>
           <table class="table table-bordered table-hover table-sm">
             <thead>
@@ -277,7 +284,7 @@
               <td
                 *ngIf="iban === trans.iban"> {{ (trans.text.length > 50) ? (trans.text | slice:0:50) + '..' : (trans.text) }} </td>
               <td *ngIf="iban === trans.iban"> {{ trans.timestamp | date: 'dd.MM yyyy' }} </td>
-              <td *ngIf="iban === trans.iban"><span [ngClass]="checkLimit(trans.amount)"> {{ trans.amount }} € </span>
+              <td *ngIf="iban === trans.iban"><span [ngClass]="checkLimit(trans.amount)"> {{ trans.amount | number : '1.2-2' }} € </span>
               </td>
             </tr>
             </tbody>
@@ -292,13 +299,13 @@
         </button>
         <div class="right-aligned">
           <strong>
-            <span> Summe aller markierten Aufträge: {{ allMarked() }} € </span>
+            <span> Summe aller markierten Aufträge: {{ allMarked() | number : '1.2-2' }} € </span>
           </strong>
         </div>
       </div>
       <div class="mx-3 pt-3">
         <button class="btn btn-primary mr-1" type="submit"
-                [disabled]="checkIfCheckboxSelected()">Markierte Aufträge senden
+                [disabled]="checkIfCheckboxSelected() || checkLimits() ">Markierte Aufträge senden
         </button>
         <button class="btn btn-secondary" type="reset" (click)="deleteSavedTrans()"
                 [disabled]="checkIfCheckboxSelected()">Markierte Aufträge löschen
