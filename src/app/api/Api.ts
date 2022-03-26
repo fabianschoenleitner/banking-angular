@@ -39,6 +39,7 @@ export interface UserData {
   firstName: string;
   lastName: string;
   lastLogin: Date;
+  userId: string;
 }
 
 export interface TransactionResponse {
