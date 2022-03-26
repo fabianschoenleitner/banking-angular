@@ -18,9 +18,9 @@ export class AccountsDropdownComponent implements OnInit {
   constructor(private userService: UserService, private library: FaIconLibrary) {
     library.addIcons(faCaretDown);
   }
-
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(( {accounts} ) => {
       this.accounts = accounts;
       this.selectedAccount = accounts[0];
       this.addAllAccountsEntry();

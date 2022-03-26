@@ -20,7 +20,8 @@ export class AccountsDropdownLgComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
       if (this.currAcc.iban === '') {
         this.currAcc = this.accounts[0];

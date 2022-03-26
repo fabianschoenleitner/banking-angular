@@ -19,7 +19,11 @@ export class AccountsWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // this.accounts = accounts;
+    // this.selectedAccount = this.accounts[0];
+    console.log(user)
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
       this.selectedAccount = accounts[0];
     });
