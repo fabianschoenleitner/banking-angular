@@ -35,8 +35,8 @@ export class UserService {
     return forkJoin<Observable<TransactionResponse>[]>(obs);
   }
 
-  public getAllAccounts(): Observable<{ accounts: Account[] }> {
-    const path = AppSettings.baseUrl + '/accounts';
+  public getAllAccounts(userId: string): Observable<{ accounts: Account[] }> {
+    const path = AppSettings.baseUrl + `/rest/users/${userId}/accounts`;
     return this.http.get<{ accounts: Account[] }>(path);
   }
 

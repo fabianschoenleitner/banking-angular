@@ -23,11 +23,8 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getAllAccounts().subscribe(( { accounts } ) => {
-      this.accounts = accounts;
-    });
-
     this.userdata = JSON.parse(sessionStorage.getItem('user'));
+    this.accounts = JSON.parse(sessionStorage.getItem('accounts'));
   }
 
   addComponent(): void {
