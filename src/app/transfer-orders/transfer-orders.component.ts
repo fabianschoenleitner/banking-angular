@@ -56,8 +56,8 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnInit(): void {
-
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
       this.account = this.accounts[0];
     });
@@ -157,7 +157,8 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
       this.userService.transactionFinanceSite.next(this.transactions);
       this.initTable();
     });
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
       this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });
@@ -183,7 +184,8 @@ export class TransferOrdersComponent implements OnInit, AfterViewInit, OnDestroy
       this.userService.transactionFinanceSite.next(this.transactions);
       this.initTable();
     });
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
       this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });

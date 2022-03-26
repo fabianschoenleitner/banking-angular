@@ -50,8 +50,8 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.accountObs = this.route.paramMap
       .pipe(map(() => window.history.state));
-
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
 
       this.accountObs.subscribe(a => {
@@ -136,9 +136,10 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.userService.transactionFinanceSite.next(this.transactions);
       this.initTable();
     });
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
-      this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
+      this.account = this.accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });
   }
 
@@ -161,9 +162,10 @@ export class TransactionOverviewComponent implements OnInit, AfterViewInit {
       this.userService.transactionFinanceSite.next(this.transactions);
       this.initTable();
     });
-    this.userService.getAllAccounts().subscribe(({accounts}) => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    this.userService.getAllAccounts(user.userId).subscribe(({accounts}) => {
       this.accounts = accounts;
-      this.account = accounts.filter((a: Account) => a.iban === this.account.iban)[0];
+      this.account = this.accounts.filter((a: Account) => a.iban === this.account.iban)[0];
     });
   }
 
